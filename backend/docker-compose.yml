@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:16
+    container_name: storez-db
+    environment:
+      POSTGRES_DB: storez
+      POSTGRES_USER: storez
+      POSTGRES_PASSWORD: storez
+    ports:
+      - "5432:5432"
+    volumes:
+      - storez_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U storez -d storez"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: storez-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://storez-db:5432/storez
+      - SPRING_DATASOURCE_USERNAME=storez
+      - SPRING_DATASOURCE_PASSWORD=storez
+    restart: always
+
+volumes:
+  storez_pgdata:

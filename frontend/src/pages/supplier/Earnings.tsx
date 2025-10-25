@@ -1,0 +1,1 @@
+export default function Earnings(){return <div className='card p-6'>Earnings summary (mock)</div>}

@@ -1,0 +1,10 @@
+com/storez/repository/ProductRepository.class
+com/storez/repository/SupplierRepository.class
+com/storez/model/ProductStatus.class
+com/storez/model/Supplier.class
+com/storez/model/Product$ProductBuilder.class
+com/storez/StoreZApplication.class
+com/storez/config/DataSeeder.class
+com/storez/model/Product.class
+com/storez/model/SupplierStatus.class
+com/storez/model/Supplier$SupplierBuilder.class

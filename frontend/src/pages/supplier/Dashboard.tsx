@@ -1,0 +1,1 @@
+export default function SupplierDashboard(){return <div className='card p-6'>Supplier overview (mock).</div>}

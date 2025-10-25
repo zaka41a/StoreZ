@@ -1,0 +1,1 @@
+export default function SupplierOrders(){return <div className='card p-6'>Supplier Orders (mock)</div>}
