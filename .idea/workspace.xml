@@ -4,21 +4,61 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2089c648-b67e-4098-9a06-f482c67c3797" name="Changes" comment="" />
+    <list default="true" id="2089c648-b67e-4098-9a06-f482c67c3797" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/config/SessionCookieConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/BackButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/PublicOnly.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminProducts.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/SupplierMyProducts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/PublicController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/ProductStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/ProductStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/AppUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/AppUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Cart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -40,6 +80,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.MyStoreApplication.executor": "Run",
     "Vitest.All Tests.executor": "Run",
     "git-widget-placeholder": "main",
@@ -69,7 +110,7 @@
       <recent name="$PROJECT_DIR$/frontend/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.MyStoreApplication">
+  <component name="RunManager" selected="Vitest.All Tests">
     <configuration name="All Tests" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <envs />
@@ -116,7 +157,7 @@
       <workItem from="1761079448496" duration="5813000" />
       <workItem from="1761086667734" duration="6000" />
       <workItem from="1761304602359" duration="504000" />
-      <workItem from="1761305781022" duration="23957000" />
+      <workItem from="1761305781022" duration="45811000" />
     </task>
     <servers />
   </component>

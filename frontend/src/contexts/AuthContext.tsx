@@ -1,15 +1,20 @@
+// src/contexts/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import api from "@/api/axios";
+import { useNavigate } from "react-router-dom";
+import { api } from "@/services/api";
+import type { Role } from "@/types/models";
 
 interface User {
     id: number;
     email: string;
-    role: string;
+    role: Role; // "ADMIN" | "SUPPLIER" | "USER"
     name?: string;
+    companyName?: string;
 }
 
 interface AuthContextType {
     user: User | null;
+    role?: Role;               // 👈 ✅ AJOUTE CETTE LIGNE
     loading: boolean;
     isAuthenticated: boolean;
     login: (email: string, password: string) => Promise<void>;
@@ -23,38 +28,40 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    // ✅ Vérifie la session active au démarrage
+    api.defaults.withCredentials = true;
+
     useEffect(() => {
-        api
-            .get("/auth/me")
-            .then((res) => {
-                if (res.data && res.data.id) {
-                    console.log("Session active:", res.data);
-                    setUser(res.data);
-                } else {
-                    setUser(null);
-                }
-            })
-            .catch(() => setUser(null))
-            .finally(() => setLoading(false));
+        (async () => {
+            try {
+                const res = await api.get("/auth/me");
+                if (res.data?.id) setUser(res.data);
+                else setUser(null);
+            } catch {
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, []);
 
     const login = async (email: string, password: string) => {
-        await api.post("/auth/login", { email, password });
-        const res = await api.get("/auth/me");
-        console.log("User connecté:", res.data);
-        setUser(res.data);
+        const { data } = await api.post("/auth/login", { email, password });
+        setUser(data);
+
+        // redirection selon rôle
+        if (data.role === "ADMIN") navigate("/admin/dashboard", { replace: true });
+        else if (data.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true });
+        else navigate("/user/home", { replace: true });
     };
 
     const logout = async () => {
         try {
             await api.post("/auth/logout");
-            console.log("✅ Déconnexion réussie");
-        } catch (err) {
-            console.error("❌ Erreur logout:", err);
-        }
+        } catch {}
         setUser(null);
+        navigate("/", { replace: true });
     };
 
     const registerUser = async (data: any) => {
@@ -69,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         <AuthContext.Provider
             value={{
                 user,
+                role: user?.role,     // 👈 ✅ ajoute ici aussi
                 loading,
                 isAuthenticated: !!user,
                 login,

@@ -1,23 +1,31 @@
 package com.storez.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
 public class Product {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
   private String description;
-  private BigDecimal price;
-  private int stock;
+  private Double price;
+  private String image;
+  private Integer stock;
 
   @Enumerated(EnumType.STRING)
-  private ProductStatus status = ProductStatus.AVAILABLE;
+  private ProductStatus status = ProductStatus.PENDING; // 🔹 Par défaut en attente
+
+  private boolean approved = false; // 🔹 Optionnel, mais pratique
+
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
 
   @ManyToOne
   @JoinColumn(name = "supplier_id")

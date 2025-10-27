@@ -1,24 +1,25 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { motion } from "framer-motion"
-import { useAuth } from "@/contexts/AuthContext"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
-  const { login } = useAuth()
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+    setError("");
     try {
-      await login(email, password)
-      navigate("/")
+      await login(email, password);
+      navigate("/");
     } catch {
-      setError("Invalid email or password. Please try again.")
+      setError("Invalid email or password. Please try again.");
     }
-  }
+  };
 
   return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-brand-50 to-white">
@@ -27,7 +28,7 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-2xl shadow-lg w-full max-w-md p-10 space-y-6"
         >
-          <h1 className="text-3xl font-bold text-center text-brand-700">Welcome back 👋</h1>
+          <h1 className="text-3xl font-bold text-center text-brand-700">Welcome back </h1>
           <p className="text-center text-gray-500">Sign in to your StoreZ account</p>
 
           {error && (
@@ -61,25 +62,18 @@ export default function Login() {
               />
             </div>
 
-            <button
-                type="submit"
-                className="btn btn-primary w-full py-3 text-white font-semibold"
-            >
+            <button type="submit" className="btn btn-primary w-full py-3 text-white font-semibold">
               Sign In
             </button>
           </form>
 
           <div className="text-center text-sm text-gray-600">
             Don’t have an account?{" "}
-            <a href="/register-user" className="text-brand-600 font-semibold hover:underline">
+            <a href="/register" className="text-brand-600 font-semibold hover:underline">
               Register now
             </a>
           </div>
-
-          <p className="text-center text-xs text-gray-400 pt-2">
-            © {new Date().getFullYear()} StoreZ — Fast. Simple. Secure.
-          </p>
         </motion.div>
       </div>
-  )
+  );
 }
