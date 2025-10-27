@@ -1,17 +1,21 @@
+import logo from "@/assets/StoreZ.png";
+
 export default function Footer() {
     return (
         <footer className="bg-gray-50 border-t mt-10">
             <div className="container mx-auto py-10 px-6 grid md:grid-cols-3 gap-10 text-sm text-gray-700">
-                {/* Colonne 1 : À propos */}
+                {/* À propos */}
                 <div className="space-y-3">
-                    <h3 className="text-lg font-bold text-brand-700">StoreZ</h3>
+                    <div className="flex items-center gap-2">
+                        <img src={logo} alt="StoreZ Logo" className="h-8 w-auto object-contain" />
+                    </div>
                     <p className="text-gray-600 leading-relaxed">
                         Your trusted marketplace for smart shopping — fast, simple, and secure.
                         Join thousands of buyers and suppliers who trust StoreZ daily.
                     </p>
                 </div>
 
-                {/* Colonne 2 : Navigation */}
+                {/* Navigation */}
                 <div className="space-y-3">
                     <h3 className="text-lg font-bold text-brand-700">Explore</h3>
                     <ul className="space-y-2">
@@ -23,7 +27,7 @@ export default function Footer() {
                     </ul>
                 </div>
 
-                {/* Colonne 3 : Contact */}
+                {/* Contact */}
                 <div className="space-y-3">
                     <h3 className="text-lg font-bold text-brand-700">Contact</h3>
                     <p>
@@ -34,11 +38,10 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* Ligne du bas */}
             <div className="border-t py-4 text-center text-xs text-gray-500 bg-white">
                 © {new Date().getFullYear()} <span className="font-semibold text-brand-700">StoreZ</span> — Fast. Simple. Secure.
                 <span className="block md:inline"> | All rights reserved.</span>
             </div>
         </footer>
-    )
+    );
 }

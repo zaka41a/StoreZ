@@ -22,14 +22,11 @@ export default function UserLayout() {
         <div className="min-h-screen grid grid-cols-12 bg-gray-50">
             {/* Sidebar */}
             <aside className="col-span-12 md:col-span-3 lg:col-span-2 border-r bg-white flex flex-col">
-                <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
-                    <img
-                        src="/src/assets/StoreZ.png"
-                        alt="StoreZ Logo"
-                        className="h-8 w-auto object-contain drop-shadow-sm"
-                    />
-                </Link>
-
+                <div className="p-6 border-b">
+                    <h1 className="text-2xl font-extrabold text-brand-700 tracking-tight">
+                        Store<span className="text-brand-600">Z</span>
+                    </h1>
+                </div>
 
                 <nav className="flex-1 p-4 space-y-2">
                     {items.map(it => (

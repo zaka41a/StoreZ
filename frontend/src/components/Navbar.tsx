@@ -4,6 +4,7 @@ import { Menu, X, ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { ROLES } from "@/utils/constants";
+import logo from "@/assets/StoreZ.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,13 +26,21 @@ export default function Navbar() {
   return (
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md border-b">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
+          <Link
+              to="/"
+              className="flex items-center gap-3 hover:opacity-90 transition-transform hover:scale-[1.03]"
+          >
             <img
-                src="/src/assets/StoreZ_logo.png"
+                src={logo}
                 alt="StoreZ Logo"
-                className="h-8 w-auto object-contain drop-shadow-sm"
+                className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.6)] brightness-110"
             />
+            <span className="text-3xl font-extrabold text-brand-700 tracking-tight">
+    Store<span className="text-yellow-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]">Z</span>
+  </span>
           </Link>
+
+
 
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">

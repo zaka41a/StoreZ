@@ -22,6 +22,7 @@ export default function Login() {
   };
 
   return (
+
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-brand-50 to-white">
         <motion.div
             initial={{ opacity: 0, y: 40 }}
