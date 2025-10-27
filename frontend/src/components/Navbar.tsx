@@ -25,9 +25,14 @@ export default function Navbar() {
   return (
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md border-b">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <Link to="/" className="text-3xl font-extrabold text-brand-700 tracking-tight hover:opacity-80 transition">
-            Store<span className="text-brand-600">Z</span>
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
+            <img
+                src="/src/assets/StoreZ_logo.png"
+                alt="StoreZ Logo"
+                className="h-8 w-auto object-contain drop-shadow-sm"
+            />
           </Link>
+
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
             {[
