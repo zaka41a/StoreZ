@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/services/api";
@@ -14,7 +13,7 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
-    role?: Role;               // 👈 ✅ AJOUTE CETTE LIGNE
+    role?: Role;
     loading: boolean;
     isAuthenticated: boolean;
     login: (email: string, password: string) => Promise<void>;
@@ -33,24 +32,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     api.defaults.withCredentials = true;
 
     useEffect(() => {
-        (async () => {
+        const checkAuth = async () => {
             try {
                 const res = await api.get("/auth/me");
                 if (res.data?.id) setUser(res.data);
-                else setUser(null);
             } catch {
                 setUser(null);
             } finally {
                 setLoading(false);
             }
-        })();
+        };
+        checkAuth();
     }, []);
 
     const login = async (email: string, password: string) => {
         const { data } = await api.post("/auth/login", { email, password });
         setUser(data);
 
-        // redirection selon rôle
         if (data.role === "ADMIN") navigate("/admin/dashboard", { replace: true });
         else if (data.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true });
         else navigate("/user/home", { replace: true });
@@ -76,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         <AuthContext.Provider
             value={{
                 user,
-                role: user?.role,     // 👈 ✅ ajoute ici aussi
+                role: user?.role,
                 loading,
                 isAuthenticated: !!user,
                 login,

@@ -16,10 +16,8 @@
   .link { @apply text-brand-700 hover:text-brand-800 underline underline-offset-4; }
 }
 
-
 img[alt="StoreZ Logo"] {
-  height: auto;
-  max-height: 60px;
+  max-height: 80px;
   width: auto;
   object-fit: contain;
   image-rendering: -webkit-optimize-contrast;
@@ -27,6 +25,6 @@ img[alt="StoreZ Logo"] {
 }
 
 img[alt="StoreZ Logo"]:hover {
-  filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.9));
-  transform: scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9));
+  transform: scale(1.05);
 }

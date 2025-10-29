@@ -1,3 +1,4 @@
+// src/main/java/com/storez/model/User.java
 package com.storez.model;
 
 import jakarta.persistence.*;
@@ -26,6 +27,10 @@ public class User {
   private String phone;
 
   private String address;
+
+  // 🟢 Ajoute ces deux champs :
+  private String city;
+  private String country;
 
   @Enumerated(EnumType.STRING)
   private Role role;

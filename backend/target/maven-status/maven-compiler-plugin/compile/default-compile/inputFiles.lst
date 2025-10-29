@@ -1,10 +1,21 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/StoreZApplication.java
-/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/config/DataSeeder.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/config/SessionCookieConfig.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AdminController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AuthController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/CategoryController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/ProductController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/SupplierController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/UserController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/ChangePasswordRequest.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/LoginRequest.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/RegisterUserRequest.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/UserDto.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/UserUpdateDTO.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/exception/GlobalExceptionHandler.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/exception/ResourceNotFoundException.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/BaseEntity.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/Category.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/Comment.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/Order.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/OrderItem.java
@@ -24,3 +35,4 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/UserRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/security/SecurityConfig.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/service/AppUserDetailsService.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/service/UserService.java

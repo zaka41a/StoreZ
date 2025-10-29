@@ -1,4 +1,4 @@
-package com.storez.config;
+package com.storez.security;
 
 import com.storez.service.AppUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +11,16 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,23 +34,44 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> {})
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                    // Auth
-                    .requestMatchers("/auth/**").permitAll()
-                    // Produits publics
-                    .requestMatchers("/products/**").permitAll()
-                    // Rôles
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/supplier/**").hasRole("SUPPLIER")
-                    .requestMatchers("/user/**").hasRole("USER")
-                    // Tout le reste : authentifié
+                    // ✅ Public routes
+                    .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**").permitAll()
+                    // ✅ Private routes
+                    .requestMatchers("/api/users/**").hasAnyRole("USER", "SUPPLIER", "ADMIN")
+                    .requestMatchers("/api/supplier/**").hasRole("SUPPLIER")
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    // Others
                     .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .authenticationProvider(authProvider());
+            .authenticationProvider(authProvider())
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable())
+            .logout(logout -> logout
+                    .logoutUrl("/api/auth/logout")
+                    .deleteCookies("SESSION")
+                    .invalidateHttpSession(true)
+                    .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
+            );
 
     return http.build();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration cfg = new CorsConfiguration();
+    cfg.setAllowedOrigins(List.of("http://localhost:5173"));
+    cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    cfg.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+    cfg.setExposedHeaders(List.of("Set-Cookie")); // ✅ nécessaire pour que le navigateur voie le cookie
+    cfg.setAllowCredentials(true); // ✅ autorise l’envoi de cookies
+    cfg.setMaxAge(3600L);
+
+    UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
+    src.registerCorsConfiguration("/**", cfg);
+    return src;
   }
 
   @Bean
@@ -61,7 +88,12 @@ public class SecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-    return config.getAuthenticationManager();
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
+    return cfg.getAuthenticationManager();
+  }
+
+  @Bean
+  GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    return new GrantedAuthorityDefaults(""); // retire le préfixe ROLE_
   }
 }

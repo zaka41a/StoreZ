@@ -1,87 +1,52 @@
 package com.storez.controller;
 
-import com.storez.model.*;
-import com.storez.repository.*;
+import com.storez.model.Product;
+import com.storez.model.ProductStatus;
+import com.storez.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"}, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true") // ✅ autorise React
 public class ProductController {
 
-    private final ProductRepository productRepo;
-    private final SupplierRepository supplierRepo;
-    private final CategoryRepository categoryRepo;
+    private final ProductRepository productRepository;
 
-    // ✅ 1. Liste publique (affiche seulement les produits approuvés)
+    /**
+     * 🟢 Liste des produits approuvés (filtrage + pagination)
+     * Exemple : /api/products?category=Electronics&page=1&limit=12
+     */
     @GetMapping
-    public List<Product> list(@RequestParam(defaultValue = "") String query) {
-        return productRepo.searchApproved(query);
+    public ResponseEntity<List<Product>> getAllApproved(
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "limit", required = false, defaultValue = "20") int limit) {
+
+        Pageable pageable = PageRequest.of(page, limit);
+        List<Product> products;
+
+        if (category != null && !category.isBlank()) {
+            products = productRepository.findByStatusAndCategory(ProductStatus.APPROVED, category);
+        } else {
+            products = productRepository.findByStatus(ProductStatus.APPROVED);
+        }
+
+        return ResponseEntity.ok(products);
     }
 
-    // ✅ 2. Détail d’un produit
+    /**
+     * 🟢 Récupère un produit spécifique par ID
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-        return productRepo.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    // ✅ 3. Supplier ajoute un produit (en attente d’approbation)
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Map<String, Object> body, Authentication auth) {
-        String email = auth.getName();
-        var supplier = supplierRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
-
-        Product p = new Product();
-        p.setName((String) body.get("name"));
-        p.setDescription((String) body.get("description"));
-        p.setPrice(Double.valueOf(body.get("price").toString()));
-        p.setImage((String) body.get("image"));
-        p.setStock(Integer.valueOf(body.get("stock").toString()));
-        p.setStatus(ProductStatus.PENDING);
-        p.setApproved(false);
-
-        Long catId = Long.valueOf(body.get("categoryId").toString());
-        p.setCategory(categoryRepo.findById(catId).orElseThrow());
-        p.setSupplier(supplier);
-
-        productRepo.save(p);
-        return ResponseEntity.ok(Map.of("message", "Product submitted for approval"));
-    }
-
-    // ✅ 4. Admin approuve ou rejette un produit
-    @PutMapping("/{id}/approve")
-    public ResponseEntity<?> approve(@PathVariable Long id) {
-        var p = productRepo.findById(id).orElseThrow();
-        p.setStatus(ProductStatus.APPROVED);
-        p.setApproved(true);
-        productRepo.save(p);
-        return ResponseEntity.ok(Map.of("message", "Product approved"));
-    }
-
-    @PutMapping("/{id}/reject")
-    public ResponseEntity<?> reject(@PathVariable Long id) {
-        var p = productRepo.findById(id).orElseThrow();
-        p.setStatus(ProductStatus.REJECTED);
-        p.setApproved(false);
-        productRepo.save(p);
-        return ResponseEntity.ok(Map.of("message", "Product rejected"));
-    }
-
-    // ✅ 5. Supplier voit ses propres produits
-    @GetMapping("/mine")
-    public ResponseEntity<?> myProducts(Authentication auth) {
-        String email = auth.getName();
-        var supplier = supplierRepo.findByEmail(email).orElseThrow();
-        return ResponseEntity.ok(productRepo.findBySupplier_Id(supplier.getId()));
+    public ResponseEntity<Product> getOne(@PathVariable("id") Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return ResponseEntity.ok(product);
     }
 }

@@ -8,7 +8,6 @@ export default function UserLayout() {
 
     const items = [
         { to: "/user/home", label: "Home", icon: <Home className="w-4 h-4" /> },
-        { to: "/user/profile", label: "Profile", icon: <User className="w-4 h-4" /> },
         { to: "/user/cart", label: "Cart", icon: <ShoppingCart className="w-4 h-4" /> },
         { to: "/user/orders", label: "Orders", icon: <ListOrdered className="w-4 h-4" /> },
     ];
@@ -24,8 +23,7 @@ export default function UserLayout() {
             <aside className="col-span-12 md:col-span-3 lg:col-span-2 border-r bg-white flex flex-col">
                 <div className="p-6 border-b">
                     <h1 className="text-2xl font-extrabold text-brand-700 tracking-tight">
-                        Store<span className="text-brand-600">Z</span>
-                    </h1>
+                        Store<span className="text-yellow-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]">Z</span>                    </h1>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-2">

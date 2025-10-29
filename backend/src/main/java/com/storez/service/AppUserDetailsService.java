@@ -1,3 +1,4 @@
+// src/main/java/com/storez/service/AppUserDetailsService.java
 package com.storez.service;
 
 import com.storez.model.Supplier;
@@ -5,7 +6,6 @@ import com.storez.model.User;
 import com.storez.repository.SupplierRepository;
 import com.storez.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,36 +15,32 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
 
-  private final UserRepository userRepo;
-  private final SupplierRepository supplierRepo;
+  private final UserRepository userRepository;
+  private final SupplierRepository supplierRepository;
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    // ✅ 1. Chercher dans USERS
-    User u = userRepo.findByEmail(email).orElse(null);
-    if (u != null) {
-      return org.springframework.security.core.userdetails.User.builder()
-              .username(u.getEmail())
-              .password(u.getPasswordHash()) // ou getPassword() selon ton modèle
-              .roles(u.getRole().name()) // ADMIN / USER
+    User user = userRepository.findByEmail(email).orElse(null);
+    if (user != null) {
+      return org.springframework.security.core.userdetails.User
+              .builder()
+              .username(user.getEmail())
+              .password(user.getPasswordHash())
+              // 🟢 Correction ici :
+              .authorities(user.getRole().name())
               .build();
     }
 
-    // ✅ 2. Chercher dans SUPPLIER
-    Supplier s = supplierRepo.findByEmail(email).orElse(null);
-    if (s != null) {
-      if (!Boolean.TRUE.equals(s.getApproved())) {
-        throw new DisabledException("Supplier not approved yet");
-      }
-
-      return org.springframework.security.core.userdetails.User.builder()
-              .username(s.getEmail())
-              .password(s.getPasswordHash()) // doit être BCrypt !
-              .roles("SUPPLIER")
+    Supplier supplier = supplierRepository.findByEmail(email).orElse(null);
+    if (supplier != null) {
+      return org.springframework.security.core.userdetails.User
+              .builder()
+              .username(supplier.getEmail())
+              .password(supplier.getPasswordHash())
+              .authorities("SUPPLIER")
               .build();
     }
 
-    // ❌ Aucun trouvé
-    throw new UsernameNotFoundException("No user found with email: " + email);
+    throw new UsernameNotFoundException("User not found: " + email);
   }
 }

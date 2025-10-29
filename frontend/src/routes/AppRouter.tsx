@@ -33,7 +33,6 @@ import SupplierEarnings from "@/pages/supplier/Earnings";
 
 // 👤 User Pages
 import UserHome from "@/pages/user/Home";
-import Profile from "@/pages/user/Profile";
 import Cart from "@/pages/user/Cart";
 import Checkout from "@/pages/user/Checkout";
 import UserOrders from "@/pages/user/Orders";
@@ -104,7 +103,6 @@ export function AppRouter() {
                 }
             >
                 <Route path="/user/home" element={<UserHome />} />
-                <Route path="/user/profile" element={<Profile />} />
                 <Route path="/user/cart" element={<Cart />} />
                 <Route path="/user/checkout" element={<Checkout />} />
                 <Route path="/user/orders" element={<UserOrders />} />

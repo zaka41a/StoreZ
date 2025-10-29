@@ -17,9 +17,8 @@ spring:
     store-type: none
 
 server:
-  port: 8080
   servlet:
     session:
       cookie:
-        same-site: none   # ✅ nécessaire pour cross-origin
-        secure: false     # ⚠️ en local, false car HTTP (pas HTTPS)
+        same-site: lax
+        secure: false

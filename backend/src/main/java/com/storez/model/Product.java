@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Product {
 
   @Id
@@ -14,18 +15,13 @@ public class Product {
 
   private String name;
   private String description;
-  private Double price;
+  private double price;
   private String image;
-  private Integer stock;
+  private String category;
+  private int stock;
 
   @Enumerated(EnumType.STRING)
-  private ProductStatus status = ProductStatus.PENDING; // 🔹 Par défaut en attente
-
-  private boolean approved = false; // 🔹 Optionnel, mais pratique
-
-  @ManyToOne
-  @JoinColumn(name = "category_id")
-  private Category category;
+  private ProductStatus status = ProductStatus.PENDING;
 
   @ManyToOne
   @JoinColumn(name = "supplier_id")
