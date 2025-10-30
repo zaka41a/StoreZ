@@ -1,52 +1,60 @@
 package com.storez.controller;
 
 import com.storez.model.Product;
-import com.storez.model.ProductStatus;
+import com.storez.model.Supplier;
 import com.storez.repository.ProductRepository;
+import com.storez.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/supplier/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true") // ✅ autorise React
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final SupplierRepository supplierRepository;
 
-    /**
-     * 🟢 Liste des produits approuvés (filtrage + pagination)
-     * Exemple : /api/products?category=Electronics&page=1&limit=12
-     */
-    @GetMapping
-    public ResponseEntity<List<Product>> getAllApproved(
-            @RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "limit", required = false, defaultValue = "20") int limit) {
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<?> addProduct(
+            @AuthenticationPrincipal UserDetails currentUser,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam String category,
+            @RequestParam int stock,
+            @RequestParam(required = false) MultipartFile image
+    ) throws IOException {
+        if (currentUser == null)
+            return ResponseEntity.status(401).body(Map.of("message", "Unauthorized"));
 
-        Pageable pageable = PageRequest.of(page, limit);
-        List<Product> products;
+        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
-        if (category != null && !category.isBlank()) {
-            products = productRepository.findByStatusAndCategory(ProductStatus.APPROVED, category);
-        } else {
-            products = productRepository.findByStatus(ProductStatus.APPROVED);
+        String imageUrl = "https://picsum.photos/seed/" + name.replaceAll("\\s+", "_") + "/400";
+        if (image != null && !image.isEmpty()) {
+            imageUrl = "https://picsum.photos/seed/" + System.currentTimeMillis() + "/400"; // mock upload
         }
 
-        return ResponseEntity.ok(products);
-    }
+        Product product = Product.builder()
+                .name(name)
+                .description(description)
+                .price(price)
+                .stock(stock)
+                .category(category)
+                .image(imageUrl)
+                .status("PENDING")
+                .supplier(supplier)
+                .build();
 
-    /**
-     * 🟢 Récupère un produit spécifique par ID
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getOne(@PathVariable("id") Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-        return ResponseEntity.ok(product);
+        productRepository.save(product);
+        return ResponseEntity.ok(Map.of("message", "Product submitted for approval"));
     }
 }

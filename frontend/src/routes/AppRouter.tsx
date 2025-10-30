@@ -20,16 +20,18 @@ import TermsPrivacy from "@/pages/TermsPrivacy";
 
 // 🛠️ Admin Pages
 import Dashboard from "@/pages/admin/Dashboard";
+import AdminAnalytics from "@/pages/admin/AdminAnalytics";
 import AdminUsers from "@/pages/admin/Users";
 import AdminSuppliers from "@/pages/admin/Suppliers";
 import AdminProducts from "@/pages/admin/Products";
 import AdminOrders from "@/pages/admin/Orders";
 
 // 🧾 Supplier Pages
-import SupplierDashboard from "@/pages/supplier/Dashboard";
-import SupplierMyProducts from "@/pages/supplier/SupplierMyProducts";
-import SupplierOrders from "@/pages/supplier/Orders";
-import SupplierEarnings from "@/pages/supplier/Earnings";
+import SupplierDashboard from "@/pages/supplier/SupplierDashboard";
+import MyProducts from "@/pages/supplier/MyProducts";
+import Orders from "@/pages/supplier/Orders";
+import Earnings from "@/pages/supplier/Earnings";
+import AddProduct from "@/pages/supplier/AddProduct";
 
 // 👤 User Pages
 import UserHome from "@/pages/user/Home";
@@ -74,6 +76,7 @@ export function AppRouter() {
                 }
             >
                 <Route path="/admin/dashboard" element={<Dashboard />} />
+                <Route path="/admin/analytics" element={<AdminAnalytics />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/suppliers" element={<AdminSuppliers />} />
                 <Route path="/admin/products" element={<AdminProducts />} />
@@ -88,11 +91,15 @@ export function AppRouter() {
                     </ProtectedRoute>
                 }
             >
+                {/* ✅ chemins propres et stables en minuscules */}
                 <Route path="/supplier/dashboard" element={<SupplierDashboard />} />
-                <Route path="/supplier/my-products" element={<SupplierMyProducts />} />
-                <Route path="/supplier/orders" element={<SupplierOrders />} />
-                <Route path="/supplier/earnings" element={<SupplierEarnings />} />
+                <Route path="/supplier/my-products" element={<MyProducts />} />
+                <Route path="/supplier/orders" element={<Orders />} />
+                <Route path="/supplier/earnings" element={<Earnings />} />
+                <Route path="/supplier/add-product" element={<AddProduct />} />
             </Route>
+
+            {/* 👤 User routes (inchangées) */}
 
             {/* 👤 User routes */}
             <Route

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
-import { formatMoney } from "@/utils/format";
 import { Users, Store, DollarSign, Clock } from "lucide-react";
+import { formatMoney } from "@/utils/format";
+import { motion } from "framer-motion";
 
-export default function Dashboard() {
+export default function AdminDashboard() {
     const [stats, setStats] = useState<any>(null);
 
     useEffect(() => {
@@ -15,27 +16,27 @@ export default function Dashboard() {
     if (!stats) return <div className="card p-6">Loading...</div>;
 
     return (
-        <div className="space-y-6">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="space-y-6">
             <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Card icon={<Users className="text-blue-500" />} label="Users" value={stats.totalUsers} />
-                <Card icon={<Store className="text-green-500" />} label="Suppliers" value={stats.totalSuppliers} />
-                <Card icon={<DollarSign className="text-yellow-500" />} label="Total Sales" value={formatMoney(stats.totalSales)} />
-                <Card icon={<Clock className="text-orange-500" />} label="Pending Approvals" value={stats.pendingApprovals} />
+                <Card icon={<Users />} label="Users" value={stats.totalUsers} color="text-blue-500" />
+                <Card icon={<Store />} label="Suppliers" value={stats.totalSuppliers} color="text-green-500" />
+                <Card icon={<DollarSign />} label="Total Sales" value={formatMoney(stats.totalSales)} color="text-yellow-500" />
+                <Card icon={<Clock />} label="Pending Approvals" value={stats.pendingApprovals} color="text-orange-500" />
             </div>
-        </div>
+        </motion.div>
     );
 }
 
-function Card({ icon, label, value }: { icon: any; label: string; value: any }) {
+function Card({ icon, label, value, color }: { icon: JSX.Element; label: string; value: any; color: string }) {
     return (
-        <div className="card p-6 flex items-center gap-3">
-            {icon}
-            <div>
+        <motion.div whileHover={{ scale: 1.03 }} className="card p-6 flex items-center justify-between shadow-sm border">
+            <div className={`p-2 rounded-lg bg-brand-50 ${color}`}>{icon}</div>
+            <div className="text-right">
                 <div className="text-sm text-gray-600">{label}</div>
                 <div className="text-2xl font-bold">{value}</div>
             </div>
-        </div>
+        </motion.div>
     );
 }

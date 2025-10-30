@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data);
 
         if (data.role === "ADMIN") navigate("/admin/dashboard", { replace: true });
-        else if (data.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true });
+        else if (data.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true }); // ✅ correct
         else navigate("/user/home", { replace: true });
     };
 
