@@ -60,7 +60,7 @@ export default function AdminAnalytics() {
         >
             {/* Header */}
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Business Analytics</h1>
+                <h1 className="text-3xl font-bold text-brand-700">Business Analytics</h1>
                 <div className="flex items-center gap-2 text-brand-700 font-medium">
                     <TrendingUp className="w-5 h-5" />
                     <span>Live Insights</span>
@@ -80,7 +80,7 @@ export default function AdminAnalytics() {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="month" />
                             <YAxis />
-                            <Tooltip formatter={(v) => formatMoney(v)} />
+                            <Tooltip formatter={(value: number) => formatMoney(value)} />
                             <Line type="monotone" dataKey="total" stroke="#2563eb" strokeWidth={2} />
                         </LineChart>
                     </ResponsiveContainer>
@@ -99,7 +99,7 @@ export default function AdminAnalytics() {
                         <BarChart data={suppliers}>
                             <XAxis dataKey="supplier" />
                             <YAxis />
-                            <Tooltip formatter={(v) => formatMoney(v)} />
+                            <Tooltip formatter={(value: number) => formatMoney(value)} />
                             <Bar dataKey="sales" fill="#22c55e" radius={[6, 6, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>

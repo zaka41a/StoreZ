@@ -27,7 +27,7 @@ export default function SupplierDashboard() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Supplier Dashboard</h1>
+                <h1 className="text-3xl font-bold text-brand-700">Supplier Dashboard</h1>
                 <Link to="/supplier/add-product" className="btn btn-primary">
                     ➕ Add New Product
                 </Link>
@@ -41,7 +41,7 @@ export default function SupplierDashboard() {
             </div>
 
             <div className="card p-6">
-                <h2 className="text-lg font-semibold mb-3">Recent Orders</h2>
+                <h2 className="text-lg font-semibold mb-3 text-brand-700">Recent Orders</h2>
                 {stats.recentOrders?.length === 0 ? (
                     <div className="text-gray-600">No recent orders yet.</div>
                 ) : (

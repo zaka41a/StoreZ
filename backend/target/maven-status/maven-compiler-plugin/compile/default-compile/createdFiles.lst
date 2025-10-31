@@ -2,7 +2,6 @@ com/storez/repository/OrderRepository.class
 com/storez/controller/SupplierOrderController.class
 com/storez/model/Role.class
 com/storez/model/Comment.class
-com/storez/controller/admin/AdminProductController.class
 com/storez/model/Product.class
 com/storez/model/Cart$CartBuilder.class
 com/storez/dto/MonthlySalesDTO.class
@@ -18,6 +17,7 @@ com/storez/model/OrderStatus.class
 com/storez/model/User.class
 com/storez/model/SupplierStatus.class
 com/storez/dto/RegisterUserRequest.class
+com/storez/controller/AdminProductController.class
 com/storez/exception/ResourceNotFoundException.class
 com/storez/repository/CartItemRepository.class
 com/storez/controller/SupplierController.class

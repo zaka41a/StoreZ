@@ -17,7 +17,7 @@ export default function SupplierOrders() {
 
     return (
         <div className="space-y-6">
-            <h1 className="text-2xl font-semibold">Orders Received</h1>
+            <h1 className="text-3xl font-bold text-brand-700">Orders Received</h1>
             {orders.length === 0 ? (
                 <div className="card p-8 text-center text-gray-600">No orders yet.</div>
             ) : (

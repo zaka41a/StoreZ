@@ -16,6 +16,7 @@ type Supplier = {
 export default function AdminSuppliers() {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const loadSuppliers = () => {
         console.log("🔵 Fetching admin suppliers...");
@@ -23,12 +24,14 @@ export default function AdminSuppliers() {
             .then(res => {
                 console.log("✅ Suppliers data:", res.data);
                 setSuppliers(res.data);
+                setError(null);
             })
             .catch(err => {
                 console.error("❌ Error loading suppliers:", err);
                 console.error("Response:", err.response);
                 console.error("Status:", err.response?.status);
                 console.error("Data:", err.response?.data);
+                setError("Failed to load suppliers. Please retry.");
             })
             .finally(() => setLoading(false));
     };
@@ -39,7 +42,7 @@ export default function AdminSuppliers() {
             loadSuppliers();
         } catch (err) {
             console.error("Error approving supplier:", err);
-            alert("Failed to approve supplier");
+            setError("Failed to approve supplier. Please try again.");
         }
     };
 
@@ -49,7 +52,7 @@ export default function AdminSuppliers() {
             loadSuppliers();
         } catch (err) {
             console.error("Error rejecting supplier:", err);
-            alert("Failed to reject supplier");
+            setError("Failed to reject supplier.");
         }
     };
 
@@ -61,7 +64,7 @@ export default function AdminSuppliers() {
             loadSuppliers();
         } catch (err) {
             console.error("Error deleting supplier:", err);
-            alert("Failed to delete supplier");
+            setError("Failed to delete supplier. Remove related products first.");
         }
     };
 
@@ -89,6 +92,12 @@ export default function AdminSuppliers() {
                 </div>
                 <Store className="w-8 h-8 text-brand-700" />
             </div>
+
+            {error && (
+                <div className="rounded-md border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600">
+                    {error}
+                </div>
+            )}
 
             <div className="card overflow-hidden">
                 <div className="overflow-x-auto">
@@ -122,37 +131,29 @@ export default function AdminSuppliers() {
                                         </div>
                                     </td>
                                     <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                            supplier.approved
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'bg-yellow-100 text-yellow-700'
-                                        }`}>
-                                            {supplier.status}
-                                        </span>
+                                        <StatusBadge status={supplier.status} />
                                     </td>
                                     <td className="p-4">
-                                        <div className="flex items-center justify-center gap-2">
-                                            {!supplier.approved && (
-                                                <>
-                                                    <button
-                                                        onClick={() => approve(supplier.id)}
-                                                        className="btn btn-primary inline-flex items-center gap-1 text-xs"
-                                                        title="Approve supplier"
-                                                    >
-                                                        <Check className="w-4 h-4" /> Approve
-                                                    </button>
-                                                    <button
-                                                        onClick={() => reject(supplier.id)}
-                                                        className="btn btn-secondary text-orange-600 inline-flex items-center gap-1 text-xs hover:bg-orange-50"
-                                                        title="Reject supplier"
-                                                    >
-                                                        <XCircle className="w-4 h-4" /> Reject
-                                                    </button>
-                                                </>
-                                            )}
+                                        <div className="flex flex-wrap items-center justify-center gap-2">
+                                            <button
+                                                onClick={() => approve(supplier.id)}
+                                                className="btn btn-primary inline-flex items-center gap-1 text-xs disabled:opacity-50 disabled:pointer-events-none"
+                                                title="Approve supplier"
+                                                disabled={supplier.status === "APPROVED"}
+                                            >
+                                                <Check className="w-4 h-4" /> Approve
+                                            </button>
+                                            <button
+                                                onClick={() => reject(supplier.id)}
+                                                className="btn btn-secondary text-orange-600 inline-flex items-center gap-1 text-xs hover:bg-orange-50 disabled:opacity-50 disabled:pointer-events-none"
+                                                title="Reject supplier"
+                                                disabled={supplier.status === "REJECTED"}
+                                            >
+                                                <XCircle className="w-4 h-4" /> Reject
+                                            </button>
                                             <button
                                                 onClick={() => deleteSupplier(supplier.id)}
-                                                className="btn btn-secondary text-red-600 inline-flex items-center gap-1 hover:bg-red-50"
+                                                className="btn btn-secondary text-red-600 inline-flex items-center gap-1 hover:bg-red-50 text-xs"
                                                 title="Delete supplier"
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -166,5 +167,20 @@ export default function AdminSuppliers() {
                 </div>
             </div>
         </motion.div>
+    );
+}
+
+function StatusBadge({ status }: { status: string }) {
+    const map: Record<string, { label: string; classes: string }> = {
+        APPROVED: { label: "Approved", classes: "bg-green-50 text-green-700" },
+        PENDING: { label: "Pending", classes: "bg-yellow-50 text-yellow-700" },
+        REJECTED: { label: "Rejected", classes: "bg-red-50 text-red-700" },
+    };
+
+    const value = map[status] || map.PENDING;
+    return (
+        <span className={`inline-flex items-center justify-center rounded px-2 py-1 text-xs font-medium ${value.classes}`}>
+            {value.label}
+        </span>
     );
 }

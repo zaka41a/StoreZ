@@ -6,6 +6,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ROLES } from "@/utils/constants";
 import logo from "@/assets/StoreZ.png";
 
+const NAV_ITEMS = [
+    { to: "/", label: "Home" },
+    { to: "/about", label: "About" },
+    { to: "/contact", label: "Contact" },
+    { to: "/help", label: "Help" },
+    { to: "/terms-privacy", label: "Terms & Privacy" },
+];
+
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const { items } = useCart();
@@ -24,183 +32,187 @@ export default function Navbar() {
         user?.name || user?.companyName || user?.email?.split("@")[0] || "Account";
 
     return (
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md border-b">
-            {/* ✅ Navbar principale */}
-            <div className="container mx-auto px-4 py-2 flex items-center justify-between h-[60px]">
-                {/* ✅ Logo */}
-                <Link
-                    to="/"
-                    className="flex items-center hover:opacity-95 transition-transform hover:scale-[1.03]"
-                >
-                    <img
-                        src={logo}
-                        alt="StoreZ Logo"
-                        className="object-contain transition-transform duration-300 hover:scale-105"
-                        style={{
-                            height: "90px",
-                            width: "auto",
-                            marginTop: "-5px",
-                            filter: "drop-shadow(0 0 14px rgba(255,215,0,0.8)) brightness(1.15)",
-                        }}
-                    />
-                </Link>
-
-                {/* Navigation principale */}
-                <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-                    {[
-                        { to: "/", label: "Home" },
-                        { to: "/about", label: "About" },
-                        { to: "/contact", label: "Contact" },
-                        { to: "/help", label: "Help" },
-                        { to: "/terms-privacy", label: "Terms & Privacy" },
-                    ].map((it) => (
-                        <NavLink
-                            key={it.to}
-                            to={it.to}
-                            className={({ isActive }) =>
-                                "transition " +
-                                (isActive
-                                    ? "text-brand-700 font-semibold border-b-2 border-brand-700 pb-1"
-                                    : "text-gray-700 hover:text-brand-700")
-                            }
-                        >
-                            {it.label}
-                        </NavLink>
-                    ))}
-                </nav>
-
-                {/* Actions utilisateur */}
-                <div className="flex items-center gap-3">
-                    {/* 🛒 Panier */}
-                    <NavLink
-                        to="/user/cart"
-                        className="relative hover:text-brand-700 transition hidden sm:inline-flex"
-                    >
-                        <ShoppingCart className="w-5 h-5" />
-                        {items.length > 0 && (
-                            <span className="absolute -top-2 -right-2 rounded-full bg-brand-600 text-white text-xs px-1">
-                {items.length}
-              </span>
-                        )}
-                    </NavLink>
-
-                    {/* 👤 Auth */}
-                    {!isAuthenticated ? (
-                        <>
-                            <NavLink
-                                to="/login"
-                                className="hidden sm:inline-flex text-sm font-semibold text-gray-700 hover:text-brand-700 transition"
-                            >
-                                Login
-                            </NavLink>
-                            <NavLink
-                                to="/register"
-                                className="text-sm font-semibold border border-brand-600 text-brand-700 rounded-md px-3 py-1 hover:bg-brand-600 hover:text-white transition"
-                            >
-                                Register
-                            </NavLink>
-                        </>
-                    ) : (
-                        <>
-                            {/* ✅ Dashboard User */}
-                            <button
-                                onClick={() => navigate("/user/home")}
-                                className="group flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-100 transition"
-                                title="User Dashboard"
-                            >
-                                <UserIcon className="w-5 h-5 text-brand-700 group-hover:scale-105 transition" />
-                                <span className="text-sm font-semibold text-gray-700 group-hover:text-brand-700">
-                  {displayName}
+        <header className="sticky top-0 z-50">
+            {/* Upper info bar */}
+            <div className="hidden md:flex items-center justify-between px-6 py-2 text-xs font-medium text-slate-200 bg-slate-900">
+                    <span className="flex items-center gap-2">
+                    <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                    Premium commerce for retailers & suppliers
                 </span>
-                            </button>
-
-                            {/* 🚪 Logout */}
-                            <button
-                                onClick={handleLogout}
-                                className="inline-flex items-center gap-2 text-sm font-semibold border border-red-500 text-red-600 rounded-md px-3 py-1.5 hover:bg-red-50 active:scale-[.98] transition"
-                            >
-                                <LogOut className="w-4 h-4" />
-                                Logout
-                            </button>
-                        </>
-                    )}
-
-                    {/* 🍔 Menu mobile */}
-                    <button
-                        className="md:hidden p-2 rounded-md hover:bg-gray-100"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        {menuOpen ? (
-                            <X className="w-6 h-6 text-brand-700" />
-                        ) : (
-                            <Menu className="w-6 h-6 text-brand-700" />
-                        )}
-                    </button>
+                <div className="flex items-center gap-6">
+                    <a href="mailto:zaksab98@gmail.com" className="hover:text-white transition">
+                        zaksab98@gmail.com
+                    </a>
+                    <span className="text-slate-300">+49 176 20827199</span>
                 </div>
             </div>
 
-            {/* ✅ Menu mobile */}
-            {menuOpen && (
-                <div className="md:hidden bg-white border-t shadow-lg animate-slide-down">
-                    <nav className="flex flex-col items-center py-4 space-y-3 text-sm font-medium">
-                        {[
-                            { to: "/", label: "Home" },
-                            { to: "/about", label: "About" },
-                            { to: "/contact", label: "Contact" },
-                            { to: "/help", label: "Help" },
-                            { to: "/terms-privacy", label: "Terms & Privacy" },
-                        ].map((it) => (
+            {/* Main navigation */}
+            <div className="relative border-b border-slate-200 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-white pointer-events-none" />
+                <div className="container relative mx-auto flex items-center justify-between px-4 py-3 lg:px-6">
+                    {/* Logo */}
+                    <Link
+                        to="/"
+                        className="group flex items-center gap-3"
+                        aria-label="StoreZ home"
+                    >
+                        <div className="relative">
+                            <img
+                                src={logo}
+                                alt="StoreZ Logo"
+                                className="h-20 w-auto transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_16px_24px_rgba(37,99,235,0.35)]"
+                            />
+                        </div>
+                        <span className="hidden sm:flex flex-col leading-tight">
+                            <span className="text-xs uppercase tracking-[0.28em] text-slate-400">
+                                StoreZ Platform
+                            </span>
+                            <span className="text-base font-semibold text-slate-700">
+                                Retail Intelligence Suite
+                            </span>
+                        </span>
+                    </Link>
+
+                    {/* Desktop nav */}
+                    <nav className="hidden lg:flex items-center gap-8 text-sm font-medium">
+                        {NAV_ITEMS.map((item) => (
                             <NavLink
-                                key={it.to}
-                                to={it.to}
-                                onClick={() => setMenuOpen(false)}
-                                className="hover:text-brand-700"
+                                key={item.to}
+                                to={item.to}
+                                className={({ isActive }) =>
+                                    "transition-colors duration-200 " +
+                                    (isActive
+                                        ? "text-brand-700 font-semibold"
+                                        : "text-slate-600 hover:text-slate-900")
+                                }
                             >
-                                {it.label}
+                                {item.label}
                             </NavLink>
                         ))}
+                    </nav>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-3">
+                        <NavLink
+                            to="/user/cart"
+                            className="relative hidden sm:inline-flex items-center justify-center text-slate-500 hover:text-brand-700 transition"
+                            aria-label={`Open cart, ${items.length} items`}
+                        >
+                            <ShoppingCart className="h-5 w-5" />
+                            {items.length > 0 && (
+                                <span className="absolute -top-2 -right-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-brand-600 px-1 text-xs font-semibold text-white">
+                                    {items.length}
+                                </span>
+                            )}
+                        </NavLink>
 
                         {!isAuthenticated ? (
                             <>
                                 <NavLink
                                     to="/login"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-brand-700"
+                                    className="hidden sm:inline-flex rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-brand-600 hover:text-brand-700"
                                 >
-                                    Login
+                                    Sign in
                                 </NavLink>
                                 <NavLink
                                     to="/register"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-brand-700"
+                                    className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:shadow-xl hover:shadow-indigo-500/30"
                                 >
-                                    Register
+                                    Create account
                                 </NavLink>
                             </>
                         ) : (
-                            <>
-                                {/* ✅ Dashboard User (mobile) */}
+                            <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => {
-                                        setMenuOpen(false);
-                                        navigate("/user/home");
-                                    }}
-                                    className="hover:text-brand-700"
+                                    onClick={() => navigate("/user/home")}
+                                    className="group hidden sm:flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:border-brand-600 hover:text-brand-700"
                                 >
-                                    Dashboard
+                                    <UserIcon className="h-4 w-4 text-brand-600 transition group-hover:scale-105" />
+                                    {displayName}
                                 </button>
-
                                 <button
-                                    onClick={async () => {
-                                        await handleLogout();
-                                        setMenuOpen(false);
-                                    }}
-                                    className="hover:text-red-600"
+                                    onClick={handleLogout}
+                                    className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                                 >
+                                    <LogOut className="h-4 w-4" />
                                     Logout
                                 </button>
-                            </>
+                            </div>
                         )}
+
+                        <button
+                            className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-600 hover:text-brand-700 lg:hidden"
+                            onClick={() => setMenuOpen((prev) => !prev)}
+                            aria-label="Toggle navigation menu"
+                        >
+                            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile drawer */}
+            {menuOpen && (
+                <div className="lg:hidden border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-lg">
+                    <nav className="flex flex-col gap-1 px-4 py-5 text-sm font-semibold text-slate-600">
+                        {NAV_ITEMS.map((item) => (
+                            <NavLink
+                                key={item.to}
+                                to={item.to}
+                                onClick={() => setMenuOpen(false)}
+                                className={({ isActive }) =>
+                                    "rounded-lg px-3 py-2 transition " +
+                                    (isActive
+                                        ? "bg-brand-50 text-brand-700"
+                                        : "hover:bg-slate-100")
+                                }
+                            >
+                                {item.label}
+                            </NavLink>
+                        ))}
+
+                        <div className="mt-3 border-t border-slate-200 pt-4">
+                            {!isAuthenticated ? (
+                                <div className="flex flex-col gap-2">
+                                    <NavLink
+                                        to="/login"
+                                        onClick={() => setMenuOpen(false)}
+                                        className="rounded-lg border border-slate-200 px-3 py-2 text-center transition hover:border-brand-600 hover:text-brand-700"
+                                    >
+                                        Sign in
+                                    </NavLink>
+                                    <NavLink
+                                        to="/register"
+                                        onClick={() => setMenuOpen(false)}
+                                        className="rounded-lg bg-brand-600 px-3 py-2 text-center text-white transition hover:bg-brand-700"
+                                    >
+                                        Create account
+                                    </NavLink>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-2">
+                                    <button
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            navigate("/user/home");
+                                        }}
+                                        className="rounded-lg border border-slate-200 px-3 py-2 text-left transition hover:border-brand-600 hover:text-brand-700"
+                                    >
+                                        Dashboard
+                                    </button>
+                                    <button
+                                        onClick={async () => {
+                                            await handleLogout();
+                                            setMenuOpen(false);
+                                        }}
+                                        className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-left font-semibold text-red-600 transition hover:bg-red-100"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </nav>
                 </div>
             )}

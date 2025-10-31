@@ -9,6 +9,7 @@ import {
     LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import logo from "@/assets/StoreZ.png";
 
 export default function AdminLayout() {
     const { logout } = useAuth();
@@ -37,12 +38,14 @@ export default function AdminLayout() {
             {/* Sidebar */}
             <aside className="col-span-12 md:col-span-3 lg:col-span-2 border-r bg-white flex flex-col">
                 <div className="p-6 border-b">
-                    <h1 className="text-2xl font-extrabold text-brand-700 tracking-tight">
-                        Admin
-                        <span className="text-yellow-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.8)]">
-              Z
-            </span>
-                    </h1>
+                    <div className="flex items-center justify-center">
+                        <img
+                            src={logo}
+                            alt="StoreZ"
+                            className="object-contain drop-shadow-[0_0_12px_rgba(37,99,235,0.25)]"
+                            style={{ height: "110px" }}
+                        />
+                </div>
                 </div>
 
                 {/* Navigation */}

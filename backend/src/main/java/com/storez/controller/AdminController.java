@@ -2,6 +2,7 @@ package com.storez.controller;
 
 import com.storez.dto.MonthlySalesDTO;
 import com.storez.model.Order;
+import com.storez.model.Product;
 import com.storez.model.Supplier;
 import com.storez.model.User;
 import com.storez.repository.OrderRepository;
@@ -10,6 +11,7 @@ import com.storez.repository.SupplierRepository;
 import com.storez.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -249,21 +251,42 @@ public class AdminController {
 
     // Supprimer un utilisateur
     @DeleteMapping("/users/{id}")
+    @Transactional
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        if (!userRepository.existsById(id)) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        userRepository.deleteById(id);
+
+        List<Order> relatedOrders = orderRepository.findByUserId(id);
+        relatedOrders.forEach(order -> order.setUser(null));
+        if (!relatedOrders.isEmpty()) {
+            orderRepository.saveAll(relatedOrders);
+        }
+
+        userRepository.delete(userOptional.get());
         return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
     }
 
     // Supprimer un supplier
     @DeleteMapping("/suppliers/{id}")
+    @Transactional
     public ResponseEntity<?> deleteSupplier(@PathVariable Long id) {
-        if (!supplierRepository.existsById(id)) {
+        Optional<Supplier> supplierOptional = supplierRepository.findById(id);
+        if (supplierOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        supplierRepository.deleteById(id);
+
+        List<Product> supplierProducts = productRepository.findBySupplierId(id);
+        supplierProducts.forEach(product -> {
+            product.setSupplier(null);
+            product.setStatus("REJECTED");
+        });
+        if (!supplierProducts.isEmpty()) {
+            productRepository.saveAll(supplierProducts);
+        }
+
+        supplierRepository.delete(supplierOptional.get());
         return ResponseEntity.ok(Map.of("message", "Supplier deleted successfully"));
     }
 

@@ -90,7 +90,7 @@ export default function AddProduct() {
             transition={{ duration: 0.35 }}
         >
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Add New Product</h1>
+                <h1 className="text-3xl font-bold text-brand-700">Add New Product</h1>
             </div>
 
             {msg && (

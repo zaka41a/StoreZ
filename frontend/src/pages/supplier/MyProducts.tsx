@@ -4,12 +4,15 @@ import { motion } from "framer-motion";
 import { Search, Filter, PackageOpen, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // ✅ import React Router
 
+const PAGE_SIZE = 6;
+
 export default function MyProducts() {
   const [products, setProducts] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
+  const [page, setPage] = useState(1);
   const navigate = useNavigate(); // ✅ hook navigation interne
 
   // 🔹 Charger les produits
@@ -52,6 +55,24 @@ export default function MyProducts() {
     });
   }, [products, search, status]);
 
+  const totalPages = useMemo(() => {
+    return Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  }, [filtered.length]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, status]);
+
+  useEffect(() => {
+    setPage((prev) => Math.min(prev, totalPages));
+  }, [totalPages]);
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    return filtered.slice(start, end);
+  }, [filtered, page]);
+
   if (loading) return <div className="card p-6">Loading your products...</div>;
 
   return (
@@ -63,7 +84,7 @@ export default function MyProducts() {
       >
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">My Products</h1>
+          <h1 className="text-3xl font-bold text-brand-700">My Products</h1>
           <button
               onClick={() => navigate("/supplier/add-product")} // ✅ navigation interne
               className="btn btn-primary flex items-center gap-2"
@@ -116,9 +137,9 @@ export default function MyProducts() {
         ) : (
             <motion.div
                 layout
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
-              {filtered.map((p) => (
+              {paginated.map((p) => (
                   <motion.article
                       key={p.id}
                       layout
@@ -139,6 +160,33 @@ export default function MyProducts() {
                   </motion.article>
               ))}
             </motion.div>
+        )}
+
+        {filtered.length > PAGE_SIZE && (
+          <div className="flex flex-col gap-3 border-t border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              Showing {(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length} products
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                  className="btn btn-secondary text-xs disabled:opacity-50 disabled:pointer-events-none"
+                  onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+                  disabled={page <= 1}
+              >
+                Previous
+              </button>
+              <span className="text-xs font-medium text-gray-500">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                  className="btn btn-secondary text-xs disabled:opacity-50 disabled:pointer-events-none"
+                  onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+                  disabled={page >= totalPages}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         )}
       </motion.div>
   );

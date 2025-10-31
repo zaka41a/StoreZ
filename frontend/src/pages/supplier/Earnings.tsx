@@ -16,7 +16,7 @@ export default function Earnings() {
 
     return (
         <div className="space-y-6">
-            <h1 className="text-2xl font-semibold">Earnings Summary</h1>
+            <h1 className="text-3xl text-brand-700 font-bold">Earnings Summary</h1>
             <div className="card p-6">
                 <div className="text-gray-600 mb-2">Total Earnings</div>
                 <div className="text-3xl font-bold text-brand-700">{formatMoney(total)}</div>

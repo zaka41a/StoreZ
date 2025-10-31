@@ -1,8 +1,45 @@
-import { useEffect, useState } from "react";
-import { api } from "@/services/api";
-import ProductCard from "@/components/ProductCard";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Search as SearchIcon,
+  ShieldCheck,
+  ShoppingBag,
+  SlidersHorizontal,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+import ProductCard from "@/components/ProductCard";
 import { useAuth } from "@/contexts/AuthContext";
+import { api } from "@/services/api";
+
+const HERO_STATS = [
+  { label: "Premium products", value: "5k+" },
+  { label: "Verified suppliers", value: "430" },
+  { label: "Orders fulfilled", value: "320K" },
+  { label: "Countries served", value: "48" },
+] as const;
+
+const VALUE_POINTS: Array<{ title: string; description: string; icon: LucideIcon }> = [
+  {
+    title: "Trusted sellers",
+    description: "Every supplier is vetted with rigorous quality and compliance checks.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Fast discovery",
+    description: "Advanced filtering surfaces relevant inventory in seconds.",
+    icon: SearchIcon,
+  },
+  {
+    title: "Growth insights",
+    description: "Actionable analytics help you scale merchandising decisions.",
+    icon: TrendingUp,
+  },
+];
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -13,118 +50,275 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const pageSize = isAuthenticated ? 9 : 8;
 
-  // Charger les catégories
   useEffect(() => {
     api
-        .get("/categories")
-        .then((res) => {
-          setCategories(res.data || []);
-        })
-        .catch((err) => {
-          console.error("Erreur chargement catégories:", err);
-          setCategories([]);
-        });
+      .get("/categories")
+      .then((res) => setCategories(res.data || []))
+      .catch((err) => {
+        console.error("Erreur chargement catégories:", err);
+        setCategories([]);
+      });
   }, []);
 
-  // Charger les produits
   useEffect(() => {
     setLoading(true);
     api
-        .get("/products", {
-          params: { query: q, category, page, size: 9 },
-        })
-        .then((res) => {
-          // Nouveau format avec pagination
-          setProducts(res.data.products || []);
-          setTotalPages(res.data.totalPages || 1);
-        })
-        .catch((err) => {
-          console.error("Erreur chargement produits:", err);
-          setProducts([]);
-        })
-        .finally(() => setLoading(false));
-  }, [q, category, page]);
+      .get("/products", {
+        params: { query: q, category, page, size: pageSize },
+      })
+      .then((res) => {
+        setProducts(res.data.products || []);
+        setTotalPages(Math.max(res.data.totalPages || 1, 1));
+        setTotalItems(res.data.totalItems ?? res.data.products?.length ?? 0);
+      })
+      .catch((err) => {
+        console.error("Erreur chargement produits:", err);
+        setProducts([]);
+        setTotalItems(0);
+      })
+      .finally(() => setLoading(false));
+  }, [q, category, page, pageSize]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [q, category]);
+
+  const categoryFilters = useMemo(
+    () => [{ label: "All", value: "" }, ...categories.map((c) => ({ label: c, value: c }))],
+    [categories]
+  );
+
+  const showingFrom = totalItems === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingTo = totalItems === 0 ? 0 : Math.min(page * pageSize, totalItems || page * pageSize);
+
+  const handleCategoryClick = (value: string) => {
+    setCategory((prev) => (prev === value ? "" : value));
+    setPage(1);
+  };
 
   return (
-      <div className="space-y-10">
-        {/* Bannière d'accueil pour les invités */}
-        {!isAuthenticated && (
-            <section className="rounded-2xl bg-gradient-to-r from-brand-600 to-brand-700 text-white p-10 md:p-16 text-center space-y-4">
-              <h1 className="text-4xl md:text-5xl font-extrabold">Welcome to StoreZ 🛍️</h1>
-              <p className="text-lg text-brand-100 max-w-2xl mx-auto">
-                Discover trending products, trusted suppliers, and effortless shopping.
-              </p>
-              <a
-                  href="/register-user"
-                  className="btn btn-secondary bg-white text-brand-700 mt-4 font-semibold shadow-lg"
-              >
-                Start Shopping Now
-              </a>
-            </section>
-        )}
+    <div className="space-y-16 pb-16">
+      <motion.section
+        className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="absolute left-1/3 top-0 h-64 w-64 rounded-full bg-emerald-400/30 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-brand-600/30 blur-3xl" />
 
-        {/* Barre de recherche et filtre */}
-        <section className="card p-6 space-y-4">
-          <h2 className="text-2xl font-bold text-brand-700">🛒 Explore Products</h2>
-          <div className="flex flex-col md:flex-row gap-3">
-            <input
-                className="input flex-1"
-                placeholder="Search for products..."
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-            />
-            <select
-                className="input md:w-60"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="">All categories</option>
-              {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-              ))}
-            </select>
+        <div className="relative z-10 flex flex-col gap-12 px-6 py-12 md:flex-row md:items-center md:justify-between md:px-12">
+          <div className="max-w-2xl space-y-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
+              <Sparkles className="h-4 w-4" />
+              Elevated commerce
+            </span>
+            <h1 className="text-4xl font-bold leading-tight md:text-5xl">
+              Curated products, vetted suppliers, seamless fulfillment.
+            </h1>
+            <p className="text-base text-slate-200/80 md:text-lg">
+              StoreZ brings together premium inventory and data-backed merchandising tools so you
+              can build an exceptional retail experience without compromise.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to={isAuthenticated ? "/user/home" : "/register-user"}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              >
+                <ShoppingBag className="h-4 w-4" />
+                Start exploring
+              </Link>
+              <Link
+                to="/register-supplier"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+              >
+                Become a supplier
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
-        </section>
 
-        {/* Contenu produits */}
-        {loading ? (
-            <div className="card p-8 text-center">Loading products...</div>
-        ) : products.length === 0 ? (
-            <div className="card p-8 text-center text-gray-500">No products found.</div>
-        ) : (
-            <>
-              <motion.div
-                  layout
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          <div className="grid w-full grid-cols-2 gap-4 md:w-96">
+            {HERO_STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-white/10 bg-white/10 p-4 shadow-lg shadow-black/10 backdrop-blur"
               >
-                {products.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                ))}
-              </motion.div>
+                <div className="text-3xl font-semibold">{stat.value}</div>
+                <div className="text-sm text-white/70">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
 
-              {/* Pagination */}
-              <div className="flex items-center justify-center gap-3 pt-6">
+      <section className="grid gap-6 lg:grid-cols-[2fr,1fr]">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm backdrop-blur-sm">
+          <div className="relative">
+            <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              className="w-full rounded-full border border-slate-200 bg-white px-11 py-3 text-sm text-slate-700 shadow-sm transition focus:border-brand-600 focus:outline-none"
+              placeholder="Search products, brands, or categories"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+          </div>
+
+          {categoryFilters.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                <SlidersHorizontal className="h-3.5 w-3.5" />
+                Filter
+              </span>
+              {categoryFilters.map(({ label, value }) => {
+                const active = category === value || (!category && value === "");
+                return (
+                  <button
+                    key={value || "all"}
+                    onClick={() => handleCategoryClick(value)}
+                    className={[
+                      "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                      active
+                        ? "border-transparent bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-lg shadow-indigo-500/25"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-brand-600 hover:text-brand-700",
+                    ].join(" ")}
+                  >
+                    {active && <Sparkles className="h-3.5 w-3.5" />}
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm backdrop-blur-sm">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+            Why StoreZ
+          </h3>
+          <div className="mt-4 space-y-4">
+            {VALUE_POINTS.map(({ title, description, icon: Icon }) => (
+              <div key={title} className="flex items-start gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <div>
+                  <div className="text-sm font-semibold text-slate-700">{title}</div>
+                  <p className="text-sm text-slate-500">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">Latest marketplace arrivals</h2>
+            <p className="text-sm text-slate-500">
+              Hand-picked selections across {Math.max(categories.length, 1)} categories, updated in
+              real time.
+            </p>
+          </div>
+          <Link
+            to="/about"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 transition hover:text-brand-700"
+          >
+            Learn about our sourcing standards
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {loading ? (
+          <div className="rounded-3xl border border-slate-200 bg-white/85 px-6 py-20 text-center text-slate-500 shadow-sm">
+            Refreshing the catalogue...
+          </div>
+        ) : products.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200 bg-white/85 px-6 py-16 text-center text-slate-500 shadow-sm">
+            No products match your filters yet. Try adjusting your search or explore a different
+            category.
+          </div>
+        ) : (
+          <>
+            <motion.div
+              layout
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4"
+            >
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </motion.div>
+
+            <div className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white/85 px-4 py-4 text-sm text-slate-600 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                Showing {showingFrom}-{showingTo} of {totalItems || products.length} products
+              </span>
+              <div className="flex items-center gap-2">
                 <button
-                    className="btn btn-secondary"
-                    disabled={page <= 1}
-                    onClick={() => setPage((p) => p - 1)}
+                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-40"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
                   Previous
                 </button>
-                <div className="text-gray-700 font-medium">Page {page} of {totalPages}</div>
+                <span className="text-xs font-semibold text-slate-500">
+                  Page {page} of {totalPages}
+                </span>
                 <button
-                    className="btn btn-primary"
-                    disabled={page >= totalPages}
-                    onClick={() => setPage((p) => p + 1)}
+                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-40"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 >
                   Next
                 </button>
               </div>
-            </>
+            </div>
+          </>
         )}
-      </div>
+      </section>
+
+      {!isAuthenticated && (
+        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 px-8 py-12 text-white shadow-lg">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-xl space-y-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-white/80">
+                <ShieldCheck className="h-4 w-4" />
+                Join the ecosystem
+              </span>
+              <h3 className="text-2xl font-semibold leading-tight">
+                Ready to deliver unforgettable shopping experiences?
+              </h3>
+              <p className="text-sm text-white/80">
+                Create your StoreZ account to access personalised collections, exclusive launches,
+                and supplier pricing tailored to you.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/register-user"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              >
+                Create shopper account
+              </Link>
+              <Link
+                to="/register-supplier"
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white"
+              >
+                Register as supplier
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
   );
 }

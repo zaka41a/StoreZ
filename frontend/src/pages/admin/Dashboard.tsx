@@ -27,6 +27,7 @@ export default function AdminDashboard() {
         monthRevenue: 0
     });
     const [loading, setLoading] = useState(true);
+    const [authError, setAuthError] = useState(false);
 
     useEffect(() => {
         console.log("🔵 Fetching admin dashboard...");
@@ -34,21 +35,21 @@ export default function AdminDashboard() {
             .then(res => {
                 console.log("✅ Dashboard data:", res.data);
                 setStats(res.data);
+                setAuthError(false);
             })
             .catch(err => {
                 console.error("❌ Error loading dashboard:", err);
                 console.error("Response:", err.response);
                 console.error("Status:", err.response?.status);
                 console.error("Data:", err.response?.data);
+                if (err.response?.status === 401 || err.response?.status === 403) {
+                    setAuthError(true);
+                }
             })
             .finally(() => setLoading(false));
     }, []);
 
     if (loading) return <div className="card p-6">Loading dashboard...</div>;
-
-    // Si toutes les stats sont à 0, probablement pas connecté en tant qu'admin
-    const isEmpty = stats.totalUsers === 0 && stats.totalSuppliers === 0 &&
-                    stats.totalProducts === 0 && stats.totalOrders === 0;
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="space-y-6">
@@ -58,7 +59,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Warning if not authenticated */}
-            {isEmpty && (
+            {authError && (
                 <div className="card bg-red-50 border-red-200 p-6">
                     <div className="flex items-center gap-3">
                         <AlertCircle className="w-6 h-6 text-red-600" />

@@ -16,6 +16,7 @@ type User = {
 export default function AdminUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const loadUsers = () => {
         console.log("🔵 Fetching admin users...");
@@ -23,12 +24,14 @@ export default function AdminUsers() {
             .then(res => {
                 console.log("✅ Users data:", res.data);
                 setUsers(res.data);
+                setError(null);
             })
             .catch(err => {
                 console.error("❌ Error loading users:", err);
                 console.error("Response:", err.response);
                 console.error("Status:", err.response?.status);
                 console.error("Data:", err.response?.data);
+                setError("Failed to load users. Please retry.");
             })
             .finally(() => setLoading(false));
     };
@@ -41,7 +44,7 @@ export default function AdminUsers() {
             loadUsers();
         } catch (err) {
             console.error("Error deleting user:", err);
-            alert("Failed to delete user");
+            setError("Failed to delete user. They may have related orders.");
         }
     };
 
@@ -65,6 +68,12 @@ export default function AdminUsers() {
                 </div>
                 <UsersIcon className="w-8 h-8 text-brand-700" />
             </div>
+
+            {error && (
+                <div className="rounded-md border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600">
+                    {error}
+                </div>
+            )}
 
             <div className="card overflow-hidden">
                 <div className="overflow-x-auto">
