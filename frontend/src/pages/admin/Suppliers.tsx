@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
-import { Store, Check, XCircle, Mail, Phone } from "lucide-react";
+import { Store, Check, XCircle, Mail, Phone, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 type Supplier = {
@@ -39,6 +39,7 @@ export default function AdminSuppliers() {
             loadSuppliers();
         } catch (err) {
             console.error("Error approving supplier:", err);
+            alert("Failed to approve supplier");
         }
     };
 
@@ -48,6 +49,19 @@ export default function AdminSuppliers() {
             loadSuppliers();
         } catch (err) {
             console.error("Error rejecting supplier:", err);
+            alert("Failed to reject supplier");
+        }
+    };
+
+    const deleteSupplier = async (id: number) => {
+        if (!confirm("Are you sure you want to delete this supplier?")) return;
+
+        try {
+            await api.delete(`/admin/suppliers/${id}`, { withCredentials: true });
+            loadSuppliers();
+        } catch (err) {
+            console.error("Error deleting supplier:", err);
+            alert("Failed to delete supplier");
         }
     };
 
@@ -117,22 +131,33 @@ export default function AdminSuppliers() {
                                         </span>
                                     </td>
                                     <td className="p-4">
-                                        {!supplier.approved && (
-                                            <div className="flex items-center justify-center gap-2">
-                                                <button
-                                                    onClick={() => approve(supplier.id)}
-                                                    className="btn btn-primary inline-flex items-center gap-1"
-                                                >
-                                                    <Check className="w-4 h-4" /> Approve
-                                                </button>
-                                                <button
-                                                    onClick={() => reject(supplier.id)}
-                                                    className="btn btn-secondary text-red-600 inline-flex items-center gap-1"
-                                                >
-                                                    <XCircle className="w-4 h-4" /> Reject
-                                                </button>
-                                            </div>
-                                        )}
+                                        <div className="flex items-center justify-center gap-2">
+                                            {!supplier.approved && (
+                                                <>
+                                                    <button
+                                                        onClick={() => approve(supplier.id)}
+                                                        className="btn btn-primary inline-flex items-center gap-1 text-xs"
+                                                        title="Approve supplier"
+                                                    >
+                                                        <Check className="w-4 h-4" /> Approve
+                                                    </button>
+                                                    <button
+                                                        onClick={() => reject(supplier.id)}
+                                                        className="btn btn-secondary text-orange-600 inline-flex items-center gap-1 text-xs hover:bg-orange-50"
+                                                        title="Reject supplier"
+                                                    >
+                                                        <XCircle className="w-4 h-4" /> Reject
+                                                    </button>
+                                                </>
+                                            )}
+                                            <button
+                                                onClick={() => deleteSupplier(supplier.id)}
+                                                className="btn btn-secondary text-red-600 inline-flex items-center gap-1 hover:bg-red-50"
+                                                title="Delete supplier"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

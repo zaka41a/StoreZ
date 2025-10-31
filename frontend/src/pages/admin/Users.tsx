@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
-import { Users as UsersIcon, Mail } from "lucide-react";
+import { Users as UsersIcon, Mail, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 type User = {
@@ -31,6 +31,18 @@ export default function AdminUsers() {
                 console.error("Data:", err.response?.data);
             })
             .finally(() => setLoading(false));
+    };
+
+    const deleteUser = async (id: number) => {
+        if (!confirm("Are you sure you want to delete this user?")) return;
+
+        try {
+            await api.delete(`/admin/users/${id}`, { withCredentials: true });
+            loadUsers();
+        } catch (err) {
+            console.error("Error deleting user:", err);
+            alert("Failed to delete user");
+        }
     };
 
     useEffect(() => {
@@ -65,6 +77,8 @@ export default function AdminUsers() {
                                 <th className="p-4 font-semibold">Role</th>
                                 <th className="p-4 font-semibold">Status</th>
                                 <th className="p-4 font-semibold">Phone</th>
+                                <th className="p-4 font-semibold">Address</th>
+                                <th className="p-4 font-semibold text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,6 +111,20 @@ export default function AdminUsers() {
                                     </td>
                                     <td className="p-4 text-gray-600">
                                         {user.phone || '—'}
+                                    </td>
+                                    <td className="p-4 text-gray-600">
+                                        {user.address || '—'}
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="flex items-center justify-center gap-2">
+                                            <button
+                                                onClick={() => deleteUser(user.id)}
+                                                className="btn btn-secondary text-red-600 inline-flex items-center gap-1 hover:bg-red-50"
+                                                title="Delete user"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

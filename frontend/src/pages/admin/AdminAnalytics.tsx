@@ -14,17 +14,34 @@ export default function AdminAnalytics() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Fetch analytics data and monthly sales in parallel
         Promise.all([
-            api.get("/admin/stats/sales-monthly", { withCredentials: true }),
-            api.get("/admin/stats/top-suppliers", { withCredentials: true }),
-            api.get("/admin/stats/categories", { withCredentials: true }),
+            api.get("/admin/analytics", { withCredentials: true }),
+            api.get("/admin/analytics/sales-monthly", { withCredentials: true })
         ])
-            .then(([s, sup, cat]) => {
-                setSales(s.data || []);
-                setSuppliers(sup.data || []);
-                setCategories(cat.data || []);
+            .then(([analyticsRes, salesRes]) => {
+                // Set monthly sales data
+                setSales(salesRes.data || []);
+
+                // Transform topSuppliers to array format for chart
+                const topSuppliersData = Object.entries(analyticsRes.data.topSuppliers || {})
+                    .map(([supplier, count]) => ({
+                        supplier,
+                        sales: count,
+                        count: count
+                    }));
+                setSuppliers(topSuppliersData);
+
+                // Transform productsByCategory to array format for pie chart
+                const categoriesData = Object.entries(analyticsRes.data.productsByCategory || {})
+                    .map(([category, count]) => ({
+                        category,
+                        count
+                    }));
+                setCategories(categoriesData);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.error("Error loading analytics:", err);
                 setSales([]);
                 setSuppliers([]);
                 setCategories([]);

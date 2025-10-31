@@ -14,6 +14,20 @@
   .card { @apply rounded-2xl bg-white shadow-sm ring-1 ring-black/5; }
   .input { @apply w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-600; }
   .link { @apply text-brand-700 hover:text-brand-800 underline underline-offset-4; }
+  .badge { @apply inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-semibold uppercase tracking-wide; }
+  .badge-dot::before { @apply mr-1 inline-block h-2 w-2 rounded-full content-['']; }
+  .badge-soft-brand { @apply bg-brand-50 text-brand-700; }
+  .badge-soft-green { @apply bg-green-50 text-green-700; }
+  .badge-soft-yellow { @apply bg-yellow-50 text-yellow-700; }
+  .badge-soft-red { @apply bg-red-50 text-red-700; }
+  .badge-soft-slate { @apply bg-gray-100 text-gray-600; }
+  .table-shell { @apply overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm; }
+  .table-shell table { @apply min-w-full border-collapse text-sm; }
+  .table-shell thead { @apply bg-gray-50 text-xs uppercase tracking-wide text-gray-500; }
+  .table-shell th { @apply px-4 py-3 text-left font-semibold; }
+  .table-shell td { @apply px-4 py-3 align-middle text-gray-700; }
+  .table-shell tbody tr { @apply border-t hover:bg-gray-50 transition; }
+  .empty-state { @apply flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-gray-200 bg-gray-50/70 p-10 text-center text-gray-500; }
 }
 
 img[alt="StoreZ Logo"] {

@@ -5,6 +5,7 @@ com/storez/model/Comment.class
 com/storez/controller/admin/AdminProductController.class
 com/storez/model/Product.class
 com/storez/model/Cart$CartBuilder.class
+com/storez/dto/MonthlySalesDTO.class
 com/storez/repository/SupplierRepository.class
 com/storez/model/OrderItem$OrderItemBuilder.class
 com/storez/controller/CategoryController.class

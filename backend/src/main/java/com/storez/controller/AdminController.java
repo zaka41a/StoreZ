@@ -1,5 +1,6 @@
 package com.storez.controller;
 
+import com.storez.dto.MonthlySalesDTO;
 import com.storez.model.Order;
 import com.storez.model.Supplier;
 import com.storez.model.User;
@@ -12,9 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -151,7 +152,7 @@ public class AdminController {
             dto.put("email", supplier.getEmail());
             dto.put("phone", supplier.getPhone());
             dto.put("address", supplier.getAddress());
-            dto.put("status", supplier.getStatus());
+            dto.put("status", supplier.getStatus() != null ? supplier.getStatus().name() : "PENDING");
             dto.put("approved", supplier.isApproved());
             return dto;
         }).collect(java.util.stream.Collectors.toList());
@@ -165,7 +166,7 @@ public class AdminController {
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
         supplier.setApproved(true);
-        supplier.setStatus("APPROVED");
+        supplier.setStatus(com.storez.model.SupplierStatus.APPROVED);
         supplierRepository.save(supplier);
 
         return ResponseEntity.ok(Map.of("message", "Supplier approved successfully"));
@@ -178,7 +179,7 @@ public class AdminController {
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
         supplier.setApproved(false);
-        supplier.setStatus("REJECTED");
+        supplier.setStatus(com.storez.model.SupplierStatus.REJECTED);
         supplierRepository.save(supplier);
 
         return ResponseEntity.ok(Map.of("message", "Supplier rejected"));
@@ -244,5 +245,69 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid status"));
         }
+    }
+
+    // Supprimer un utilisateur
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        if (!userRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.deleteById(id);
+        return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
+    }
+
+    // Supprimer un supplier
+    @DeleteMapping("/suppliers/{id}")
+    public ResponseEntity<?> deleteSupplier(@PathVariable Long id) {
+        if (!supplierRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        supplierRepository.deleteById(id);
+        return ResponseEntity.ok(Map.of("message", "Supplier deleted successfully"));
+    }
+
+    /**
+     * Get monthly sales data for the last 12 months
+     * Returns aggregated sales totals grouped by month
+     * @return List of MonthlySalesDTO containing month name and total sales
+     */
+    @GetMapping("/analytics/sales-monthly")
+    public ResponseEntity<List<MonthlySalesDTO>> getMonthlySales() {
+        // Get all orders
+        List<Order> allOrders = orderRepository.findAll();
+
+        // Calculate the date 12 months ago
+        LocalDateTime twelveMonthsAgo = LocalDateTime.now().minusMonths(12);
+
+        // Filter orders from the last 12 months and group by month
+        Map<String, Double> salesByMonth = allOrders.stream()
+                .filter(order -> order.getCreatedAt().isAfter(twelveMonthsAgo))
+                .collect(Collectors.groupingBy(
+                        order -> {
+                            // Format as "MMM" (e.g., "Jan", "Feb")
+                            return order.getCreatedAt().getMonth()
+                                    .getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+                        },
+                        Collectors.summingDouble(order ->
+                            // Calculate order total: sum of (quantity * price) for all items
+                            order.getItems().stream()
+                                    .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
+                                    .sum()
+                        )
+                ));
+
+        // Create a list of the last 12 months in chronological order
+        List<MonthlySalesDTO> monthlySales = new ArrayList<>();
+        LocalDateTime currentMonth = LocalDateTime.now();
+
+        for (int i = 11; i >= 0; i--) {
+            LocalDateTime monthDate = currentMonth.minusMonths(i);
+            String monthName = monthDate.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+            double total = salesByMonth.getOrDefault(monthName, 0.0);
+            monthlySales.add(new MonthlySalesDTO(monthName, total));
+        }
+
+        return ResponseEntity.ok(monthlySales);
     }
 }

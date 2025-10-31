@@ -9,6 +9,7 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/SupplierOrderController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/UserController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/LoginRequest.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/MonthlySalesDTO.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/RegisterUserRequest.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/dto/UserDto.java

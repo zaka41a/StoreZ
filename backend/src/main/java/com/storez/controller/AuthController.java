@@ -100,6 +100,8 @@ public class AuthController {
     u.setEmail(req.getEmail());
     u.setName(req.getName());
     u.setPasswordHash(encoder.encode(req.getPassword()));
+    u.setPhone(req.getPhone());
+    u.setAddress(req.getAddress());
     u.setRole(Role.USER);
     userRepo.save(u);
 
