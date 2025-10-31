@@ -1,15 +1,13 @@
 package com.storez.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class RegisterSupplierRequest {
-    private String companyName;
     private String email;
-    private String password;
+    private String companyName;
+    private String description;
     private String phone;
     private String address;
-    private String description;
+    private String password;
 }

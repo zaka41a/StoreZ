@@ -26,7 +26,7 @@ public class AppUserDetailsService implements UserDetailsService {
               .builder()
               .username(user.getEmail())
               .password(user.getPasswordHash())
-              // 🟢 Correction ici :
+              // ✅ No ROLE_ prefix needed (GrantedAuthorityDefaults removes it)
               .authorities(user.getRole().name())
               .build();
     }
@@ -37,6 +37,7 @@ public class AppUserDetailsService implements UserDetailsService {
               .builder()
               .username(supplier.getEmail())
               .password(supplier.getPasswordHash())
+              // ✅ No ROLE_ prefix needed (GrantedAuthorityDefaults removes it)
               .authorities("SUPPLIER")
               .build();
     }

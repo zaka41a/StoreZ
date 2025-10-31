@@ -13,9 +13,11 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Builder.Default
   private LocalDateTime createdAt = LocalDateTime.now();
 
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private OrderStatus status = OrderStatus.PENDING;
 
   @ManyToOne

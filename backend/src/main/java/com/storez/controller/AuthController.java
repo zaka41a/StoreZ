@@ -14,9 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Map;
 
@@ -33,10 +36,17 @@ public class AuthController {
 
   // ✅ Login utilisateur ou fournisseur (session HTTP)
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+  public ResponseEntity<?> login(@RequestBody LoginRequest req, HttpServletRequest request) {
     Authentication auth = authManager.authenticate(
             new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
     );
+
+    // ✅ IMPORTANT: Store authentication in SecurityContext to create session
+    SecurityContextHolder.getContext().setAuthentication(auth);
+
+    // ✅ Create HTTP session explicitly
+    HttpSession session = request.getSession(true);
+    session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
     User user = userRepo.findByEmail(req.getEmail()).orElse(null);
     if (user != null) {

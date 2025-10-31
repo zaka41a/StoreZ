@@ -1,12 +1,16 @@
 package com.storez.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "product")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
 
   @Id
@@ -20,10 +24,9 @@ public class Product {
   private String category;
   private int stock;
 
-  @Enumerated(EnumType.STRING)
-  private ProductStatus status = ProductStatus.PENDING;
+  private String status; // PENDING / APPROVED / REJECTED
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "supplier_id")
   private Supplier supplier;
 }

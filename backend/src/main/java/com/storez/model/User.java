@@ -36,5 +36,6 @@ public class User {
   private Role role;
 
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private UserStatus status = UserStatus.ACTIVE;
 }

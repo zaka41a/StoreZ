@@ -12,6 +12,8 @@ public class Comment {
   private Long id;
 
   private String content;
+
+  @Builder.Default
   private LocalDateTime createdAt = LocalDateTime.now();
 
   @ManyToOne

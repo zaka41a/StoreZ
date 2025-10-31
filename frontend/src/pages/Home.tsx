@@ -12,6 +12,7 @@ export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Charger les catégories
   useEffect(() => {
@@ -31,12 +32,12 @@ export default function Home() {
     setLoading(true);
     api
         .get("/products", {
-          params: { query: q, category, page, limit: 12 },
+          params: { query: q, category, page, size: 9 },
         })
         .then((res) => {
-          // Ton backend retourne un tableau direct → pas besoin de .data
-          const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
-          setProducts(data);
+          // Nouveau format avec pagination
+          setProducts(res.data.products || []);
+          setTotalPages(res.data.totalPages || 1);
         })
         .catch((err) => {
           console.error("Erreur chargement produits:", err);
@@ -104,7 +105,7 @@ export default function Home() {
                 ))}
               </motion.div>
 
-              {/* Pagination — optionnelle */}
+              {/* Pagination */}
               <div className="flex items-center justify-center gap-3 pt-6">
                 <button
                     className="btn btn-secondary"
@@ -113,9 +114,10 @@ export default function Home() {
                 >
                   Previous
                 </button>
-                <div className="text-gray-700 font-medium">Page {page}</div>
+                <div className="text-gray-700 font-medium">Page {page} of {totalPages}</div>
                 <button
                     className="btn btn-primary"
+                    disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
                 >
                   Next

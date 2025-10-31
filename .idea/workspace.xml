@@ -5,29 +5,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2089c648-b67e-4098-9a06-f482c67c3797" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierOrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminAnalytics.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/AddProduct.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/config/SessionCookieConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/CategoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/OrderItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/OrderItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterSupplierRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/dto/RegisterUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/AppUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/AppUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/config/SessionCookieConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/CategoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/ChangePasswordRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/LoginRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/RegisterSupplierRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/RegisterSupplierRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/RegisterUserRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/RegisterUserRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/dto/UserUpdateDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Comment$CommentBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Comment$CommentBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Comment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Order$OrderBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Order$OrderBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Order.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Supplier$SupplierBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Supplier$SupplierBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Supplier.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Supplier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/repository/OrderItemRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/repository/OrderItemRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/repository/ProductRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/service/AppUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/service/AppUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/layouts/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/AdminLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/layouts/SupplierLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/SupplierLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/layouts/UserLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layouts/UserLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProductDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProductDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminProducts.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Orders.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Products.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Suppliers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Suppliers.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Users.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Users.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/SupplierDashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/Earnings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/Earnings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/Orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/SupplierMyProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/AddProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/AddProduct.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +183,7 @@
       <workItem from="1761086667734" duration="6000" />
       <workItem from="1761304602359" duration="504000" />
       <workItem from="1761305781022" duration="72849000" />
-      <workItem from="1761775707525" duration="8431000" />
+      <workItem from="1761775707525" duration="17709000" />
     </task>
     <servers />
   </component>

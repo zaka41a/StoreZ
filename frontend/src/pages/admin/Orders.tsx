@@ -22,7 +22,7 @@ export default function AdminOrders() {
     useEffect(() => { load(); }, []);
 
     const updateStatus = async (id: number, status: string) => {
-        await api.put(`/admin/orders/${id}/status`, { status }, { withCredentials: true });
+        await api.put(`/admin/orders/${id}/status?status=${status}`, {}, { withCredentials: true });
         load();
     };
 

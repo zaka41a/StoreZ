@@ -1,35 +1,35 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { formatMoney } from "@/utils/format";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Package, Clock, Star, PlusCircle } from "lucide-react";
 import BackButton from "@/components/BackButton";
 
-type OrderRow = { id: number; createdAt: string; total: number; status: string };
+type OrderRow = { id: number; date: string; total: number; status: string };
 type Product = { id: string; name: string; image: string; price: number; supplierName?: string };
+type Stats = { totalOrders: number; deliveredOrders: number; pendingOrders: number; spentLast30Days: number };
 
 export default function UserHome() {
-    const [orders, setOrders] = useState<OrderRow[]>([]);
+    const [stats, setStats] = useState<Stats>({ totalOrders: 0, deliveredOrders: 0, pendingOrders: 0, spentLast30Days: 0 });
+    const [recentOrders, setRecentOrders] = useState<OrderRow[]>([]);
     const [suggested, setSuggested] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const last30Total = useMemo(
-        () =>
-            orders
-                .filter(o => Date.now() - new Date(o.createdAt).getTime() <= 1000 * 60 * 60 * 24 * 30)
-                .reduce((s, o) => s + o.total, 0),
-        [orders]
-    );
 
     useEffect(() => {
         (async () => {
             try {
-                const [o, p] = await Promise.all([
-                    api.get("/orders", { withCredentials: true }).catch(() => ({ data: [] })),
-                    api.get("/products?limit=6").catch(() => ({ data: [] })),
+                const [s, p] = await Promise.all([
+                    api.get("/user/stats", { withCredentials: true }).catch(() => ({ data: { totalOrders: 0, deliveredOrders: 0, pendingOrders: 0, spentLast30Days: 0, recentOrders: [] } })),
+                    api.get("/products?size=6").catch(() => ({ data: { products: [] } })),
                 ]);
-                setOrders(o.data || []);
-                setSuggested((p.data || []).slice(0, 6));
+                setStats({
+                    totalOrders: s.data.totalOrders || 0,
+                    deliveredOrders: s.data.deliveredOrders || 0,
+                    pendingOrders: s.data.pendingOrders || 0,
+                    spentLast30Days: s.data.spentLast30Days || 0
+                });
+                setRecentOrders(s.data.recentOrders || []);
+                setSuggested((p.data.products || []).slice(0, 6));
             } finally {
                 setLoading(false);
             }
@@ -65,10 +65,10 @@ export default function UserHome() {
 
             {/* Stat cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <StatCard icon={<ShoppingBag className="w-5 h-5" />} label="Total orders" value={orders.length} />
-                <StatCard icon={<Package className="w-5 h-5" />} label="Delivered (est.)" value={orders.filter(o => o.status === "DELIVERED").length} />
-                <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={orders.filter(o => o.status === "PENDING").length} />
-                <StatCard icon={<Star className="w-5 h-5" />} label="Spent (30d)" value={formatMoney(last30Total)} />
+                <StatCard icon={<ShoppingBag className="w-5 h-5" />} label="Total orders" value={stats.totalOrders} />
+                <StatCard icon={<Package className="w-5 h-5" />} label="Delivered (est.)" value={stats.deliveredOrders} />
+                <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pendingOrders} />
+                <StatCard icon={<Star className="w-5 h-5" />} label="Spent (30d)" value={formatMoney(stats.spentLast30Days)} />
             </div>
 
             {/* Dernières commandes */}
@@ -77,7 +77,7 @@ export default function UserHome() {
                     <h2 className="text-lg font-semibold">Recent orders</h2>
                     <Link to="/user/orders" className="text-sm text-brand-700 hover:underline">See all</Link>
                 </div>
-                {orders.length === 0 ? (
+                {recentOrders.length === 0 ? (
                     <div className="text-gray-600 mt-3">No orders yet. Start with some products below.</div>
                 ) : (
                     <div className="overflow-x-auto mt-3">
@@ -91,10 +91,10 @@ export default function UserHome() {
                             </tr>
                             </thead>
                             <tbody>
-                            {orders.slice(0, 6).map(o => (
+                            {recentOrders.map(o => (
                                 <tr key={o.id} className="border-t">
                                     <td className="py-2">{o.id}</td>
-                                    <td>{new Date(o.createdAt).toLocaleString()}</td>
+                                    <td>{new Date(o.date).toLocaleString()}</td>
                                     <td>{formatMoney(o.total)}</td>
                                     <td className="uppercase text-xs">{o.status}</td>
                                 </tr>

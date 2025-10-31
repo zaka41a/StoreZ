@@ -6,7 +6,7 @@ export default function AdminProducts() {
 
     const load = async () => {
         const res = await api.get("/products", { withCredentials: true });
-        setProducts(res.data);
+        setProducts(res.data.products || []);
     };
 
     const approve = async (id: number) => {

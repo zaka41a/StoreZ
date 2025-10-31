@@ -20,7 +20,9 @@ public class Supplier {
   private String passwordHash;
 
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private SupplierStatus status = SupplierStatus.PENDING;
 
+  @Builder.Default
   private boolean approved = false;
 }

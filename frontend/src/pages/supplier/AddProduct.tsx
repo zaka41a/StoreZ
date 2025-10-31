@@ -51,10 +51,12 @@ export default function AddProduct() {
         Object.entries(form).forEach(([k, v]) => v && fd.append(k, v as any));
 
         try {
-            await api.post("/supplier/products", fd, {
+            console.log("🔵 Submitting product to /api/supplier/products");
+            const response = await api.post("/supplier/products", fd, {
                 withCredentials: true,
                 headers: { "Content-Type": "multipart/form-data" },
             });
+            console.log("✅ Product submitted:", response.data);
             setMsg("✅ Product submitted for admin approval!");
             setForm({
                 name: "",
@@ -65,9 +67,16 @@ export default function AddProduct() {
                 image: null,
             });
             setPreview(null);
-        } catch (err) {
-            console.error(err);
-            setMsg("❌ Error submitting product. Please try again.");
+        } catch (err: any) {
+            console.error("❌ Error submitting product:", err);
+            console.error("Response status:", err.response?.status);
+            console.error("Response data:", err.response?.data);
+
+            if (err.response?.status === 401 || err.response?.status === 403) {
+                setMsg("❌ Not authenticated. Please log in as a supplier.");
+            } else {
+                setMsg(`❌ Error: ${err.response?.data?.message || err.message || "Please try again."}`);
+            }
         } finally {
             setLoading(false);
         }

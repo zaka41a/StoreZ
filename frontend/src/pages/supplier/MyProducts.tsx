@@ -9,15 +9,29 @@ export default function MyProducts() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate(); // ✅ hook navigation interne
 
   // 🔹 Charger les produits
   const loadProducts = async () => {
     try {
-      const res = await api.get("/products/mine", { withCredentials: true });
+      console.log("🔵 Fetching products from /api/supplier/products/mine");
+      const res = await api.get("/supplier/products/mine", { withCredentials: true });
+      console.log("✅ Products received:", res.data);
       setProducts(res.data || []);
-    } catch (err) {
-      console.error("Erreur chargement produits :", err);
+      setError("");
+    } catch (err: any) {
+      console.error("❌ Erreur chargement produits :", err);
+      console.error("Response status:", err.response?.status);
+      console.error("Response data:", err.response?.data);
+
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError("❌ Not authenticated. Please log in as a supplier.");
+      } else if (err.response?.status === 500) {
+        setError("❌ Server error. Please try again later.");
+      } else {
+        setError(`❌ Error loading products: ${err.message}`);
+      }
       setProducts([]);
     } finally {
       setLoading(false);
@@ -57,6 +71,13 @@ export default function MyProducts() {
             <Plus className="w-4 h-4" /> Add Product
           </button>
         </div>
+
+        {/* Error message */}
+        {error && (
+          <div className="card p-4 bg-red-50 border border-red-200 text-red-700">
+            {error}
+          </div>
+        )}
 
         {/* Barre de recherche et filtre */}
         <div className="card p-4 flex flex-col md:flex-row md:items-center gap-3">

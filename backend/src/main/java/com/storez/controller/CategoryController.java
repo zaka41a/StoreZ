@@ -4,7 +4,6 @@ import com.storez.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -12,12 +11,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CategoryController {
-
     private final ProductRepository productRepository;
 
-    /**
-     * 🟢 Retourne les catégories uniques de produits approuvés
-     */
     @GetMapping
     public ResponseEntity<List<String>> getAllCategories() {
         List<String> categories = productRepository.findDistinctCategories();

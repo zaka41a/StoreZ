@@ -64,9 +64,9 @@ public class SecurityConfig {
     CorsConfiguration cfg = new CorsConfiguration();
     cfg.setAllowedOrigins(List.of("http://localhost:5173"));
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    cfg.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+    cfg.setAllowedHeaders(List.of("*")); // ✅ Allow all headers
     cfg.setExposedHeaders(List.of("Set-Cookie")); // ✅ nécessaire pour que le navigateur voie le cookie
-    cfg.setAllowCredentials(true); // ✅ autorise l’envoi de cookies
+    cfg.setAllowCredentials(true); // ✅ autorise l'envoi de cookies
     cfg.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
