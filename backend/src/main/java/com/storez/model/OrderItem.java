@@ -1,5 +1,6 @@
 package com.storez.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,9 +15,11 @@ public class OrderItem {
 
   @ManyToOne
   @JoinColumn(name = "product_id")
+  @JsonIgnoreProperties({"supplier"})
   private Product product;
 
   @ManyToOne
   @JoinColumn(name = "order_id")
+  @JsonIgnoreProperties({"items", "user"})
   private Order order;
 }

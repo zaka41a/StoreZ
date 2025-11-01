@@ -46,6 +46,37 @@ export default function Checkout() {
 
   const place = async () => {
     if (items.length === 0) return;
+
+    // Validation des champs obligatoires
+    if (!form.name.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+    if (!form.email.trim()) {
+      setError("Please enter your email address");
+      return;
+    }
+    if (!form.phone.trim()) {
+      setError("Please enter your phone number");
+      return;
+    }
+    if (!form.address.trim()) {
+      setError("Please enter your delivery address");
+      return;
+    }
+    if (!form.city.trim()) {
+      setError("Please enter your city");
+      return;
+    }
+    if (!form.country.trim()) {
+      setError("Please enter your country");
+      return;
+    }
+    if (!form.zip.trim()) {
+      setError("Please enter your postal code");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -74,16 +105,16 @@ export default function Checkout() {
             <h2 className="text-xl font-semibold">Shipping address</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input label="Name" value={form.name} onChange={(e)=>setForm({...form, name:e.target.value})} />
-            <Input label="Email" value={form.email} onChange={(e)=>setForm({...form, email:e.target.value})} />
-            <Input label="Phone" value={form.phone} onChange={(e)=>setForm({...form, phone:e.target.value})} />
-            <Input label="Address" value={form.address} onChange={(e)=>setForm({...form, address:e.target.value})} />
-            <Input label="City" value={form.city} onChange={(e)=>setForm({...form, city:e.target.value})} />
-            <Input label="Country" value={form.country} onChange={(e)=>setForm({...form, country:e.target.value})} />
-            <Input label="ZIP / Postal code" value={form.zip} onChange={(e)=>setForm({...form, zip:e.target.value})} />
+            <Input label="Name" value={form.name} onChange={(e)=>setForm({...form, name:e.target.value})} required />
+            <Input label="Email" value={form.email} onChange={(e)=>setForm({...form, email:e.target.value})} required type="email" />
+            <Input label="Phone" value={form.phone} onChange={(e)=>setForm({...form, phone:e.target.value})} required />
+            <Input label="Address" value={form.address} onChange={(e)=>setForm({...form, address:e.target.value})} required />
+            <Input label="City" value={form.city} onChange={(e)=>setForm({...form, city:e.target.value})} required />
+            <Input label="Country" value={form.country} onChange={(e)=>setForm({...form, country:e.target.value})} required />
+            <Input label="ZIP / Postal code" value={form.zip} onChange={(e)=>setForm({...form, zip:e.target.value})} required />
             <div className="md:col-span-2">
               <label className="text-sm text-gray-600">Order note (optional)</label>
-              <textarea className="input w-full min-h-[90px]" value={form.note} onChange={(e)=>setForm({...form, note:e.target.value})} />
+              <textarea className="input w-full min-h-[90px]" value={form.note} onChange={(e)=>setForm({...form, note:e.target.value})} placeholder="Any special instructions for your order..." />
             </div>
           </div>
         </div>
@@ -126,11 +157,14 @@ export default function Checkout() {
 }
 
 function Input(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
-  const { label, ...rest } = props;
+  const { label, required, ...rest } = props;
   return (
       <div className="space-y-1">
-        <label className="text-sm text-gray-600">{label}</label>
-        <input {...rest} className="input w-full" />
+        <label className="text-sm text-gray-600">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+        <input {...rest} className="input w-full" required={required} />
       </div>
   );
 }

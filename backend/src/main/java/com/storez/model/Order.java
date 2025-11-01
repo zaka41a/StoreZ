@@ -1,5 +1,6 @@
 package com.storez.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -22,8 +23,10 @@ public class Order {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @JsonIgnoreProperties({"passwordHash", "role", "status"})
   private User user;
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnoreProperties("order")
   private List<OrderItem> items;
 }

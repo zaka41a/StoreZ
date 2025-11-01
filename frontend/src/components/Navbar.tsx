@@ -133,7 +133,7 @@ export default function Navbar() {
                                 </button>
                                 <button
                                     onClick={handleLogout}
-                                    className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:from-red-600 hover:to-red-700 transition-all hover:shadow-xl"
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Logout
@@ -206,7 +206,7 @@ export default function Navbar() {
                                             await handleLogout();
                                             setMenuOpen(false);
                                         }}
-                                        className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-left font-semibold text-red-600 transition hover:bg-red-100"
+                                        className="rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-3 py-2 text-center font-semibold text-white transition hover:from-red-600 hover:to-red-700 shadow-md hover:shadow-lg"
                                     >
                                         Logout
                                     </button>

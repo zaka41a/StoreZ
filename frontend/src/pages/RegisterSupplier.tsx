@@ -43,9 +43,9 @@ export default function RegisterSupplier() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col lg:flex-row">
       {/* Left column */}
-      <div className="relative hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-600 via-purple-700 to-slate-900 overflow-hidden">
+      <div className="relative hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 overflow-hidden">
         <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.2),_transparent_55%)]" />
-        <div className="absolute -top-16 -right-10 h-96 w-96 rounded-full bg-purple-500 blur-3xl opacity-30" />
+        <div className="absolute -top-16 -right-10 h-96 w-96 rounded-full bg-gold-500 blur-3xl opacity-30" />
 
         <div className="relative z-10 flex flex-col justify-between px-14 py-14">
           <div>
@@ -69,7 +69,7 @@ export default function RegisterSupplier() {
                 key={feature.title}
                 className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur"
               >
-                <feature.icon className="h-5 w-5 text-yellow-300 shrink-0" />
+                <feature.icon className="h-5 w-5 text-gold-400 shrink-0" />
                 <div>
                   <div className="font-semibold text-slate-100">{feature.title}</div>
                   <p className="text-slate-200/70">{feature.subtitle}</p>
@@ -188,7 +188,7 @@ export default function RegisterSupplier() {
             <div className="md:col-span-2 pt-2">
               <button
                 type="submit"
-                className="btn btn-primary w-full py-3 text-base font-semibold"
+                className="btn w-full py-3 text-base font-semibold bg-gradient-to-r from-gold-400 to-gold-500 text-white hover:from-gold-500 hover:to-gold-600 transition-all shadow-lg hover:shadow-xl"
               >
                 Register Supplier
               </button>
@@ -197,7 +197,7 @@ export default function RegisterSupplier() {
 
           <div className="mt-10 border-t border-slate-100 pt-6 text-center text-sm text-slate-500">
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-brand-600 hover:text-brand-700">
+            <Link to="/login" className="font-semibold text-brand-600 hover:text-gold-600 transition-colors">
               Sign in
             </Link>
           </div>

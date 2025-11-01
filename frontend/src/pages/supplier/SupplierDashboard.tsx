@@ -76,9 +76,9 @@ export default function SupplierDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-900 p-8 text-white shadow-2xl"
+                className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-8 text-white shadow-2xl border border-gold-300/20"
             >
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-96 h-96 bg-gold-400/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-6">
                         <div>
@@ -89,7 +89,7 @@ export default function SupplierDashboard() {
                         </div>
                         <Link
                             to="/supplier/add-product"
-                            className="bg-white text-brand-700 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                            className="bg-gradient-to-r from-gold-400 to-gold-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-gold-500 hover:to-gold-600 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                         >
                             <Plus className="w-5 h-5" />
                             Add Product
@@ -98,36 +98,36 @@ export default function SupplierDashboard() {
 
                     {/* Mini Stats in Hero */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-gold-400/30 hover:border-gold-400/50 transition-all hover:-translate-y-1">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 bg-white/20 rounded-xl">
-                                    <TrendingUp className="w-6 h-6" />
+                                <div className="p-3 bg-gradient-to-br from-gold-500/30 to-gold-600/30 rounded-xl">
+                                    <TrendingUp className="w-6 h-6 text-gold-300" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-brand-100">Total Revenue</p>
-                                    <p className="text-2xl font-bold">{formatMoney(stats.totalEarnings)}</p>
+                                    <p className="text-sm text-gold-200">Total Revenue</p>
+                                    <p className="text-2xl font-bold text-gold-100">{formatMoney(stats.totalEarnings)}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-gold-400/30 hover:border-gold-400/50 transition-all hover:-translate-y-1">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 bg-white/20 rounded-xl">
-                                    <ShoppingCart className="w-6 h-6" />
+                                <div className="p-3 bg-gradient-to-br from-white/20 to-white/10 rounded-xl">
+                                    <ShoppingCart className="w-6 h-6 text-gold-300" />
                                 </div>
                                 <div>
                                     <p className="text-sm text-brand-100">Orders</p>
-                                    <p className="text-2xl font-bold">{stats.totalOrders}</p>
+                                    <p className="text-2xl font-bold text-white">{stats.totalOrders}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-gold-400/30 hover:border-gold-400/50 transition-all hover:-translate-y-1">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 bg-white/20 rounded-xl">
-                                    <Package className="w-6 h-6" />
+                                <div className="p-3 bg-gradient-to-br from-white/20 to-white/10 rounded-xl">
+                                    <Package className="w-6 h-6 text-gold-300" />
                                 </div>
                                 <div>
                                     <p className="text-sm text-brand-100">Products</p>
-                                    <p className="text-2xl font-bold">{stats.totalProducts}</p>
+                                    <p className="text-2xl font-bold text-white">{stats.totalProducts}</p>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@ export default function SupplierDashboard() {
                     <StatsCard
                         title="Pending Approval"
                         value={stats.pendingProducts}
-                        icon={<Clock className="w-8 h-8" />}
+                        icon={<AlertCircle className="w-8 h-8" />}
                         color="orange"
                         trend=""
                     />
@@ -248,12 +248,12 @@ export default function SupplierDashboard() {
                     <div className="card p-6 h-full">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                <ShoppingCart className="w-5 h-5 text-brand-700" />
+                                <ShoppingCart className="w-5 h-5 text-gold-600" />
                                 Recent Orders
                             </h2>
                             <Link
                                 to="/supplier/orders"
-                                className="text-brand-700 hover:text-brand-800 text-sm font-medium flex items-center gap-1"
+                                className="text-brand-700 hover:text-gold-600 text-sm font-medium flex items-center gap-1 transition-colors"
                             >
                                 View All
                                 <ArrowRight className="w-4 h-4" />
@@ -262,11 +262,11 @@ export default function SupplierDashboard() {
 
                         {stats.recentOrders?.length === 0 ? (
                             <div className="text-center py-12">
-                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <ShoppingCart className="w-8 h-8 text-gray-400" />
+                                <div className="p-6 bg-gradient-to-br from-brand-50 to-gold-50 rounded-full w-fit mx-auto mb-4 shadow-lg">
+                                    <ShoppingCart className="w-12 h-12 text-gold-600" />
                                 </div>
-                                <p className="text-gray-500 mb-2">No orders yet</p>
-                                <p className="text-sm text-gray-400">Orders will appear here once customers purchase your products</p>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">No orders yet</h3>
+                                <p className="text-gray-600">Orders will appear here once customers purchase your products</p>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -309,28 +309,28 @@ export default function SupplierDashboard() {
 // Stats Card Component
 function StatsCard({ title, value, icon, color, trend }: any) {
     const colors = {
-        blue: "from-blue-500 to-blue-600",
+        blue: "from-brand-500 to-brand-600",
         green: "from-green-500 to-green-600",
-        purple: "from-purple-500 to-purple-600",
-        orange: "from-orange-500 to-orange-600",
+        purple: "from-brand-600 to-brand-700",
+        orange: "from-gold-500 to-gold-600",
     };
 
     const bgColors = {
-        blue: "bg-blue-50",
+        blue: "bg-brand-50",
         green: "bg-green-50",
-        purple: "bg-purple-50",
-        orange: "bg-orange-50",
+        purple: "bg-brand-50",
+        orange: "bg-gold-50",
     };
 
     const textColors = {
-        blue: "text-blue-600",
+        blue: "text-brand-600",
         green: "text-green-600",
-        purple: "text-purple-600",
-        orange: "text-orange-600",
+        purple: "text-brand-600",
+        orange: "text-gold-600",
     };
 
     return (
-        <div className="card p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer border-l-4 border-transparent hover:border-brand-600">
+        <div className="card p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer border-l-4 border-transparent hover:border-gold-400">
             <div className="flex items-start justify-between mb-4">
                 <div className={`p-3 rounded-xl bg-gradient-to-br ${colors[color as keyof typeof colors]} text-white shadow-lg`}>
                     {icon}
@@ -352,18 +352,18 @@ function StatsCard({ title, value, icon, color, trend }: any) {
 // Quick Action Button
 function QuickActionButton({ to, icon, label, description, color }: any) {
     const colors = {
-        brand: "hover:bg-brand-50 text-brand-700",
-        blue: "hover:bg-blue-50 text-blue-700",
-        green: "hover:bg-green-50 text-green-700",
-        purple: "hover:bg-purple-50 text-purple-700",
+        brand: "hover:bg-gradient-to-r hover:from-brand-50 hover:to-gold-50 text-brand-700 hover:border-gold-400",
+        blue: "hover:bg-brand-50 text-brand-700 hover:border-brand-400",
+        green: "hover:bg-green-50 text-green-700 hover:border-green-400",
+        purple: "hover:bg-gradient-to-r hover:from-brand-50 hover:to-gold-50 text-brand-700 hover:border-gold-400",
     };
 
     return (
         <Link
             to={to}
-            className={`flex items-center gap-3 p-4 rounded-xl border border-gray-200 transition-all hover:shadow-md hover:-translate-x-1 ${colors[color as keyof typeof colors]}`}
+            className={`group flex items-center gap-3 p-4 rounded-xl border border-gray-200 transition-all hover:shadow-lg hover:-translate-x-1 ${colors[color as keyof typeof colors]}`}
         >
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 text-gold-600 group-hover:scale-110 transition-transform">
                 {icon}
             </div>
             <div className="flex-1 min-w-0">
@@ -386,10 +386,10 @@ function OrderCard({ order }: any) {
     };
 
     return (
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-200">
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gradient-to-r hover:from-brand-50 hover:to-gold-50 transition-all border border-gray-200 hover:border-gold-400 hover:shadow-md">
             <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center">
-                    <ShoppingCart className="w-6 h-6 text-brand-700" />
+                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-gold-500 rounded-xl flex items-center justify-center shadow-md">
+                    <ShoppingCart className="w-6 h-6 text-white" />
                 </div>
                 <div>
                     <p className="font-semibold text-gray-900">Order #{order.id}</p>
@@ -398,7 +398,7 @@ function OrderCard({ order }: any) {
             </div>
             <div className="text-right flex items-center gap-4">
                 <div>
-                    <p className="font-bold text-gray-900">{formatMoney(order.total)}</p>
+                    <p className="font-bold text-gold-600">{formatMoney(order.total)}</p>
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border ${statusColors[order.status as keyof typeof statusColors] || statusColors.PENDING}`}>
                         {order.status}
                     </span>
@@ -478,12 +478,17 @@ function PendingApprovalPage({ status }: { status: string | null }) {
                     </>
                 )}
 
-                <div className="pt-6 border-t">
+                <div className="pt-6 border-t border-gold-200">
                     <a
                         href="/logout"
-                        className="text-brand-700 hover:text-brand-800 font-semibold"
+                        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-500 to-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:from-red-600 hover:to-red-700 transition-all hover:shadow-xl"
                     >
-                        Sign Out →
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Sign Out
                     </a>
                 </div>
             </motion.div>

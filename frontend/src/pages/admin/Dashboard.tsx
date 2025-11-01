@@ -11,6 +11,8 @@ import {
     ShoppingCart,
     TrendingUp,
     Users,
+    Store,
+    ShoppingBag,
 } from "lucide-react";
 
 import { api } from "@/services/api";
@@ -123,25 +125,25 @@ export default function AdminDashboard() {
                 label: "Total users",
                 value: numberFormatter.format(resolvedStats.totalUsers),
                 icon: <Users className="h-6 w-6" />,
-                accent: "bg-blue-50 text-blue-700",
+                accent: "bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg",
             },
             {
                 label: "Total suppliers",
                 value: numberFormatter.format(resolvedStats.totalSuppliers),
-                icon: <Package className="h-6 w-6" />,
-                accent: "bg-purple-50 text-purple-700",
+                icon: <Store className="h-6 w-6" />,
+                accent: "bg-gradient-to-br from-gold-500 to-gold-600 text-white shadow-lg",
             },
             {
                 label: "Total products",
                 value: numberFormatter.format(resolvedStats.totalProducts),
-                icon: <ShoppingCart className="h-6 w-6" />,
-                accent: "bg-emerald-50 text-emerald-700",
+                icon: <Package className="h-6 w-6" />,
+                accent: "bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-lg",
             },
             {
                 label: "Total orders",
                 value: numberFormatter.format(resolvedStats.totalOrders),
-                icon: <TrendingUp className="h-6 w-6" />,
-                accent: "bg-orange-50 text-orange-700",
+                icon: <ShoppingBag className="h-6 w-6" />,
+                accent: "bg-gradient-to-br from-gold-600 to-gold-700 text-white shadow-lg",
             },
         ],
         [resolvedStats]
@@ -238,12 +240,12 @@ type HeroProps = {
 
 function Hero({ summaryTiles }: HeroProps) {
     return (
-        <section className="relative overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-700 via-brand-800 to-indigo-900 text-white shadow-lg">
-            <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-br from-brand-400/40 via-indigo-400/30 to-transparent blur-3xl" />
+        <section className="relative overflow-hidden rounded-3xl border border-gold-200 bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 text-white shadow-2xl">
+            <div className="absolute inset-y-0 right-0 h-full w-1/2 bg-gradient-to-br from-gold-400/40 via-gold-500/30 to-transparent blur-3xl" />
             <div className="relative z-10 flex flex-col gap-10 px-8 py-10 sm:px-12 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-5 max-w-2xl">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white/90">
-                        <ShieldCheck className="h-4 w-4" />
+                    <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/50 bg-gradient-to-r from-gold-500/20 to-gold-600/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-gold-200">
+                        <ShieldCheck className="h-4 w-4 text-gold-400" />
                         Admin command center
                     </span>
                     <h1 className="text-4xl font-bold leading-tight lg:text-5xl">
@@ -257,13 +259,13 @@ function Hero({ summaryTiles }: HeroProps) {
                     {summaryTiles.map((tile) => (
                         <div
                             key={tile.label}
-                            className="rounded-2xl border border-white/25 bg-white/15 p-4 backdrop-blur shadow-lg shadow-black/10"
+                            className="rounded-2xl border border-gold-400/30 bg-gradient-to-br from-white/15 to-white/5 p-4 backdrop-blur shadow-lg shadow-black/10 hover:border-gold-400/50 transition-all hover:-translate-y-1"
                         >
                             <div className="flex items-center justify-between text-sm text-white/80">
                                 <span>{tile.label}</span>
-                                {tile.icon}
+                                <span className="text-gold-400">{tile.icon}</span>
                             </div>
-                            <div className="mt-3 text-2xl font-semibold">{tile.value}</div>
+                            <div className="mt-3 text-2xl font-semibold text-gold-100">{tile.value}</div>
                             <p className="mt-1 text-xs text-white/70">{tile.hint}</p>
                         </div>
                     ))}
@@ -275,13 +277,15 @@ function Hero({ summaryTiles }: HeroProps) {
 
 function EmptyStateNotice() {
     return (
-        <div className="rounded-3xl border border-dashed border-brand-200 bg-brand-50/60 px-6 py-8 text-sm text-brand-700">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
-                    <AlertCircle className="h-5 w-5 text-brand-500" />
+        <div className="rounded-3xl border border-dashed border-gold-300 bg-gradient-to-r from-brand-50 to-gold-50/60 px-6 py-8 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 bg-gradient-to-br from-brand-500 to-gold-500 rounded-xl shadow-lg">
+                        <AlertCircle className="h-6 w-6 text-white" />
+                    </div>
                     <div>
-                        <h2 className="text-base font-semibold text-brand-700">No marketplace activity yet</h2>
-                        <p className="text-sm text-brand-600">
+                        <h2 className="text-lg font-bold text-gray-900 mb-1">No marketplace activity yet</h2>
+                        <p className="text-sm text-gray-600">
                             Once orders start flowing and catalogues go live, your KPIs will surface here.
                         </p>
                     </div>
@@ -308,13 +312,13 @@ type MetricCardProps = {
 
 function MetricCard({ label, value, icon, accent }: MetricCardProps) {
     return (
-        <div className="rounded-3xl border border-brand-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:border-gold-300">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm text-slate-500">{label}</p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">{value}</p>
+                    <p className="text-sm text-slate-500 group-hover:text-slate-600">{label}</p>
+                    <p className="mt-2 text-2xl font-bold text-slate-900">{value}</p>
                 </div>
-                <span className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${accent}`}>
+                <span className={`inline-flex h-14 w-14 items-center justify-center rounded-xl ${accent} transition-transform group-hover:scale-110`}>
                     {icon}
                 </span>
             </div>
@@ -408,10 +412,10 @@ type HealthTileProps = {
 
 function HealthTile({ title, value, description }: HealthTileProps) {
     return (
-        <div className="rounded-2xl border border-brand-100 bg-brand-50/70 p-4">
-            <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{title}</div>
-            <div className="mt-2 text-lg font-semibold text-slate-800">{value}</div>
-            <p className="mt-2 text-sm text-slate-500">{description}</p>
+        <div className="group rounded-2xl border border-slate-200 bg-gradient-to-br from-brand-50 to-gold-50/30 p-4 hover:border-gold-400 transition-all hover:shadow-md">
+            <div className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-600 group-hover:text-gold-600">{title}</div>
+            <div className="mt-2 text-lg font-bold text-slate-800">{value}</div>
+            <p className="mt-2 text-sm text-slate-600">{description}</p>
         </div>
     );
 }
@@ -426,16 +430,16 @@ type QuickActionProps = {
 
 function QuickAction({ label, description, href, icon, variant }: QuickActionProps) {
     const baseClasses =
-        "flex items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-sm transition hover:-translate-y-0.5 hover:shadow-md";
+        "group flex items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-sm transition-all hover:-translate-y-0.5 hover:shadow-lg";
     const variantClasses =
         variant === "primary"
-            ? "border-brand-200 bg-brand-50 text-brand-700 hover:bg-brand-100"
+            ? "border-gold-300 bg-gradient-to-r from-brand-50 to-gold-50 text-brand-700 hover:from-brand-100 hover:to-gold-100 hover:border-gold-400"
             : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50";
 
     return (
         <a href={href} className={`${baseClasses} ${variantClasses}`}>
             <div className="flex items-center gap-3">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/70 text-brand-600">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-gold-500 text-white shadow-md group-hover:scale-110 transition-transform">
                     {icon}
                 </span>
                 <div>

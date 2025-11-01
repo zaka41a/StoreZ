@@ -37,14 +37,14 @@ public class UserController {
 
         long totalOrders = userOrders.size();
 
-        // Count delivered orders
-        long deliveredOrders = userOrders.stream()
-                .filter(order -> order.getStatus() == OrderStatus.DELIVERED)
+        // Count shipped/delivered orders (SHIPPED + DELIVERED)
+        long shippedOrders = userOrders.stream()
+                .filter(order -> order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.DELIVERED)
                 .count();
 
-        // Count pending orders (PENDING or APPROVED, not yet shipped)
+        // Count pending orders (PENDING, not yet shipped)
         long pendingOrders = userOrders.stream()
-                .filter(order -> order.getStatus() == OrderStatus.PENDING || order.getStatus() == OrderStatus.APPROVED)
+                .filter(order -> order.getStatus() == OrderStatus.PENDING)
                 .count();
 
         // Calculate spending in last 30 days
@@ -76,7 +76,7 @@ public class UserController {
 
         Map<String, Object> stats = new HashMap<>();
         stats.put("totalOrders", totalOrders);
-        stats.put("deliveredOrders", deliveredOrders);
+        stats.put("deliveredOrders", shippedOrders);  // SHIPPED + DELIVERED orders
         stats.put("pendingOrders", pendingOrders);
         stats.put("spentLast30Days", spentLast30Days);
         stats.put("recentOrders", recentOrders);

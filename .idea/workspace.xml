@@ -6,42 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2089c648-b67e-4098-9a06-f482c67c3797" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/AdminProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/SupplierOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/AdminProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/SupplierOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-BCbcZsvP.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Byrr3hyi.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProductCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProductDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProductDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminProducts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/Products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/Products.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/MyProducts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/Orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/SupplierDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/SupplierDashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/OrderItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/AppRouter.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +128,7 @@
       <workItem from="1761304602359" duration="504000" />
       <workItem from="1761305781022" duration="72849000" />
       <workItem from="1761775707525" duration="27967000" />
-      <workItem from="1761956434941" duration="3285000" />
+      <workItem from="1761956434941" duration="4171000" />
     </task>
     <servers />
   </component>
