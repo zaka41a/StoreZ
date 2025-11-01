@@ -1,6 +1,7 @@
 com/storez/repository/OrderRepository.class
 com/storez/controller/SupplierOrderController.class
 com/storez/model/Role.class
+com/storez/config/WebConfig.class
 com/storez/model/Comment.class
 com/storez/model/Product.class
 com/storez/model/Cart$CartBuilder.class
@@ -22,9 +23,11 @@ com/storez/exception/ResourceNotFoundException.class
 com/storez/repository/CartItemRepository.class
 com/storez/controller/SupplierController.class
 com/storez/model/Order$OrderBuilder.class
+com/storez/service/FileStorageService.class
 com/storez/controller/ProductController.class
 com/storez/model/Supplier.class
 com/storez/controller/AdminController.class
+com/storez/controller/OrderController.class
 com/storez/controller/CartController.class
 com/storez/controller/UserController.class
 com/storez/model/CartItem.class

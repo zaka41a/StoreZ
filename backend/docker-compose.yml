@@ -28,7 +28,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://storez-db:5432/storez
       - SPRING_DATASOURCE_USERNAME=storez
       - SPRING_DATASOURCE_PASSWORD=storez
+    volumes:
+      - storez_uploads:/app/uploads
     restart: always
 
 volumes:
   storez_pgdata:
+  storez_uploads:

@@ -4,6 +4,7 @@ import { Check, PackageSearch, Trash2, XCircle } from "lucide-react";
 
 import { api } from "@/services/api";
 import { formatMoney } from "@/utils/format";
+import { getImageUrl } from "@/utils/image";
 
 type AdminProduct = {
     id: number;
@@ -154,7 +155,7 @@ export default function AdminProducts() {
                                     <td className="p-4">
                                         <div className="flex items-center gap-3">
                                             <img
-                                                src={product.image || "https://via.placeholder.com/80x80.png?text=Product"}
+                                                src={getImageUrl(product.image)}
                                                 alt={product.name}
                                                 className="h-14 w-14 rounded object-cover ring-1 ring-gray-200"
                                             />

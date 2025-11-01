@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "@/services/api";
 import { formatMoney } from "@/utils/format";
+import { getImageUrl } from "@/utils/image";
 import { useCart } from "@/contexts/CartContext";
 import { motion } from "framer-motion";
 
@@ -26,7 +27,7 @@ export default function ProductDetails() {
         {/* Image produit */}
         <div className="rounded-xl overflow-hidden border">
           <img
-              src={p.image}
+              src={getImageUrl(p.image)}
               alt={p.name}
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.02]"
           />

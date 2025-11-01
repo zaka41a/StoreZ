@@ -107,41 +107,8 @@ public class ProductController {
     }
 
     // ✅ 3. Endpoint supplier - ajout de produit
-    @PostMapping(value = "/supplier/products", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> addProduct(
-            @AuthenticationPrincipal UserDetails currentUser,
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam double price,
-            @RequestParam String category,
-            @RequestParam int stock,
-            @RequestParam(required = false) MultipartFile image
-    ) throws IOException {
-        if (currentUser == null)
-            return ResponseEntity.status(401).body(Map.of("message", "Unauthorized"));
-
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
-
-        String imageUrl = "https://picsum.photos/seed/" + name.replaceAll("\\s+", "_") + "/400";
-        if (image != null && !image.isEmpty()) {
-            imageUrl = "https://picsum.photos/seed/" + System.currentTimeMillis() + "/400"; // mock upload
-        }
-
-        Product product = Product.builder()
-                .name(name)
-                .description(description)
-                .price(price)
-                .stock(stock)
-                .category(category)
-                .image(imageUrl)
-                .status("PENDING")
-                .supplier(supplier)
-                .build();
-
-        productRepository.save(product);
-        return ResponseEntity.ok(Map.of("message", "Product submitted for approval"));
-    }
+    // REMOVED: Duplicate endpoint - now handled by SupplierController with proper file upload
+    // @PostMapping(value = "/supplier/products", consumes = {"multipart/form-data"})
 
     // ✅ 4. Endpoint supplier - liste de ses produits
     @GetMapping("/supplier/products")

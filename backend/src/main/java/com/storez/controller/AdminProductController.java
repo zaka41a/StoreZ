@@ -5,6 +5,7 @@ import com.storez.model.Product;
 import com.storez.model.Supplier;
 import com.storez.repository.OrderItemRepository;
 import com.storez.repository.ProductRepository;
+import com.storez.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ public class AdminProductController {
 
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+    private final FileStorageService fileStorageService;
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllProducts(
@@ -116,6 +118,11 @@ public class AdminProductController {
         relatedItems.forEach(item -> item.setProduct(null));
         if (!relatedItems.isEmpty()) {
             orderItemRepository.saveAll(relatedItems);
+        }
+
+        // Delete image file if exists
+        if (product.getImage() != null && product.getImage().startsWith("/uploads/")) {
+            fileStorageService.deleteFile(product.getImage());
         }
 
         productRepository.delete(product);

@@ -32,6 +32,7 @@ import MyProducts from "@/pages/supplier/MyProducts";
 import Orders from "@/pages/supplier/Orders";
 import Earnings from "@/pages/supplier/Earnings";
 import AddProduct from "@/pages/supplier/AddProduct";
+import EditProduct from "@/pages/supplier/EditProduct";
 
 // 👤 User Pages
 import UserHome from "@/pages/user/Home";
@@ -97,6 +98,7 @@ export function AppRouter() {
                 <Route path="/supplier/orders" element={<Orders />} />
                 <Route path="/supplier/earnings" element={<Earnings />} />
                 <Route path="/supplier/add-product" element={<AddProduct />} />
+                <Route path="/supplier/edit-product/:id" element={<EditProduct />} />
             </Route>
 
             {/* 👤 User routes (inchangées) */}

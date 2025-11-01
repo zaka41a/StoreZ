@@ -37,9 +37,10 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                     // ✅ Public routes
-                    .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**").permitAll()
+                    .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/uploads/**").permitAll()
                     // ✅ Private routes
-                    .requestMatchers("/api/users/**").hasAnyRole("USER", "SUPPLIER", "ADMIN")
+                    .requestMatchers("/api/user/**").hasAnyRole("USER", "SUPPLIER", "ADMIN")
+                    .requestMatchers("/api/orders/**").hasRole("USER")
                     .requestMatchers("/api/supplier/**").hasRole("SUPPLIER")
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     // Others

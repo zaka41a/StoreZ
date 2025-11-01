@@ -1,9 +1,11 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/StoreZApplication.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/config/WebConfig.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AdminController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AdminProductController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AuthController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/CartController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/CategoryController.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/OrderController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/ProductController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/SupplierController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/SupplierOrderController.java
@@ -40,4 +42,5 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/UserRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/security/SecurityConfig.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/service/AppUserDetailsService.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/service/FileStorageService.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/service/UserService.java

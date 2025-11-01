@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { formatMoney } from "@/utils/format";
-import { Clock, PackageCheck, Truck, XCircle } from "lucide-react";
+import { getImageUrl } from "@/utils/image";
+import { Clock, PackageCheck, Truck, XCircle, ShoppingBag, User } from "lucide-react";
 
 export default function SupplierOrders() {
     const [orders, setOrders] = useState<any[]>([]);
@@ -9,7 +10,7 @@ export default function SupplierOrders() {
 
     useEffect(() => {
         api.get("/supplier/orders", { withCredentials: true })
-            .then(res => setOrders(res.data))
+            .then(res => setOrders(res.data || []))
             .finally(() => setLoading(false));
     }, []);
 
@@ -17,21 +18,68 @@ export default function SupplierOrders() {
 
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-brand-700">Orders Received</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold text-brand-700">Orders Received</h1>
+                <span className="text-gray-500 text-sm">
+                    {orders.length} order{orders.length !== 1 && "s"}
+                </span>
+            </div>
+
             {orders.length === 0 ? (
-                <div className="card p-8 text-center text-gray-600">No orders yet.</div>
+                <div className="card p-8 text-center text-gray-600">
+                    <ShoppingBag className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                    <p>No orders containing your products yet.</p>
+                </div>
             ) : (
                 <div className="grid gap-4">
-                    {orders.map((o) => (
-                        <div key={o.id} className="card p-4 flex justify-between items-center">
-                            <div className="space-y-1">
-                                <div className="font-semibold">Order #{o.id}</div>
-                                <div className="text-sm text-gray-600">{new Date(o.createdAt).toLocaleString()}</div>
-                                <div className="text-sm text-gray-700">{o.product?.name}</div>
+                    {orders.map((order) => (
+                        <div key={order.id} className="card p-6">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="space-y-1">
+                                    <div className="text-lg font-semibold">Order #{order.id}</div>
+                                    <div className="text-sm text-gray-600">
+                                        {new Date(order.createdAt).toLocaleString()}
+                                    </div>
+                                    {order.user && (
+                                        <div className="flex items-center gap-2 text-sm text-gray-700">
+                                            <User className="w-4 h-4" />
+                                            <span>{order.user.name} ({order.user.email})</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <StatusBadge status={order.status} />
                             </div>
-                            <div className="text-right">
-                                <div className="font-semibold">{formatMoney(o.price * o.quantity)}</div>
-                                <StatusBadge status={o.status} />
+
+                            <div className="space-y-2 mb-4">
+                                {order.items?.map((item: any) => (
+                                    <div key={item.id} className="flex items-center justify-between border-t pt-2">
+                                        <div className="flex items-center gap-3">
+                                            {item.product?.image && (
+                                                <img
+                                                    src={getImageUrl(item.product.image)}
+                                                    alt={item.product.name}
+                                                    className="w-12 h-12 object-cover rounded"
+                                                />
+                                            )}
+                                            <div>
+                                                <div className="font-medium">{item.product?.name}</div>
+                                                <div className="text-sm text-gray-600">
+                                                    Quantity: {item.quantity}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="font-semibold">
+                                            {formatMoney(item.product?.price * item.quantity)}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="flex items-center justify-between border-t pt-3">
+                                <span className="font-semibold">Total for your products:</span>
+                                <span className="text-lg font-bold text-brand-700">
+                                    {formatMoney(order.total)}
+                                </span>
                             </div>
                         </div>
                     ))}

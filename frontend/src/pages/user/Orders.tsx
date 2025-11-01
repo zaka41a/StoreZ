@@ -18,8 +18,14 @@ export default function UserOrders() {
     useEffect(() => {
         (async () => {
             try {
-                const res = await api.get("/orders", { withCredentials: true });
-                setOrders(res.data || []);
+                const res = await api.get("/user/orders", { withCredentials: true });
+                // Calculate total for each order
+                const ordersWithTotal = (res.data || []).map((order: any) => ({
+                    ...order,
+                    total: order.items?.reduce((sum: number, item: any) =>
+                        sum + (item.product?.price || 0) * item.quantity, 0) || 0
+                }));
+                setOrders(ordersWithTotal);
             } finally {
                 setLoading(false);
             }

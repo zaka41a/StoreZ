@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import { api } from "@/services/api";
 import { motion } from "framer-motion";
-import { Search, Filter, PackageOpen, Plus } from "lucide-react";
+import { Search, Filter, PackageOpen, Plus, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // ✅ import React Router
+import { getImageUrl } from "@/utils/image";
 
 const PAGE_SIZE = 6;
 
@@ -147,7 +148,7 @@ export default function MyProducts() {
                       whileHover={{ scale: 1.02 }}
                   >
                     <img
-                        src={p.image}
+                        src={getImageUrl(p.image)}
                         alt={p.name}
                         className="w-full h-40 object-cover rounded-md"
                     />
@@ -157,6 +158,12 @@ export default function MyProducts() {
                       <div className="font-bold text-brand-700">${p.price}</div>
                       <StatusBadge status={p.status} />
                     </div>
+                    <button
+                        onClick={() => navigate(`/supplier/edit-product/${p.id}`)}
+                        className="btn btn-secondary w-full flex items-center justify-center gap-2 text-sm"
+                    >
+                      <Edit className="w-4 h-4" /> Edit
+                    </button>
                   </motion.article>
               ))}
             </motion.div>

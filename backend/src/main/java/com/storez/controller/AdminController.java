@@ -69,6 +69,7 @@ public class AdminController {
         // Revenue total (somme de toutes les commandes)
         double totalRevenue = orderRepository.findAll().stream()
                 .flatMap(order -> order.getItems().stream())
+                .filter(item -> item.getProduct() != null)
                 .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
                 .sum();
 
@@ -77,6 +78,7 @@ public class AdminController {
         double monthRevenue = orderRepository.findAll().stream()
                 .filter(order -> order.getCreatedAt().isAfter(startOfMonth))
                 .flatMap(order -> order.getItems().stream())
+                .filter(item -> item.getProduct() != null)
                 .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
                 .sum();
 
@@ -208,6 +210,7 @@ public class AdminController {
 
             // Calculate total
             double total = order.getItems().stream()
+                    .filter(item -> item.getProduct() != null)
                     .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
                     .sum();
             dto.put("total", total);
@@ -217,11 +220,13 @@ public class AdminController {
                 Map<String, Object> itemDto = new HashMap<>();
                 itemDto.put("id", item.getId());
                 itemDto.put("quantity", item.getQuantity());
-                Map<String, Object> productInfo = new HashMap<>();
-                productInfo.put("id", item.getProduct().getId());
-                productInfo.put("name", item.getProduct().getName());
-                productInfo.put("price", item.getProduct().getPrice());
-                itemDto.put("product", productInfo);
+                if (item.getProduct() != null) {
+                    Map<String, Object> productInfo = new HashMap<>();
+                    productInfo.put("id", item.getProduct().getId());
+                    productInfo.put("name", item.getProduct().getName());
+                    productInfo.put("price", item.getProduct().getPrice());
+                    itemDto.put("product", productInfo);
+                }
                 return itemDto;
             }).collect(java.util.stream.Collectors.toList());
             dto.put("items", items);
@@ -313,8 +318,8 @@ public class AdminController {
                                     .getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
                         },
                         Collectors.summingDouble(order ->
-                            // Calculate order total: sum of (quantity * price) for all items
                             order.getItems().stream()
+                                    .filter(item -> item.getProduct() != null)
                                     .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
                                     .sum()
                         )

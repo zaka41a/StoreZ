@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { formatMoney } from "@/utils/format";
+import { getImageUrl } from "@/utils/image";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Package, Clock, Star, PlusCircle } from "lucide-react";
 import BackButton from "@/components/BackButton";
@@ -117,7 +118,7 @@ export default function UserHome() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
                         {suggested.map(p => (
                             <article key={p.id} className="border rounded-xl overflow-hidden">
-                                <img src={p.image} alt={p.name} className="h-40 w-full object-cover" />
+                                <img src={getImageUrl(p.image)} alt={p.name} className="h-40 w-full object-cover" />
                                 <div className="p-4">
                                     <div className="font-medium line-clamp-1">{p.name}</div>
                                     <div className="text-sm text-gray-600">{p.supplierName || ""}</div>

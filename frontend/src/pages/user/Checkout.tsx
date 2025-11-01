@@ -10,6 +10,8 @@ export default function Checkout() {
   const { items, clear } = useCart();
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: user?.name ?? "",
@@ -44,14 +46,23 @@ export default function Checkout() {
 
   const place = async () => {
     if (items.length === 0) return;
-    // Envoie les infos de livraison + items
-    await api.post(
+    setLoading(true);
+    setError("");
+
+    try {
+      await api.post(
         "/orders",
         { items, shipping: form, note: form.note },
         { withCredentials: true }
-    ).catch(() => {}); // si tu veux, gère les erreurs joliment
-    clear();
-    navigate("/user/orders");
+      );
+      clear();
+      navigate("/user/orders");
+    } catch (err: any) {
+      console.error("Order creation failed:", err);
+      setError(err.response?.data?.error || err.message || "Failed to create order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,12 +104,18 @@ export default function Checkout() {
             <Row label={<span className="font-semibold">Total</span>} value={<span className="font-semibold">{formatMoney(grandTotal)}</span>} />
           </div>
 
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3 mb-3">
+              {error}
+            </div>
+          )}
+
           <button
-              disabled={items.length === 0}
+              disabled={items.length === 0 || loading}
               className="btn btn-primary w-full disabled:opacity-50"
               onClick={place}
           >
-            Place Order
+            {loading ? "Creating order..." : "Place Order"}
           </button>
           <Link to="/user/cart" className="block text-center text-sm text-gray-600 mt-2 hover:underline">
             Back to cart

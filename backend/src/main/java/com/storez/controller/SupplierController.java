@@ -7,6 +7,7 @@ import com.storez.model.Supplier;
 import com.storez.repository.OrderRepository;
 import com.storez.repository.ProductRepository;
 import com.storez.repository.SupplierRepository;
+import com.storez.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +30,7 @@ public class SupplierController {
     private final ProductRepository productRepository;
     private final SupplierRepository supplierRepository;
     private final OrderRepository orderRepository;
+    private final FileStorageService fileStorageService;
 
     @PostMapping("/products")
     public ResponseEntity<?> addProduct(
@@ -43,13 +45,19 @@ public class SupplierController {
         Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
+        // Store the image file and get the path
+        String imagePath = fileStorageService.storeFile(image);
+        if (imagePath == null) {
+            imagePath = "https://via.placeholder.com/400";
+        }
+
         Product product = Product.builder()
                 .name(name)
                 .category(category)
                 .price(price)
                 .stock(stock)
                 .description(description)
-                .image(image != null ? "/uploads/" + image.getOriginalFilename() : "https://via.placeholder.com/400")
+                .image(imagePath)
                 .supplier(supplier)
                 .status("PENDING")
                 .build();
@@ -63,6 +71,24 @@ public class SupplierController {
         Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
         return productRepository.findBySupplierId(supplier.getId());
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<?> getProduct(
+            @AuthenticationPrincipal UserDetails currentUser,
+            @PathVariable Long id) {
+        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Verify that this product belongs to the current supplier
+        if (!product.getSupplier().getId().equals(supplier.getId())) {
+            return ResponseEntity.status(403).body(Map.of("error", "You don't have permission to view this product"));
+        }
+
+        return ResponseEntity.ok(product);
     }
 
     @PutMapping("/products/{id}")
@@ -94,7 +120,15 @@ public class SupplierController {
         product.setDescription(description);
 
         if (image != null && !image.isEmpty()) {
-            product.setImage("/uploads/" + image.getOriginalFilename());
+            // Delete old image if exists
+            if (product.getImage() != null && product.getImage().startsWith("/uploads/")) {
+                fileStorageService.deleteFile(product.getImage());
+            }
+            // Store new image
+            String imagePath = fileStorageService.storeFile(image);
+            if (imagePath != null) {
+                product.setImage(imagePath);
+            }
         }
 
         // Reset status to PENDING when updated
@@ -120,8 +154,71 @@ public class SupplierController {
             return ResponseEntity.status(403).body(Map.of("message", "Access denied"));
         }
 
+        // Delete image file if exists
+        if (product.getImage() != null && product.getImage().startsWith("/uploads/")) {
+            fileStorageService.deleteFile(product.getImage());
+        }
+
         productRepository.delete(product);
         return ResponseEntity.ok(Map.of("message", "Product deleted successfully"));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> getProfile(@AuthenticationPrincipal UserDetails currentUser) {
+        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("id", supplier.getId());
+        profile.put("companyName", supplier.getCompanyName());
+        profile.put("email", supplier.getEmail());
+        profile.put("phone", supplier.getPhone());
+        profile.put("address", supplier.getAddress());
+        profile.put("status", supplier.getStatus() != null ? supplier.getStatus().name() : "PENDING");
+        profile.put("approved", supplier.isApproved());
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping("/earnings")
+    public ResponseEntity<Map<String, Object>> getEarnings(@AuthenticationPrincipal UserDetails currentUser) {
+        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+
+        // Get all orders
+        List<Order> allOrders = orderRepository.findAll();
+
+        // Calculate earnings from orders containing supplier's products
+        List<Map<String, Object>> earningDetails = new ArrayList<>();
+        double totalEarnings = 0.0;
+
+        for (Order order : allOrders) {
+            if (order.getItems() != null) {
+                for (OrderItem item : order.getItems()) {
+                    if (item.getProduct() != null &&
+                        item.getProduct().getSupplier() != null &&
+                        item.getProduct().getSupplier().getId().equals(supplier.getId())) {
+
+                        double amount = item.getProduct().getPrice() * item.getQuantity();
+                        totalEarnings += amount;
+
+                        Map<String, Object> detail = new HashMap<>();
+                        detail.put("id", item.getId());
+                        detail.put("orderId", order.getId());
+                        detail.put("productName", item.getProduct().getName());
+                        detail.put("amount", amount);
+                        detail.put("date", order.getCreatedAt());
+                        earningDetails.add(detail);
+                    }
+                }
+            }
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", totalEarnings);
+        result.put("details", earningDetails);
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/stats")
