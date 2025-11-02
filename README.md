@@ -366,11 +366,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Zakaria Sabaouni**
+**Zakaria Sabiri**
 
 - Email: zaksab98@gmail.com
 - Phone: +49 176 20827199
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@yourusername]([https://github.com/zaka41a])
 
 ---
 
