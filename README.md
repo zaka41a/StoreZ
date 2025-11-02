@@ -370,7 +370,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Email: zaksab98@gmail.com
 - Phone: +49 176 20827199
-- GitHub: [@yourusername]([https://github.com/zaka41a])
+- GitHub: [@zaka41a]([https://github.com/zaka41a])
 
 ---
 
