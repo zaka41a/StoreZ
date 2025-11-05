@@ -78,9 +78,20 @@ public class AuthController {
       return ResponseEntity.status(401).body(Map.of("message", "Not logged in"));
 
     String email = principal.getName();
+
     return userRepo.findByEmail(email)
-            .<ResponseEntity<?>>map(ResponseEntity::ok)
-            .or(() -> supplierRepo.findByEmail(email).map(ResponseEntity::ok))
+            .<ResponseEntity<?>>map(user -> ResponseEntity.ok(Map.of(
+                    "id", user.getId(),
+                    "name", user.getName(),
+                    "email", user.getEmail(),
+                    "role", user.getRole().name()
+            )))
+            .or(() -> supplierRepo.findByEmail(email).map(supplier -> ResponseEntity.ok(Map.of(
+                    "id", supplier.getId(),
+                    "name", supplier.getCompanyName(),
+                    "email", supplier.getEmail(),
+                    "role", "SUPPLIER"
+            ))))
             .orElse(ResponseEntity.status(404).body(Map.of("message", "User not found")));
   }
 

@@ -15,12 +15,14 @@ com/storez/repository/CartRepository.class
 com/storez/model/User$UserBuilder.class
 com/storez/repository/ProductRepository.class
 com/storez/model/OrderStatus.class
+com/storez/config/CategorySeedConfig.class
 com/storez/model/User.class
 com/storez/model/SupplierStatus.class
 com/storez/dto/RegisterUserRequest.class
 com/storez/controller/AdminProductController.class
 com/storez/exception/ResourceNotFoundException.class
 com/storez/repository/CartItemRepository.class
+com/storez/entity/Category.class
 com/storez/controller/SupplierController.class
 com/storez/model/Order$OrderBuilder.class
 com/storez/service/FileStorageService.class
@@ -47,8 +49,8 @@ com/storez/dto/UserDto.class
 com/storez/dto/LoginRequest.class
 com/storez/model/BaseEntity.class
 com/storez/security/SecurityConfig.class
-com/storez/model/Category.class
 com/storez/StoreZApplication.class
+com/storez/repository/CategoryRepository.class
 com/storez/model/CartItem$CartItemBuilder.class
 com/storez/model/Cart.class
 com/storez/model/Supplier$SupplierBuilder.class

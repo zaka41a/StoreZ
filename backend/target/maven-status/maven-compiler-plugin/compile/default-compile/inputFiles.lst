@@ -1,4 +1,5 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/StoreZApplication.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/config/CategorySeedConfig.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/config/WebConfig.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AdminController.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/controller/AdminProductController.java
@@ -34,6 +35,7 @@
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/model/UserStatus.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/CartItemRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/CartRepository.java
+/Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/CategoryRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/CommentRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/OrderItemRepository.java
 /Users/zakaria/Documents/AllProjects-java/StoreZ/backend/src/main/java/com/storez/repository/OrderRepository.java

@@ -2,6 +2,7 @@ import { useCart } from "@/contexts/CartContext";
 import { formatMoney } from "@/utils/format";
 import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Plus, Minus } from "lucide-react";
+import { getImageUrl } from "@/utils/image";
 
 export default function Cart() {
     const { items, removeItem, updateQty, total } = useCart();
@@ -26,7 +27,14 @@ export default function Cart() {
             <div className="lg:col-span-2 card p-4 space-y-4">
                 {items.map((i) => (
                     <div key={i.productId} className="flex items-center gap-4 border-t first:border-0 py-4">
-                        <img src={i.image} className="h-20 w-20 rounded object-cover" alt={i.name} />
+                        <img
+                            src={getImageUrl(i.image)}
+                            className="h-20 w-20 rounded object-cover border"
+                            alt={i.name}
+                            onError={(e) => {
+                                (e.currentTarget as HTMLImageElement).src = "https://via.placeholder.com/80?text=Product";
+                            }}
+                        />
                         <div className="grow min-w-0">
                             <div className="font-medium truncate">{i.name}</div>
                             <div className="text-sm text-gray-600">{formatMoney(i.price)}</div>

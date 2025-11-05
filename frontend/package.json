@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "recharts": "^2.11.0",
     "axios": "^1.7.4",
     "axios-mock-adapter": "^2.1.0",
     "clsx": "^2.1.1",

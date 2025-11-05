@@ -6,11 +6,45 @@
   <component name="ChangeListManager">
     <list default="true" id="2089c648-b67e-4098-9a06-f482c67c3797" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/OrderItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/Orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/storez/model/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/CategoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/storez/controller/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/storez/model/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/storez-backend-1.0.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-CHfZOA_o.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Cqkp-q9n.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-DC5AMYBS.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-DC5AMYBS.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-NUMECXU6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-NUMECXU6.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-RLJ2RCJQ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-RLJ2RCJQ.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-S725DACQ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/chunk-S725DACQ.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/framer-motion.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/framer-motion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/lucide-react.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/lucide-react.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-dom.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-dom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-dom_client.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-dom_client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-router-dom.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react-router-dom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react_jsx-dev-runtime.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react_jsx-dev-runtime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react_jsx-runtime.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/react_jsx-runtime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/recharts.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/recharts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/recharts.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/recharts.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/supplier/AddProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/supplier/AddProduct.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +106,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/frontend/public" />
       <recent name="$PROJECT_DIR$/frontend/src/assets" />
+      <recent name="$PROJECT_DIR$/frontend/public" />
       <recent name="$PROJECT_DIR$/frontend/src/api" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/frontend/src" />
@@ -128,7 +162,7 @@
       <workItem from="1761304602359" duration="504000" />
       <workItem from="1761305781022" duration="72849000" />
       <workItem from="1761775707525" duration="27967000" />
-      <workItem from="1761956434941" duration="4171000" />
+      <workItem from="1761956434941" duration="21517000" />
     </task>
     <servers />
   </component>

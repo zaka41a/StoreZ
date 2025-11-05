@@ -16,16 +16,21 @@ export default function AddProduct() {
     const [preview, setPreview] = useState<string | null>(null);
     const [msg, setMsg] = useState("");
     const [loading, setLoading] = useState(false);
-
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    // Charger catégories
     useEffect(() => {
         api
             .get("/categories")
-            .then((res) => setCategories(res.data || []))
-            .catch(() => setCategories([]));
+            .then((res) => {
+                console.log("Categories fetched:", res.data); // 🧠 debug
+                setCategories(res.data || []);
+            })
+            .catch((err) => {
+                console.error("Error fetching categories:", err);
+                setCategories([]);
+            });
     }, []);
+
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -51,12 +56,10 @@ export default function AddProduct() {
         Object.entries(form).forEach(([k, v]) => v && fd.append(k, v as any));
 
         try {
-            console.log("🔵 Submitting product to /api/supplier/products");
             const response = await api.post("/supplier/products", fd, {
                 withCredentials: true,
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            console.log("✅ Product submitted:", response.data);
             setMsg("✅ Product submitted for admin approval!");
             setForm({
                 name: "",
@@ -68,15 +71,7 @@ export default function AddProduct() {
             });
             setPreview(null);
         } catch (err: any) {
-            console.error("❌ Error submitting product:", err);
-            console.error("Response status:", err.response?.status);
-            console.error("Response data:", err.response?.data);
-
-            if (err.response?.status === 401 || err.response?.status === 403) {
-                setMsg("❌ Not authenticated. Please log in as a supplier.");
-            } else {
-                setMsg(`❌ Error: ${err.response?.data?.message || err.message || "Please try again."}`);
-            }
+            setMsg(`❌ Error: ${err.response?.data?.message || err.message || "Please try again."}`);
         } finally {
             setLoading(false);
         }
@@ -89,9 +84,7 @@ export default function AddProduct() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.35 }}
         >
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold text-brand-700">Add New Product</h1>
-            </div>
+            <h1 className="text-3xl font-bold text-brand-700">Add New Product</h1>
 
             {msg && (
                 <div
@@ -175,12 +168,9 @@ export default function AddProduct() {
                     />
                 </div>
 
-                {/* Upload image — SANS overlay */}
                 <div className="md:col-span-2">
                     <label className="text-sm text-gray-600 font-medium mb-2 block">Product Image</label>
-
                     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 items-start">
-                        {/* Aperçu */}
                         <div className="w-44 h-44 rounded-lg border bg-white flex items-center justify-center overflow-hidden">
                             {preview ? (
                                 <img src={preview} alt="preview" className="w-full h-full object-cover" />
@@ -192,7 +182,6 @@ export default function AddProduct() {
                             )}
                         </div>
 
-                        {/* Bouton + input caché */}
                         <div className="flex flex-col gap-2">
                             <button
                                 type="button"
@@ -216,7 +205,6 @@ export default function AddProduct() {
                     </div>
                 </div>
 
-                {/* Submit */}
                 <div className="md:col-span-2 flex justify-end">
                     <button
                         type="submit"
