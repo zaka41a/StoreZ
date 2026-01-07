@@ -44,7 +44,6 @@ export default function AdminProducts() {
         try {
             const res = await api.get<AdminProductResponse>("/admin/products", {
                 params: { page: pageToLoad, size: PAGE_SIZE },
-                withCredentials: true,
             });
 
             setProducts(res.data.products || []);
@@ -63,7 +62,7 @@ export default function AdminProducts() {
 
     const approve = async (id: number) => {
         try {
-            await api.put(`/admin/products/${id}/approve`, {}, { withCredentials: true });
+            await api.put(`/admin/products/${id}/approve`, {});
             load(currentPage);
         } catch (err) {
             console.error("Error approving product:", err);
@@ -73,7 +72,7 @@ export default function AdminProducts() {
 
     const reject = async (id: number) => {
         try {
-            await api.put(`/admin/products/${id}/reject`, {}, { withCredentials: true });
+            await api.put(`/admin/products/${id}/reject`, {});
             load(currentPage);
         } catch (err) {
             console.error("Error rejecting product:", err);
@@ -85,7 +84,7 @@ export default function AdminProducts() {
         if (!confirm("Are you sure you want to delete this product?")) return;
 
         try {
-            await api.delete(`/admin/products/${id}`, { withCredentials: true });
+            await api.delete(`/admin/products/${id}`);
 
             const nextPage =
                 products.length === 1 && currentPage > 1 ? currentPage - 1 : currentPage;

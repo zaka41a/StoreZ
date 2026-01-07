@@ -83,8 +83,7 @@ export default function Checkout() {
     try {
       await api.post(
         "/orders",
-        { items, shipping: form, note: form.note },
-        { withCredentials: true }
+        { items, shipping: form, note: form.note }
       );
       clear();
       navigate("/user/orders");

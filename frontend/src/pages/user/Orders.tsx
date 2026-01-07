@@ -20,7 +20,7 @@ export default function UserOrders() {
     useEffect(() => {
         (async () => {
             try {
-                const res = await api.get("/user/orders", { withCredentials: true });
+                const res = await api.get("/user/orders");
                 // Calculate total for each order
                 const ordersWithTotal = (res.data || []).map((order: any) => ({
                     ...order,

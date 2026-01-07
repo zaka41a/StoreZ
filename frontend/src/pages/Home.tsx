@@ -70,9 +70,10 @@ export default function Home() {
         params: { query: q, category, page, size: pageSize },
       })
       .then((res) => {
-        setProducts(res.data.products || []);
+        const items = res.data.items ?? res.data.products ?? [];
+        setProducts(items);
         setTotalPages(Math.max(res.data.totalPages || 1, 1));
-        setTotalItems(res.data.totalItems ?? res.data.products?.length ?? 0);
+        setTotalItems(res.data.totalItems ?? items.length ?? 0);
       })
       .catch((err) => {
         console.error("Erreur chargement produits:", err);

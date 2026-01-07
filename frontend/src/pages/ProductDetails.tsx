@@ -5,17 +5,19 @@ import { formatMoney } from "@/utils/format";
 import { getImageUrl } from "@/utils/image";
 import { useCart } from "@/contexts/CartContext";
 import { motion } from "framer-motion";
+import type { Product } from "@/types/models";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const [p, setP] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const { addItem } = useCart();
 
   useEffect(() => {
-    api.get(`/products/${id}`).then((r) => setP(r.data));
+    if (!id) return;
+    api.get<Product>(`/products/${id}`).then((r) => setProduct(r.data));
   }, [id]);
 
-  if (!p) return <div className="card p-8">Loading product...</div>;
+  if (!product) return <div className="card p-8">Loading product...</div>;
 
   return (
       <motion.div
@@ -27,15 +29,15 @@ export default function ProductDetails() {
         {/* Image produit */}
         <div className="rounded-xl overflow-hidden border">
           <img
-              src={getImageUrl(p.image)}
-              alt={p.name}
+              src={getImageUrl(product.image)}
+              alt={product.name}
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.02]"
           />
         </div>
 
         {/* Infos produit */}
         <div className="card p-6 space-y-4">
-          <h1 className="text-2xl font-semibold">{p.name}</h1>
+          <h1 className="text-2xl font-semibold">{product.name}</h1>
 
           {/* ✅ Nom du supplier */}
           <div className="text-sm text-gray-600">
@@ -44,21 +46,21 @@ export default function ProductDetails() {
                 href="#"
                 className="font-medium text-brand-700 hover:underline"
             >
-              {p.supplierName || "Unknown supplier"}
+              {product.supplierName || "Unknown supplier"}
             </a>
           </div>
 
 
           <div className="text-2xl font-bold text-brand-700">
-            {formatMoney(p.price)}
+            {formatMoney(product.price)}
           </div>
 
-          <p className="text-gray-700 leading-relaxed">{p.description}</p>
+          <p className="text-gray-700 leading-relaxed">{product.description}</p>
 
           <div className="pt-4">
             <button
                 className="btn btn-primary w-full md:w-auto"
-                onClick={() => addItem(p)}
+                onClick={() => addItem(product)}
             >
               Add to Cart
             </button>

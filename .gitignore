@@ -1,0 +1,44 @@
+# Backend - Maven
+backend/target/
+backend/*.jar
+backend/*.log
+backend/.env
+backend/uploads/
+
+# Frontend - Node
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Security
+.env
+.env.local
+.env.production
+cookies.txt
+*.pem
+*.key
+
+# Temp files
+*.tmp
+*.bak
+*.cache

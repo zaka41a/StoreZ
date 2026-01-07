@@ -7,7 +7,7 @@ export default function Earnings() {
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        api.get("/supplier/earnings", { withCredentials: true })
+        api.get("/supplier/earnings")
             .then(r => {
                 setEarnings(r.data.details || []);
                 setTotal(r.data.total || 0);

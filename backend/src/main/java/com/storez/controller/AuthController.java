@@ -1,139 +1,128 @@
-// src/main/java/com/storez/controller/AuthController.java
 package com.storez.controller;
 
+import com.storez.dto.AuthResponse;
 import com.storez.dto.LoginRequest;
 import com.storez.dto.RegisterSupplierRequest;
 import com.storez.dto.RegisterUserRequest;
+import com.storez.dto.UserSummaryDto;
 import com.storez.model.Role;
 import com.storez.model.Supplier;
 import com.storez.model.User;
 import com.storez.repository.SupplierRepository;
 import com.storez.repository.UserRepository;
+import com.storez.security.JwtTokenService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.server.ResponseStatusException;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
 public class AuthController {
 
-  private final AuthenticationManager authManager;
-  private final UserRepository userRepo;
-  private final SupplierRepository supplierRepo;
-  private final PasswordEncoder encoder;
+    private final AuthenticationManager authManager;
+    private final UserRepository userRepo;
+    private final SupplierRepository supplierRepo;
+    private final PasswordEncoder encoder;
+    private final JwtTokenService jwtTokenService;
 
-  // ✅ Login utilisateur ou fournisseur (session HTTP)
-  @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest req, HttpServletRequest request) {
-    Authentication auth = authManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
-    );
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest req) {
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
+        );
 
-    // ✅ IMPORTANT: Store authentication in SecurityContext to create session
-    SecurityContextHolder.getContext().setAuthentication(auth);
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        String token = jwtTokenService.generateToken(principal);
+        UserSummaryDto user = resolveUser(principal.getUsername());
 
-    // ✅ Create HTTP session explicitly
-    HttpSession session = request.getSession(true);
-    session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-
-    User user = userRepo.findByEmail(req.getEmail()).orElse(null);
-    if (user != null) {
-      return ResponseEntity.ok(Map.of(
-              "id", user.getId(),
-              "name", user.getName(),
-              "email", user.getEmail(),
-              "role", user.getRole().name()
-      ));
+        return ResponseEntity.ok(AuthResponse.builder()
+                .token(token)
+                .expiresIn(jwtTokenService.getExpirationSeconds())
+                .user(user)
+                .build());
     }
 
-    Supplier supplier = supplierRepo.findByEmail(req.getEmail()).orElse(null);
-    if (supplier != null) {
-      return ResponseEntity.ok(Map.of(
-              "id", supplier.getId(),
-              "name", supplier.getCompanyName(),
-              "email", supplier.getEmail(),
-              "role", "SUPPLIER"
-      ));
+    @GetMapping("/me")
+    public ResponseEntity<UserSummaryDto> me(@AuthenticationPrincipal UserDetails principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
+        }
+        return ResponseEntity.ok(resolveUser(principal.getUsername()));
     }
 
-    return ResponseEntity.status(404).body(Map.of("error", "User not found"));
-  }
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout() {
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
+    }
 
-  // ✅ Vérifie la session (user connecté)
-  @GetMapping("/me")
-  public ResponseEntity<?> me(Principal principal) {
-    if (principal == null)
-      return ResponseEntity.status(401).body(Map.of("message", "Not logged in"));
+    @PostMapping("/register-user")
+    public ResponseEntity<Map<String, String>> registerUser(@Valid @RequestBody RegisterUserRequest req) {
+        if (userRepo.findByEmail(req.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used");
+        }
 
-    String email = principal.getName();
+        User user = User.builder()
+                .email(req.getEmail())
+                .name(req.getName())
+                .passwordHash(encoder.encode(req.getPassword()))
+                .phone(req.getPhone())
+                .address(req.getAddress())
+                .role(Role.USER)
+                .build();
+        userRepo.save(user);
 
-    return userRepo.findByEmail(email)
-            .<ResponseEntity<?>>map(user -> ResponseEntity.ok(Map.of(
-                    "id", user.getId(),
-                    "name", user.getName(),
-                    "email", user.getEmail(),
-                    "role", user.getRole().name()
-            )))
-            .or(() -> supplierRepo.findByEmail(email).map(supplier -> ResponseEntity.ok(Map.of(
-                    "id", supplier.getId(),
-                    "name", supplier.getCompanyName(),
-                    "email", supplier.getEmail(),
-                    "role", "SUPPLIER"
-            ))))
-            .orElse(ResponseEntity.status(404).body(Map.of("message", "User not found")));
-  }
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+    }
 
-  // ✅ Déconnexion (handled by SecurityConfig)
-  @PostMapping("/logout")
-  public ResponseEntity<?> logout() {
-    return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
-  }
+    @PostMapping("/register-supplier")
+    public ResponseEntity<Map<String, String>> registerSupplier(@Valid @RequestBody RegisterSupplierRequest req) {
+        if (supplierRepo.findByEmail(req.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used");
+        }
 
-  // ✅ Inscription utilisateur
-  @PostMapping("/register-user")
-  public ResponseEntity<?> registerUser(@RequestBody RegisterUserRequest req) {
-    if (userRepo.findByEmail(req.getEmail()).isPresent())
-      return ResponseEntity.badRequest().body(Map.of("message", "Email already used"));
+        Supplier supplier = Supplier.builder()
+                .email(req.getEmail())
+                .companyName(req.getCompanyName())
+                .description(req.getDescription())
+                .phone(req.getPhone())
+                .address(req.getAddress())
+                .passwordHash(encoder.encode(req.getPassword()))
+                .build();
+        supplierRepo.save(supplier);
 
-    User u = new User();
-    u.setEmail(req.getEmail());
-    u.setName(req.getName());
-    u.setPasswordHash(encoder.encode(req.getPassword()));
-    u.setPhone(req.getPhone());
-    u.setAddress(req.getAddress());
-    u.setRole(Role.USER);
-    userRepo.save(u);
+        return ResponseEntity.ok(Map.of("message", "Supplier registered successfully"));
+    }
 
-    return ResponseEntity.ok(Map.of("message", "User registered successfully"));
-  }
-
-  // ✅ Inscription fournisseur
-  @PostMapping("/register-supplier")
-  public ResponseEntity<?> registerSupplier(@RequestBody RegisterSupplierRequest req) {
-    if (supplierRepo.findByEmail(req.getEmail()).isPresent())
-      return ResponseEntity.badRequest().body(Map.of("message", "Email already used"));
-
-    Supplier s = new Supplier();
-    s.setEmail(req.getEmail());
-    s.setCompanyName(req.getCompanyName());
-    s.setDescription(req.getDescription());
-    s.setPhone(req.getPhone());
-    s.setAddress(req.getAddress());
-    s.setPasswordHash(encoder.encode(req.getPassword()));
-    supplierRepo.save(s);
-
-    return ResponseEntity.ok(Map.of("message", "Supplier registered successfully"));
-  }
+    private UserSummaryDto resolveUser(String email) {
+        return userRepo.findByEmail(email)
+                .map(user -> UserSummaryDto.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .role(user.getRole().name())
+                        .build())
+                .or(() -> supplierRepo.findByEmail(email).map(supplier -> UserSummaryDto.builder()
+                        .id(supplier.getId())
+                        .name(supplier.getCompanyName())
+                        .email(supplier.getEmail())
+                        .role(Role.SUPPLIER.name())
+                        .build()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
 }

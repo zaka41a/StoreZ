@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;

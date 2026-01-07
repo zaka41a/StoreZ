@@ -1,4 +1,12 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+// Prefer the configured API URL, but fall back to the default backend port.
+const RAW_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+
+// Normalise to avoid trailing slashes so we can safely append resource paths.
+const NORMALIZED_API_URL = RAW_API_URL.replace(/\/+$/, '');
+
+// Static assets (like uploads) are served from the backend root, not /api.
+const ASSET_BASE_URL =
+  NORMALIZED_API_URL.replace(/\/api$/, '') || NORMALIZED_API_URL;
 
 /**
  * Construit l'URL complète pour une image de produit
@@ -15,11 +23,16 @@ export function getImageUrl(imagePath: string | null | undefined): string {
     return imagePath;
   }
 
+  // Unifier les chemins locaux quel que soit le format retourné par l'API
+  const normalizedPath = imagePath.startsWith('uploads/')
+    ? `/${imagePath}`
+    : imagePath;
+
   // Si c'est un chemin local (/uploads/...), construire l'URL complète
-  if (imagePath.startsWith('/uploads/')) {
-    return `${API_URL}${imagePath}`;
+  if (normalizedPath.startsWith('/uploads/')) {
+    return `${ASSET_BASE_URL}${normalizedPath}`;
   }
 
   // Sinon, retourner le chemin tel quel (pour compatibilité)
-  return imagePath;
+  return normalizedPath;
 }

@@ -28,3 +28,8 @@ server:
       cookie:
         same-site: lax
         secure: false
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:this-is-a-very-long-secret-key-for-storez-change-me-please-1234567890}
+    expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}

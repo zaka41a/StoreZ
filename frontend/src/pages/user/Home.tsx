@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { ShoppingBag, Package, Clock, TrendingUp, PlusCircle, ArrowRight, Sparkles, Heart, AlertCircle } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import { motion } from "framer-motion";
+import type { Product } from "@/types/models";
 
 type OrderRow = { id: number; date: string; total: number; status: string };
-type Product = { id: string; name: string; image: string; price: number; supplierName?: string };
 type Stats = { totalOrders: number; deliveredOrders: number; pendingOrders: number; spentLast30Days: number };
 
 export default function UserHome() {
@@ -21,8 +21,8 @@ export default function UserHome() {
         (async () => {
             try {
                 const [s, p] = await Promise.all([
-                    api.get("/user/stats", { withCredentials: true }).catch(() => ({ data: { totalOrders: 0, deliveredOrders: 0, pendingOrders: 0, spentLast30Days: 0, recentOrders: [] } })),
-                    api.get("/products?size=6").catch(() => ({ data: { products: [] } })),
+                    api.get("/user/stats").catch(() => ({ data: { totalOrders: 0, deliveredOrders: 0, pendingOrders: 0, spentLast30Days: 0, recentOrders: [] } })),
+                    api.get("/products?size=6").catch(() => ({ data: { items: [] } })),
                 ]);
                 setStats({
                     totalOrders: s.data.totalOrders || 0,
@@ -31,7 +31,8 @@ export default function UserHome() {
                     spentLast30Days: s.data.spentLast30Days || 0
                 });
                 setRecentOrders(s.data.recentOrders || []);
-                setSuggested((p.data.products || []).slice(0, 6));
+                const results = p.data.items ?? p.data.products ?? [];
+                setSuggested(results.slice(0, 6));
             } finally {
                 setLoading(false);
             }

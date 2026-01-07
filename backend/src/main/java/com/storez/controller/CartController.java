@@ -8,19 +8,30 @@ import com.storez.repository.CartItemRepository;
 import com.storez.repository.CartRepository;
 import com.storez.repository.ProductRepository;
 import com.storez.repository.UserRepository;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
+@Validated
 public class CartController {
 
     private final CartRepository cartRepository;
@@ -30,8 +41,7 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<Cart> getCart(@AuthenticationPrincipal UserDetails currentUser) {
-        User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUser(currentUser);
 
         Cart cart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> {
@@ -45,14 +55,13 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<?> addToCart(
             @AuthenticationPrincipal UserDetails currentUser,
-            @RequestParam Long productId,
-            @RequestParam(defaultValue = "1") int quantity) {
+            @RequestParam @NotNull Long productId,
+            @RequestParam(defaultValue = "1") @Min(1) int quantity) {
 
-        User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUser(currentUser);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         Cart cart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> {
@@ -89,11 +98,10 @@ public class CartController {
             @PathVariable Long itemId,
             @RequestParam int quantity) {
 
-        User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUser(currentUser);
 
         CartItem item = cartItemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart item not found"));
 
         // Verify ownership
         if (!item.getCart().getUser().getId().equals(user.getId())) {
@@ -115,11 +123,10 @@ public class CartController {
             @AuthenticationPrincipal UserDetails currentUser,
             @PathVariable Long itemId) {
 
-        User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUser(currentUser);
 
         CartItem item = cartItemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart item not found"));
 
         // Verify ownership
         if (!item.getCart().getUser().getId().equals(user.getId())) {
@@ -132,14 +139,20 @@ public class CartController {
 
     @DeleteMapping("/clear")
     public ResponseEntity<?> clearCart(@AuthenticationPrincipal UserDetails currentUser) {
-        User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUser(currentUser);
 
         Cart cart = cartRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
 
         cart.getItems().clear();
         cartRepository.save(cart);
         return ResponseEntity.ok(Map.of("message", "Cart cleared"));
+    }
+    private User currentUser(UserDetails principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        }
+        return userRepository.findByEmail(principal.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 }

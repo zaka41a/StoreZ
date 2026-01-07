@@ -8,7 +8,7 @@ export default function AdminAnalytics() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/admin/analytics", { withCredentials: true })
+        api.get("/admin/analytics")
             .then(res => setAnalytics(res.data))
             .catch(err => console.error("Error loading analytics:", err))
             .finally(() => setLoading(false));

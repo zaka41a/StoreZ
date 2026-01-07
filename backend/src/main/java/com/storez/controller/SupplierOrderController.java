@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/supplier/orders")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
 public class SupplierOrderController {
 

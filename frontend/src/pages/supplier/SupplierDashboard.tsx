@@ -24,12 +24,12 @@ export default function SupplierDashboard() {
 
     useEffect(() => {
         api
-            .get("/supplier/profile", { withCredentials: true })
+            .get("/supplier/profile")
             .then((profileRes) => {
                 setSupplierStatus(profileRes.data.status);
 
                 if (profileRes.data.status === "APPROVED") {
-                    return api.get("/supplier/stats", { withCredentials: true });
+                    return api.get("/supplier/stats");
                 } else {
                     setLoading(false);
                     return Promise.reject({ skipStats: true });

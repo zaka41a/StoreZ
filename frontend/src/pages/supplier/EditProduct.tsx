@@ -38,7 +38,7 @@ export default function EditProduct() {
         if (!id) return;
 
         api
-            .get(`/supplier/products/${id}`, { withCredentials: true })
+            .get(`/supplier/products/${id}`)
             .then((res) => {
                 const product = res.data;
                 setForm({
@@ -92,7 +92,6 @@ export default function EditProduct() {
         try {
             console.log(`🔵 Updating product ${id} at /api/supplier/products/${id}`);
             const response = await api.put(`/supplier/products/${id}`, fd, {
-                withCredentials: true,
                 headers: { "Content-Type": "multipart/form-data" },
             });
             console.log("✅ Product updated:", response.data);

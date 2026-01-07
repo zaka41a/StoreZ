@@ -16,8 +16,8 @@ export default function AdminAnalytics() {
     useEffect(() => {
         // Fetch analytics data and monthly sales in parallel
         Promise.all([
-            api.get("/admin/analytics", { withCredentials: true }),
-            api.get("/admin/analytics/sales-monthly", { withCredentials: true })
+            api.get("/admin/analytics"),
+            api.get("/admin/analytics/sales-monthly")
         ])
             .then(([analyticsRes, salesRes]) => {
                 // Set monthly sales data

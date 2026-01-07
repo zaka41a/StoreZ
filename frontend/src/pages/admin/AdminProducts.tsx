@@ -28,7 +28,7 @@ export default function AdminProducts() {
 
     const load = async () => {
         try {
-            const res = await api.get("/admin/products", { withCredentials: true });
+            const res = await api.get("/admin/products");
             setProducts(res.data.products || []);
             setError(null);
         } catch (err) {
@@ -41,7 +41,7 @@ export default function AdminProducts() {
 
     const approve = async (id: number) => {
         try {
-            await api.put(`/admin/products/${id}/approve`, {}, { withCredentials: true });
+            await api.put(`/admin/products/${id}/approve`, {});
             load();
         } catch (err) {
             console.error("Error approving product:", err);
@@ -51,7 +51,7 @@ export default function AdminProducts() {
 
     const reject = async (id: number) => {
         try {
-            await api.put(`/admin/products/${id}/reject`, {}, { withCredentials: true });
+            await api.put(`/admin/products/${id}/reject`, {});
             load();
         } catch (err) {
             console.error("Error rejecting product:", err);
@@ -63,7 +63,7 @@ export default function AdminProducts() {
         if (!confirm("Are you sure you want to delete this product?")) return;
 
         try {
-            await api.delete(`/admin/products/${id}`, { withCredentials: true });
+            await api.delete(`/admin/products/${id}`);
             load();
         } catch (err) {
             console.error("Error deleting product:", err);

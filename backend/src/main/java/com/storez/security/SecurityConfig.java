@@ -1,6 +1,7 @@
 package com.storez.security;
 
 import com.storez.service.AppUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -29,6 +31,7 @@ import java.util.List;
 public class SecurityConfig {
 
   private final AppUserDetailsService appUserDetailsService;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,10 +49,16 @@ public class SecurityConfig {
                     // Others
                     .anyRequest().authenticated()
             )
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider())
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
+            .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> {
+              response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+              response.setContentType("application/json");
+              response.getWriter().write("{\"message\":\"Unauthorized\"}");
+            }))
             .logout(logout -> logout
                     .logoutUrl("/api/auth/logout")
                     .deleteCookies("SESSION")
@@ -63,7 +72,10 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration cfg = new CorsConfiguration();
-    cfg.setAllowedOrigins(List.of("http://localhost:5173"));
+    cfg.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",
+            "http://127.0.0.1:*"
+    )); // allow dev servers on any local port
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     cfg.setAllowedHeaders(List.of("*")); // ✅ Allow all headers
     cfg.setExposedHeaders(List.of("Set-Cookie")); // ✅ nécessaire pour que le navigateur voie le cookie

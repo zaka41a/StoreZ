@@ -29,7 +29,7 @@ export default function Navbar() {
     };
 
     const displayName =
-        user?.name || user?.companyName || user?.email?.split("@")[0] || "Account";
+        user?.name || user?.email?.split("@")[0] || "Account";
 
     return (
         <header className="sticky top-0 z-50">

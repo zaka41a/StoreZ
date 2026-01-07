@@ -51,7 +51,7 @@ export default function AdminDashboard() {
         let cancelled = false;
         setLoading(true);
         api
-            .get("/admin/dashboard", { withCredentials: true })
+            .get("/admin/dashboard")
             .then((res) => {
                 if (cancelled) return;
                 setStats(res.data);

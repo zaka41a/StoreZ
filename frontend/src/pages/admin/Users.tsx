@@ -20,7 +20,7 @@ export default function AdminUsers() {
 
     const loadUsers = () => {
         console.log("🔵 Fetching admin users...");
-        api.get("/admin/users", { withCredentials: true })
+        api.get("/admin/users")
             .then(res => {
                 console.log("✅ Users data:", res.data);
                 setUsers(res.data);
@@ -40,7 +40,7 @@ export default function AdminUsers() {
         if (!confirm("Are you sure you want to delete this user?")) return;
 
         try {
-            await api.delete(`/admin/users/${id}`, { withCredentials: true });
+            await api.delete(`/admin/users/${id}`);
             loadUsers();
         } catch (err) {
             console.error("Error deleting user:", err);

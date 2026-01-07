@@ -1,19 +1,30 @@
 package com.storez.controller;
 
+import com.storez.dto.ProductResponse;
 import com.storez.model.Order;
 import com.storez.model.OrderItem;
 import com.storez.model.Product;
 import com.storez.model.Supplier;
+import com.storez.repository.OrderItemRepository;
 import com.storez.repository.OrderRepository;
 import com.storez.repository.ProductRepository;
 import com.storez.repository.SupplierRepository;
 import com.storez.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +34,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/supplier")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
 public class SupplierController {
 
     private final ProductRepository productRepository;
     private final SupplierRepository supplierRepository;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final FileStorageService fileStorageService;
 
     @PostMapping("/products")
@@ -42,8 +53,7 @@ public class SupplierController {
             @RequestParam("description") String description,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         // Store the image file and get the path
         String imagePath = fileStorageService.storeFile(image);
@@ -67,28 +77,29 @@ public class SupplierController {
     }
 
     @GetMapping("/products/mine")
-    public List<Product> myProducts(@AuthenticationPrincipal UserDetails currentUser) {
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
-        return productRepository.findBySupplierId(supplier.getId());
+    public List<ProductResponse> myProducts(@AuthenticationPrincipal UserDetails currentUser) {
+        Supplier supplier = currentSupplier(currentUser);
+        return productRepository.findBySupplierId(supplier.getId())
+                .stream()
+                .map(ProductResponse::from)
+                .toList();
     }
 
     @GetMapping("/products/{id}")
     public ResponseEntity<?> getProduct(
             @AuthenticationPrincipal UserDetails currentUser,
             @PathVariable Long id) {
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         // Verify that this product belongs to the current supplier
         if (!product.getSupplier().getId().equals(supplier.getId())) {
             return ResponseEntity.status(403).body(Map.of("error", "You don't have permission to view this product"));
         }
 
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ProductResponse.from(product));
     }
 
     @PutMapping("/products/{id}")
@@ -102,11 +113,10 @@ public class SupplierController {
             @RequestParam("description") String description,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         // Verify that the product belongs to this supplier
         if (!product.getSupplier().getId().equals(supplier.getId())) {
@@ -143,11 +153,10 @@ public class SupplierController {
             @AuthenticationPrincipal UserDetails currentUser,
             @PathVariable Long id) {
 
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         // Verify that the product belongs to this supplier
         if (!product.getSupplier().getId().equals(supplier.getId())) {
@@ -165,8 +174,7 @@ public class SupplierController {
 
     @GetMapping("/profile")
     public ResponseEntity<Map<String, Object>> getProfile(@AuthenticationPrincipal UserDetails currentUser) {
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         Map<String, Object> profile = new HashMap<>();
         profile.put("id", supplier.getId());
@@ -182,37 +190,24 @@ public class SupplierController {
 
     @GetMapping("/earnings")
     public ResponseEntity<Map<String, Object>> getEarnings(@AuthenticationPrincipal UserDetails currentUser) {
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
-        // Get all orders
-        List<Order> allOrders = orderRepository.findAll();
+        List<OrderItem> supplierItems = orderItemRepository.findByProduct_Supplier_Id(supplier.getId());
+        double totalEarnings = supplierItems.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
 
-        // Calculate earnings from orders containing supplier's products
-        List<Map<String, Object>> earningDetails = new ArrayList<>();
-        double totalEarnings = 0.0;
-
-        for (Order order : allOrders) {
-            if (order.getItems() != null) {
-                for (OrderItem item : order.getItems()) {
-                    if (item.getProduct() != null &&
-                        item.getProduct().getSupplier() != null &&
-                        item.getProduct().getSupplier().getId().equals(supplier.getId())) {
-
-                        double amount = item.getProduct().getPrice() * item.getQuantity();
-                        totalEarnings += amount;
-
-                        Map<String, Object> detail = new HashMap<>();
-                        detail.put("id", item.getId());
-                        detail.put("orderId", order.getId());
-                        detail.put("productName", item.getProduct().getName());
-                        detail.put("amount", amount);
-                        detail.put("date", order.getCreatedAt());
-                        earningDetails.add(detail);
-                    }
-                }
-            }
-        }
+        List<Map<String, Object>> earningDetails = supplierItems.stream()
+                .map(item -> {
+                    Map<String, Object> detail = new HashMap<>();
+                    detail.put("id", item.getId());
+                    detail.put("orderId", item.getOrder() != null ? item.getOrder().getId() : null);
+                    detail.put("productName", item.getProduct().getName());
+                    detail.put("amount", item.getProduct().getPrice() * item.getQuantity());
+                    detail.put("date", item.getOrder() != null ? item.getOrder().getCreatedAt() : null);
+                    return detail;
+                })
+                .toList();
 
         Map<String, Object> result = new HashMap<>();
         result.put("total", totalEarnings);
@@ -223,8 +218,7 @@ public class SupplierController {
 
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getStats(@AuthenticationPrincipal UserDetails currentUser) {
-        Supplier supplier = supplierRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        Supplier supplier = currentSupplier(currentUser);
 
         List<Product> myProducts = productRepository.findBySupplierId(supplier.getId());
         long totalProducts = myProducts.size();
@@ -232,16 +226,7 @@ public class SupplierController {
                 .filter(p -> "PENDING".equals(p.getStatus()))
                 .count();
 
-        // Get all orders
-        List<Order> allOrders = orderRepository.findAll();
-
-        // Filter orders that contain products from this supplier
-        List<Order> supplierOrders = allOrders.stream()
-                .filter(order -> order.getItems() != null && order.getItems().stream()
-                        .anyMatch(item -> item.getProduct() != null &&
-                                item.getProduct().getSupplier() != null &&
-                                item.getProduct().getSupplier().getId().equals(supplier.getId())))
-                .collect(Collectors.toList());
+        List<Order> supplierOrders = orderRepository.findOrdersBySupplierId(supplier.getId());
 
         long totalOrders = supplierOrders.size();
 
@@ -275,7 +260,6 @@ public class SupplierController {
                     return orderMap;
                 })
                 .collect(Collectors.toList());
-
         Map<String, Object> stats = new HashMap<>();
         stats.put("totalProducts", totalProducts);
         stats.put("totalOrders", totalOrders);
@@ -284,5 +268,13 @@ public class SupplierController {
         stats.put("recentOrders", recentOrders);
 
         return ResponseEntity.ok(stats);
+    }
+
+    private Supplier currentSupplier(UserDetails currentUser) {
+        if (currentUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        }
+        return supplierRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Supplier not found"));
     }
 }

@@ -1,24 +1,23 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShieldCheck, Sparkles, BarChart3 } from "lucide-react";
+import { ShieldCheck, Sparkles, BarChart3, Eye, EyeOff } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/StoreZ.png";
 
 export default function Login() {
   const { login } = useAuth();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     try {
       await login(email, password);
-      navigate("/");
     } catch {
       setError("Invalid email or password. Please try again.");
     }
@@ -102,15 +101,25 @@ export default function Login() {
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700">Password</label>
-              <input
-                type="password"
-                autoComplete="current-password"
-                className="input w-full py-3 text-slate-900"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  className="input w-full py-3 pr-12 text-slate-900"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-slate-600 transition"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
               <div className="flex justify-end">
                 <Link
                   to="/help"

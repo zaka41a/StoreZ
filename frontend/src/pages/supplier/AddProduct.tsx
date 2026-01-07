@@ -57,7 +57,6 @@ export default function AddProduct() {
 
         try {
             const response = await api.post("/supplier/products", fd, {
-                withCredentials: true,
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setMsg("✅ Product submitted for admin approval!");

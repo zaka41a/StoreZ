@@ -1,12 +1,12 @@
 import { createContext, useContext, useMemo, useState, useEffect } from 'react'
-import type { Product } from '@/types/models'
+import type { Product, Identifier } from '@/types/models'
 
-type CartItem = { productId: string; name: string; price: number; qty: number; image: string; supplierId: string }
+type CartItem = { productId: Identifier; name: string; price: number; qty: number; image: string; supplierId: Identifier | null }
 type CartState = {
   items: CartItem[]
   addItem: (p: Product) => void
-  removeItem: (productId: string) => void
-  updateQty: (productId: string, qty: number) => void
+  removeItem: (productId: Identifier) => void
+  updateQty: (productId: Identifier, qty: number) => void
   clear: () => void
   total: number
 }
@@ -27,11 +27,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(prev => {
       const found = prev.find(i => i.productId === p.id)
       if (found) return prev.map(i => i.productId === p.id ? { ...i, qty: i.qty + 1 } : i)
-      return [...prev, { productId: p.id, name: p.name, price: p.price, qty: 1, image: p.image, supplierId: p.supplierId }]
+      return [...prev, { productId: p.id, name: p.name, price: p.price, qty: 1, image: p.image, supplierId: p.supplierId ?? null }]
     })
   }
-  const removeItem = (productId: string) => setItems(prev => prev.filter(i => i.productId !== productId))
-  const updateQty = (productId: string, qty: number) => setItems(prev => prev.map(i => i.productId === productId ? { ...i, qty } : i))
+  const removeItem = (productId: Identifier) => setItems(prev => prev.filter(i => i.productId !== productId))
+  const updateQty = (productId: Identifier, qty: number) => setItems(prev => prev.map(i => i.productId === productId ? { ...i, qty } : i))
   const clear = () => setItems([])
   const total = useMemo(() => items.reduce((s, i) => s + i.price * i.qty, 0), [items])
 

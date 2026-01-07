@@ -1,66 +1,44 @@
 package com.storez.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 🔹 Gestion des erreurs de validation @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("status", 400);
-        error.put("error", "Validation error");
-
-        Map<String, String> fields = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(fe -> fields.put(fe.getField(), fe.getDefaultMessage()));
-        error.put("fields", fields);
-
-        return ResponseEntity.badRequest().body(error);
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            errors.putIfAbsent(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return ResponseEntity.badRequest().body(Map.of(
+                "message", "Validation failed",
+                "errors", errors
+        ));
     }
 
-    // 🔹 Mauvais identifiants
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleBadCredentials(BadCredentialsException ex) {
-        return buildError(HttpStatus.UNAUTHORIZED, "Invalid email or password");
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation ->
+                errors.putIfAbsent(violation.getPropertyPath().toString(), violation.getMessage()));
+        return ResponseEntity.badRequest().body(Map.of(
+                "message", "Validation failed",
+                "errors", errors
+        ));
     }
 
-    // 🔹 Accès refusé
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex) {
-        return buildError(HttpStatus.FORBIDDEN, "Access denied");
-    }
-
-    // 🔹 Entité non trouvée
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
-        return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
-    // 🔹 Erreurs générales
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGeneric(Exception ex) {
-        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-    }
-
-    // Utilitaire standardisé
-    private ResponseEntity<Map<String, Object>> buildError(HttpStatus status, String message) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
-        body.put("error", status.getReasonPhrase());
-        body.put("message", message);
-        return ResponseEntity.status(status).body(body);
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", ex.getMessage()));
     }
 }

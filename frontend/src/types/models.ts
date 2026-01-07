@@ -1,7 +1,22 @@
-export type Role = 'ADMIN' | 'SUPPLIER' | 'USER'
-export type User = { id: string; name: string; email: string; role: Role; status: 'ACTIVE' | 'INACTIVE'; createdAt: string }
-export type Supplier = { id: string; companyName: string; email: string; description: string; status: 'PENDING' | 'APPROVED' | 'REJECTED'; createdAt: string }
-export type Product = { id: string; name: string; description: string; price: number; category: string; image: string; supplierId: string; supplierName: string; status: 'PENDING' | 'APPROVED' | 'REJECTED'; rating: number; ratingCount: number }
-export type OrderItem = { productId: string; name: string; price: number; qty: number; supplierId: string }
-export type Order = { id: string; userId: string; items: OrderItem[]; total: number; status: 'PENDING_APPROVAL' | 'APPROVED' | 'CANCELLED' | 'FULFILLED'; createdAt: string }
-export type Comment = { id: string; productId: string; userId: string; userName: string; rating: number; text: string; createdAt: string }
+export type Identifier = number | string;
+export type Role = 'ADMIN' | 'SUPPLIER' | 'USER';
+export type User = { id: Identifier; name: string; email: string; role: Role; status: 'ACTIVE' | 'INACTIVE'; createdAt: string };
+export type UserSummary = { id: Identifier; name: string; email: string; role: Role };
+export type Supplier = { id: Identifier; companyName: string; email: string; description: string; status: 'PENDING' | 'APPROVED' | 'REJECTED'; createdAt: string };
+export type Product = {
+  id: Identifier;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  supplierId: Identifier | null;
+  supplierName: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  rating?: number;
+  ratingCount?: number;
+  stock?: number;
+};
+export type OrderItem = { productId: Identifier; name: string; price: number; qty: number; supplierId: Identifier | null };
+export type Order = { id: Identifier; userId: Identifier; items: OrderItem[]; total: number; status: 'PENDING_APPROVAL' | 'APPROVED' | 'CANCELLED' | 'FULFILLED'; createdAt: string };
+export type Comment = { id: Identifier; productId: Identifier; userId: Identifier; userName: string; rating: number; text: string; createdAt: string };

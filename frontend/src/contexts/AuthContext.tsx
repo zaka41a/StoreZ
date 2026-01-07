@@ -1,18 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "@/services/api";
-import type { Role } from "@/types/models";
-
-interface User {
-    id: number;
-    email: string;
-    role: Role; // "ADMIN" | "SUPPLIER" | "USER"
-    name?: string;
-    companyName?: string;
-}
+import { api, tokenStorage } from "@/services/api";
+import type { Role, UserSummary } from "@/types/models";
 
 interface AuthContextType {
-    user: User | null;
+    user: UserSummary | null;
     role?: Role;
     loading: boolean;
     isAuthenticated: boolean;
@@ -25,39 +17,57 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserSummary | null>(null);
+    const [token, setToken] = useState<string | null>(() => tokenStorage.get());
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    api.defaults.withCredentials = true;
-
     useEffect(() => {
         const checkAuth = async () => {
+            if (!token) {
+                setUser(null);
+                setLoading(false);
+                return;
+            }
             try {
-                const res = await api.get("/auth/me");
-                if (res.data?.id) setUser(res.data);
+                const res = await api.get<UserSummary>("/auth/me");
+                if (res.data?.id) {
+                    setUser(res.data);
+                }
             } catch {
+                tokenStorage.set(null);
+                setToken(null);
                 setUser(null);
             } finally {
                 setLoading(false);
             }
         };
         checkAuth();
+    }, [token]);
+
+    const handleAuthSuccess = useCallback((payload: { token: string; user: UserSummary }) => {
+        tokenStorage.set(payload.token);
+        setToken(payload.token);
+        setUser(payload.user);
     }, []);
 
     const login = async (email: string, password: string) => {
-        const { data } = await api.post("/auth/login", { email, password });
-        setUser(data);
+        const { data } = await api.post<{ token: string; user: UserSummary }>("/auth/login", { email, password });
+        handleAuthSuccess(data);
 
-        if (data.role === "ADMIN") navigate("/admin/dashboard", { replace: true });
-        else if (data.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true }); // ✅ correct
+        if (data.user.role === "ADMIN") navigate("/admin/dashboard", { replace: true });
+        else if (data.user.role === "SUPPLIER") navigate("/supplier/dashboard", { replace: true });
         else navigate("/user/home", { replace: true });
     };
 
     const logout = async () => {
         try {
             await api.post("/auth/logout");
-        } catch {}
+        } catch {
+            // ignore
+        }
+        tokenStorage.set(null);
+        setToken(null);
         setUser(null);
         navigate("/", { replace: true });
     };

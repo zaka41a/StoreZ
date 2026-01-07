@@ -20,7 +20,7 @@ export default function MyProducts() {
   const loadProducts = async () => {
     try {
       console.log("🔵 Fetching products from /api/supplier/products/mine");
-      const res = await api.get("/supplier/products/mine", { withCredentials: true });
+      const res = await api.get("/supplier/products/mine");
       console.log("✅ Products received:", res.data);
       setProducts(res.data || []);
       setError("");

@@ -9,7 +9,7 @@ export default function SupplierOrders() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/supplier/orders", { withCredentials: true })
+        api.get("/supplier/orders")
             .then(res => setOrders(res.data || []))
             .finally(() => setLoading(false));
     }, []);

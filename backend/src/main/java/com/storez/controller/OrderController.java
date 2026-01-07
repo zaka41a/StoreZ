@@ -1,23 +1,33 @@
 package com.storez.controller;
 
-import com.storez.model.*;
+import com.storez.dto.CreateOrderRequest;
+import com.storez.dto.OrderItemRequest;
+import com.storez.model.Order;
+import com.storez.model.OrderItem;
+import com.storez.model.OrderStatus;
+import com.storez.model.Product;
+import com.storez.model.User;
 import com.storez.repository.OrderRepository;
 import com.storez.repository.ProductRepository;
 import com.storez.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -26,26 +36,17 @@ public class OrderController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(
+    public ResponseEntity<Map<String, Object>> createOrder(
             @AuthenticationPrincipal UserDetails currentUser,
-            @RequestBody Map<String, Object> payload) {
+            @Valid @RequestBody CreateOrderRequest payload) {
 
         if (currentUser == null) {
-            return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
         }
 
         User user = userRepository.findByEmail(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        // Extract items from payload
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> itemsData = (List<Map<String, Object>>) payload.get("items");
-
-        if (itemsData == null || itemsData.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "No items in order"));
-        }
-
-        // Create the order
         Order order = Order.builder()
                 .user(user)
                 .createdAt(LocalDateTime.now())
@@ -53,24 +54,20 @@ public class OrderController {
                 .items(new ArrayList<>())
                 .build();
 
-        // Create order items
-        for (Map<String, Object> itemData : itemsData) {
-            Long productId = Long.valueOf(itemData.get("productId").toString());
-            Integer quantity = Integer.valueOf(itemData.get("qty").toString());
-
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
+        for (OrderItemRequest itemRequest : payload.getItems()) {
+            Product product = productRepository.findById(itemRequest.getProductId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Product not found: " + itemRequest.getProductId()));
 
             OrderItem orderItem = OrderItem.builder()
                     .product(product)
-                    .quantity(quantity)
+                    .quantity(itemRequest.getQty())
                     .order(order)
                     .build();
 
             order.getItems().add(orderItem);
         }
 
-        // Save order (cascade will save order items)
         Order savedOrder = orderRepository.save(order);
 
         return ResponseEntity.ok(Map.of(

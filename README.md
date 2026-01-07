@@ -129,9 +129,10 @@ Ensure you have the following installed:
        hibernate:
          ddl-auto: update
 
-   jwt:
-     secret: your-secret-key-here
-     expiration: 86400000
+   security:
+     jwt:
+       secret: your-secret-key-here-change-me
+       expiration-seconds: 3600
    ```
 
 4. **Run the backend**
@@ -147,6 +148,11 @@ Ensure you have the following installed:
    ```bash
    cd frontend
    npm install
+   ```
+
+   Copy the environment template and update `VITE_API_URL` if needed:
+   ```bash
+   cp .env.example .env.local
    ```
 
 6. **Run the frontend**

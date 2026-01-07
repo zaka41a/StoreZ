@@ -20,7 +20,7 @@ export default function AdminSuppliers() {
 
     const loadSuppliers = () => {
         console.log("🔵 Fetching admin suppliers...");
-        api.get("/admin/suppliers", { withCredentials: true })
+        api.get("/admin/suppliers")
             .then(res => {
                 console.log("✅ Suppliers data:", res.data);
                 setSuppliers(res.data);
@@ -38,7 +38,7 @@ export default function AdminSuppliers() {
 
     const approve = async (id: number) => {
         try {
-            await api.put(`/admin/suppliers/${id}/approve`, {}, { withCredentials: true });
+            await api.put(`/admin/suppliers/${id}/approve`, {});
             loadSuppliers();
         } catch (err) {
             console.error("Error approving supplier:", err);
@@ -48,7 +48,7 @@ export default function AdminSuppliers() {
 
     const reject = async (id: number) => {
         try {
-            await api.put(`/admin/suppliers/${id}/reject`, {}, { withCredentials: true });
+            await api.put(`/admin/suppliers/${id}/reject`, {});
             loadSuppliers();
         } catch (err) {
             console.error("Error rejecting supplier:", err);
@@ -60,7 +60,7 @@ export default function AdminSuppliers() {
         if (!confirm("Are you sure you want to delete this supplier?")) return;
 
         try {
-            await api.delete(`/admin/suppliers/${id}`, { withCredentials: true });
+            await api.delete(`/admin/suppliers/${id}`);
             loadSuppliers();
         } catch (err) {
             console.error("Error deleting supplier:", err);
