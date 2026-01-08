@@ -7,7 +7,7 @@ export default function TermsPrivacy() {
         <div className="max-w-4xl mx-auto space-y-10 leading-relaxed">
             {/* Header */}
             <section className="text-center space-y-3">
-                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">Terms & Privacy</h1>
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">Terms & Privacy</h1>
                 <p className="text-gray-600 text-lg">
                     Please read these terms carefully before using <strong>StoreZ</strong>.
                     By accessing or using our platform, you agree to these conditions.
@@ -15,8 +15,8 @@ export default function TermsPrivacy() {
             </section>
 
             {/* Terms of Service */}
-            <section className="card p-8 space-y-4 border border-slate-200 hover:border-gold-300 hover:shadow-md transition-all">
-                <h2 className="text-2xl font-semibold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">📜 Terms of Service</h2>
+            <section className="card p-8 space-y-4 border border-slate-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/10 transition-all">
+                <h2 className="text-2xl font-semibold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">📜 Terms of Service</h2>
                 <p>
                     Welcome to <strong>StoreZ</strong>. By using our website and services, you agree to comply with our terms and policies.
                     These conditions apply to all users — including buyers, suppliers, and administrators.
@@ -34,8 +34,8 @@ export default function TermsPrivacy() {
             </section>
 
             {/* Privacy Policy */}
-            <section className="card p-8 space-y-4 bg-gradient-to-r from-brand-50 to-gold-50 border border-gold-200 hover:border-gold-300 hover:shadow-md transition-all">
-                <h2 className="text-2xl font-semibold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">🔒 Privacy Policy</h2>
+            <section className="card p-8 space-y-4 bg-gradient-to-r from-purple-50 to-fuchsia-50 border border-purple-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/10 transition-all">
+                <h2 className="text-2xl font-semibold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">🔒 Privacy Policy</h2>
                 <p>
                     At <strong>StoreZ</strong>, we value your privacy and are committed to protecting your personal information.
                     We collect data only to improve your experience and never sell or share it with third parties without consent.
@@ -48,15 +48,15 @@ export default function TermsPrivacy() {
                 </ul>
                 <p>
                     For any privacy-related question, contact us at{" "}
-                    <a href="mailto:zaksab98@gmail.com" className="text-brand-700 hover:text-gold-600 underline transition-colors">zaksab98@gmail.com</a>
+                    <a href="mailto:zaksab98@gmail.com" className="text-purple-700 hover:text-purple-600 underline transition-colors">zaksab98@gmail.com</a>
                     or visit our HQ in Aachen 52072, Germany.
                     Phone: +49 176 20827199
                 </p>
             </section>
 
             {/* Updates */}
-            <section className="card p-8 text-center space-y-3 border border-slate-200 hover:border-gold-300 hover:shadow-md transition-all">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">🕒 Updates & Revisions</h2>
+            <section className="card p-8 text-center space-y-3 border border-slate-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/10 transition-all">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">🕒 Updates & Revisions</h2>
                 <p className="text-gray-700">
                     StoreZ may update these Terms & Privacy policies from time to time.
                     Any changes will be posted on this page with the updated date.
@@ -65,15 +65,15 @@ export default function TermsPrivacy() {
             </section>
 
             {/* Footer CTA */}
-            <section className="bg-gradient-to-r from-brand-600 via-brand-700 to-gold-600 text-white text-center rounded-2xl shadow-2xl py-10 space-y-3 border border-gold-300">
+            <section className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-700 text-white text-center rounded-2xl shadow-2xl shadow-purple-500/20 py-10 space-y-3 border border-purple-300">
                 <h2 className="text-3xl font-bold">Transparency. Trust. Security.</h2>
-                <p className="text-brand-50 text-lg max-w-2xl mx-auto">
+                <p className="text-purple-50 text-lg max-w-2xl mx-auto">
                     At StoreZ, your trust means everything. We continuously improve our systems
                     to keep your shopping experience safe, fair, and enjoyable.
                 </p>
                 <button
                     onClick={() => navigate("/")}
-                    className="btn bg-gradient-to-r from-gold-400 to-gold-500 text-white font-semibold mt-4 hover:from-gold-500 hover:to-gold-600 transition-all shadow-lg hover:shadow-xl"
+                    className="btn bg-white text-purple-700 font-semibold mt-4 hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl"
                 >
                     Back to Home
                 </button>

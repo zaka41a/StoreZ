@@ -24,29 +24,25 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-950 text-slate-100 flex flex-col lg:flex-row">
       {/* Left column – brand story */}
-      <div className="relative hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.25),_transparent_55%)]" />
-        <div className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-gold-500 blur-3xl opacity-30" />
+      <div className="relative hidden lg:flex lg:w-1/2 overflow-hidden">
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_right,_rgba(251,191,36,0.15),_transparent_60%)]" />
+        <div className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-amber-500 blur-3xl opacity-20" />
+        <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-purple-500 blur-3xl opacity-15" />
 
-        <div className="relative z-10 flex flex-col justify-between px-14 py-14">
+        <div className="relative z-10 flex flex-col px-14 py-14 space-y-8">
           <div>
-            <img
-              src={logo}
-              alt="StoreZ"
-              className="h-20 drop-shadow-[0_0_20px_rgba(15,23,42,0.25)]"
-            />
-            <h2 className="mt-10 text-4xl font-bold leading-tight">
+            <h2 className="text-4xl font-bold leading-tight">
               Delivering a premium commerce experience for modern retailers.
             </h2>
-            <p className="mt-4 max-w-md text-slate-200/80">
+            <p className="mt-3 max-w-md text-slate-200/80">
               Manage your catalogue, track performance, and turn insights into action —
               all from one secure dashboard.
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-4 text-sm">
+          <div className="grid grid-cols-1 gap-4 text-sm">
             {FEATURES.map((feature) => (
               <div
                 key={feature.title}
@@ -71,12 +67,9 @@ export default function Login() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="w-full max-w-lg rounded-3xl bg-white p-10 shadow-2xl ring-1 ring-slate-100"
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900">Welcome back</h1>
-              <p className="mt-1 text-sm text-slate-500">Sign in to continue to StoreZ.</p>
-            </div>
-            <img src={logo} alt="StoreZ" className="h-12 w-auto hidden sm:block" />
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">Welcome back</h1>
+            <p className="mt-1 text-sm text-slate-500">Sign in to continue to StoreZ.</p>
           </div>
 
           {error && (

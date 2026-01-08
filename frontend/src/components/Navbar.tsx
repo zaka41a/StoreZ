@@ -34,9 +34,9 @@ export default function Navbar() {
     return (
         <header className="sticky top-0 z-50">
             {/* Upper info bar */}
-            <div className="hidden md:flex items-center justify-between px-6 py-2 text-xs font-medium text-slate-200 bg-slate-900">
+            <div className="hidden md:flex items-center justify-between px-6 py-2 text-xs font-medium text-slate-200 bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900">
                     <span className="flex items-center gap-2">
-                    <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className="inline-flex h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
                     Premium commerce for retailers & suppliers
                 </span>
                 <div className="flex items-center gap-6">
@@ -96,12 +96,12 @@ export default function Navbar() {
                     <div className="flex items-center gap-3">
                         <NavLink
                             to="/user/cart"
-                            className="relative hidden sm:inline-flex items-center justify-center text-slate-500 hover:text-brand-700 transition"
+                            className="relative hidden sm:inline-flex items-center justify-center text-slate-500 hover:text-purple-700 transition"
                             aria-label={`Open cart, ${items.length} items`}
                         >
                             <ShoppingCart className="h-5 w-5" />
                             {items.length > 0 && (
-                                <span className="absolute -top-2 -right-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-brand-600 px-1 text-xs font-semibold text-white">
+                                <span className="absolute -top-2 -right-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 px-1 text-xs font-semibold text-white shadow-lg shadow-purple-500/30">
                                     {items.length}
                                 </span>
                             )}
@@ -117,7 +117,7 @@ export default function Navbar() {
                                 </NavLink>
                                 <NavLink
                                     to="/register"
-                                    className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:shadow-xl hover:shadow-indigo-500/30"
+                                    className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 transition hover:shadow-xl hover:shadow-fuchsia-500/30"
                                 >
                                     Create account
                                 </NavLink>
@@ -126,9 +126,9 @@ export default function Navbar() {
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => navigate("/user/home")}
-                                    className="group hidden sm:flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:border-brand-600 hover:text-brand-700"
+                                    className="group hidden sm:flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:border-purple-600 hover:text-purple-700"
                                 >
-                                    <UserIcon className="h-4 w-4 text-brand-600 transition group-hover:scale-105" />
+                                    <UserIcon className="h-4 w-4 text-purple-600 transition group-hover:scale-105" />
                                     {displayName}
                                 </button>
                                 <button
@@ -142,7 +142,7 @@ export default function Navbar() {
                         )}
 
                         <button
-                            className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-600 hover:text-brand-700 lg:hidden"
+                            className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-purple-600 hover:text-purple-700 lg:hidden"
                             onClick={() => setMenuOpen((prev) => !prev)}
                             aria-label="Toggle navigation menu"
                         >
@@ -185,7 +185,7 @@ export default function Navbar() {
                                     <NavLink
                                         to="/register"
                                         onClick={() => setMenuOpen(false)}
-                                        className="rounded-lg bg-brand-600 px-3 py-2 text-center text-white transition hover:bg-brand-700"
+                                        className="rounded-lg bg-gradient-to-r from-purple-600 to-fuchsia-600 px-3 py-2 text-center text-white transition hover:from-purple-700 hover:to-fuchsia-700 shadow-md shadow-purple-500/20"
                                     >
                                         Create account
                                     </NavLink>
@@ -197,7 +197,7 @@ export default function Navbar() {
                                             setMenuOpen(false);
                                             navigate("/user/home");
                                         }}
-                                        className="rounded-lg border border-slate-200 px-3 py-2 text-left transition hover:border-brand-600 hover:text-brand-700"
+                                        className="rounded-lg border border-slate-200 px-3 py-2 text-left transition hover:border-purple-600 hover:text-purple-700"
                                     >
                                         Dashboard
                                     </button>

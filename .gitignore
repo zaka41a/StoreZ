@@ -37,6 +37,7 @@ logs/
 cookies.txt
 *.pem
 *.key
+CREDENTIALS.md
 
 # Temp files
 *.tmp

@@ -35,8 +35,10 @@ Date: 2026-01-07
 ```
 Admin:    admin@storez.com / admin123
 User:     user@storez.com / user123
-Supplier: supplier@storez.com / sup123
+Supplier: supplier@storez.com / supplier123
 ```
+
+> 📝 **Note**: Tous les mots de passe suivent maintenant le pattern `{role}123` pour plus de cohérence.
 
 ### 3. Endpoints Protégés
 | Endpoint | Rôle Requis | Statut | Notes |

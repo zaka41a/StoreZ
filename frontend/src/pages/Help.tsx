@@ -2,14 +2,14 @@ export default function Help() {
     return (
         <div className="max-w-4xl mx-auto space-y-10 leading-relaxed">
             <section className="text-center space-y-2">
-                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">Help & Support</h1>
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">Help & Support</h1>
                 <p className="text-gray-600 text-lg">
                     Need help? Our team in Aachen is ready to assist you anytime. 💡
                 </p>
             </section>
 
-            <section className="card p-8 space-y-4 border border-slate-200 hover:border-gold-300 hover:shadow-md transition-all">
-                <h2 className="text-2xl font-semibold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">🧠 Frequently Asked Questions</h2>
+            <section className="card p-8 space-y-4 border border-slate-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/10 transition-all">
+                <h2 className="text-2xl font-semibold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">🧠 Frequently Asked Questions</h2>
                 <ul className="list-disc pl-5 space-y-2 text-gray-700">
                     <li>How do I track my order? — You'll receive tracking info by email.</li>
                     <li>Can I return a product? — Yes, within 14 days if unused and sealed.</li>
@@ -19,10 +19,10 @@ export default function Help() {
                 <p className="text-gray-500 italic">More FAQs coming soon…</p>
             </section>
 
-            <section className="card p-8 bg-gradient-to-r from-brand-50 to-gold-50 text-center space-y-3 border border-gold-200 hover:border-gold-300 hover:shadow-md transition-all">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-700 to-gold-600 bg-clip-text text-transparent">💬 Still Need Help?</h2>
+            <section className="card p-8 bg-gradient-to-r from-purple-50 to-fuchsia-50 text-center space-y-3 border border-purple-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/10 transition-all">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent">💬 Still Need Help?</h2>
                 <p>
-                    📧 <a href="mailto:zaksab98@gmail.com" className="text-brand-700 hover:text-gold-600 underline transition-colors">zaksab98@gmail.com</a><br />
+                    📧 <a href="mailto:zaksab98@gmail.com" className="text-purple-700 hover:text-purple-600 underline transition-colors">zaksab98@gmail.com</a><br />
                     📞 +49 176 20827199<br />
                     📍 Aachen 52072, Germany
                 </p>

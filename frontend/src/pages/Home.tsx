@@ -118,8 +118,8 @@ export default function Home() {
 
           <div className="relative z-10 flex flex-col gap-12 px-6 py-12 md:flex-row md:items-center md:justify-between md:px-12">
             <div className="max-w-2xl space-y-6">
-              <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/50 bg-gradient-to-r from-gold-500/20 to-gold-600/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-gold-200">
-                <Sparkles className="h-4 w-4 text-gold-400" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-purple-400/50 bg-gradient-to-r from-purple-500/20 to-fuchsia-600/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
+                <Sparkles className="h-4 w-4 text-purple-400" />
                 Elevated commerce
               </span>
               <h1 className="text-4xl font-bold leading-tight md:text-5xl">
@@ -190,8 +190,8 @@ export default function Home() {
                     className={[
                       "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
                       active
-                        ? "border-transparent bg-gradient-to-r from-brand-600 to-gold-600 text-white shadow-lg shadow-gold-500/25"
-                        : "border-slate-200 bg-white text-slate-600 hover:border-gold-400 hover:text-gold-700",
+                        ? "border-transparent bg-gradient-to-r from-gold-400 to-gold-500 text-white shadow-lg shadow-gold-500/25"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-purple-400 hover:text-purple-700",
                     ].join(" ")}
                   >
                     {active && <Sparkles className="h-3.5 w-3.5" />}
@@ -210,7 +210,7 @@ export default function Home() {
           <div className="mt-4 space-y-4">
             {VALUE_POINTS.map(({ title, description, icon: Icon }) => (
               <div key={title} className="flex items-start gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-50 text-purple-600">
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
@@ -234,7 +234,7 @@ export default function Home() {
           </div>
           <Link
             to="/about"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 transition hover:text-brand-700"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-purple-600 transition hover:text-purple-700"
           >
             Learn about our sourcing standards
             <ArrowRight className="h-4 w-4" />
@@ -267,7 +267,7 @@ export default function Home() {
               </span>
               <div className="flex items-center gap-2">
                 <button
-                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-purple-600 hover:text-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
@@ -277,7 +277,7 @@ export default function Home() {
                   Page {page} of {totalPages}
                 </span>
                 <button
-                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-medium text-slate-600 transition hover:border-purple-600 hover:text-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 >
@@ -290,17 +290,17 @@ export default function Home() {
       </section>
 
       {!isAuthenticated && (
-        <section className="overflow-hidden rounded-3xl border border-gold-300 bg-gradient-to-r from-brand-600 via-brand-700 to-gold-600 px-8 py-12 text-white shadow-2xl">
+        <section className="overflow-hidden rounded-3xl border border-purple-300 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-700 px-8 py-12 text-white shadow-2xl shadow-purple-500/20">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl space-y-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-white/80">
+              <span className="inline-flex items-center gap-2 rounded-full border border-purple-200/40 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-purple-100">
                 <ShieldCheck className="h-4 w-4" />
                 Join the ecosystem
               </span>
               <h3 className="text-2xl font-semibold leading-tight">
                 Ready to deliver unforgettable shopping experiences?
               </h3>
-              <p className="text-sm text-white/80">
+              <p className="text-sm text-purple-50">
                 Create your StoreZ account to access personalised collections, exclusive launches,
                 and supplier pricing tailored to you.
               </p>
@@ -308,13 +308,13 @@ export default function Home() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/register-user"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-purple-700 transition hover:bg-purple-50 shadow-lg"
               >
                 Create shopper account
               </Link>
               <Link
                 to="/register-supplier"
-                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-white/50 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
               >
                 Register as supplier
               </Link>

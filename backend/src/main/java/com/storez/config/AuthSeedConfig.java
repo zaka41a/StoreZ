@@ -30,7 +30,7 @@ public class AuthSeedConfig {
             upsertUser(userRepository, "user@storez.com", "Demo Shopper", "user123", Role.USER);
             upsertUser(userRepository, "apple@gmail.com", "Apple Demo", "qwer", Role.USER);
             upsertUser(userRepository, "hamza@gmail.com", "Hamza Talwani", "qwer", Role.USER);
-            seedSupplier(supplierRepository, "supplier@storez.com", "Demo Supplier", "sup123");
+            seedSupplier(supplierRepository, "supplier@storez.com", "Demo Supplier", "supplier123");
         };
     }
 

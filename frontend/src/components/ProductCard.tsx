@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 export default function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart()
   return (
-    <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="card overflow-hidden">
+    <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="card overflow-hidden hover:shadow-lg hover:shadow-purple-500/10 transition-shadow duration-300">
       <img src={getImageUrl(product.image)} alt={product.name} className="h-40 w-full object-cover" />
       <div className="p-4 space-y-2">
         <Link to={'/product/' + product.id} className="font-medium line-clamp-1">{product.name}</Link>
