@@ -1,4 +1,3 @@
-    # --- Exclure TOUT le JavaScript/TypeScript des stats Linguist
     *.js              linguist-vendored
     *.mjs             linguist-vendored
     *.cjs             linguist-vendored
@@ -8,7 +7,6 @@
     *.min.js          linguist-vendored
     *.map             linguist-vendored
 
-    # --- Exclure dossiers front/bundles courants
     node_modules/**   linguist-vendored
     dist/**           linguist-vendored
     build/**          linguist-vendored
@@ -18,6 +16,5 @@
     resources/js/**   linguist-vendored
     vendor/**         linguist-vendored
 
-    # --- (Optionnel) Exclure CSS compilé
     *.min.css         linguist-vendored
     public/css/**     linguist-vendored
